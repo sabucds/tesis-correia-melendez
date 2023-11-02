@@ -55,7 +55,7 @@ export default function Toast({
     case 'error':
       return (
         <div
-          className="max-w-xs mb-3 bg-danger-100 rounded text-white w-full mx-auto px-4 py-2"
+          className="max-w-xs mb-3 bg-red-500 rounded text-white w-full mx-auto px-4 py-2"
           role="alert"
           style={{ zIndex: 200 }}
           {...rest}

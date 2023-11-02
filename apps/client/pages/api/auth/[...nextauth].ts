@@ -29,24 +29,27 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        console.log(credentials);
-
-        const { data, errors } = await apolloClient.mutate({
-          mutation: SIGN_IN,
-          variables: {
-            data: {
-              email: credentials.email,
-              password: credentials.password,
+        try {
+          const { data, errors } = await apolloClient.mutate({
+            mutation: SIGN_IN,
+            variables: {
+              data: {
+                email: credentials.email,
+                password: credentials.password,
+              },
             },
-          },
-        });
-        if (Array.isArray(errors) && errors.length > 0) {
-          throw new Error(errors[0].message);
+          });
+
+          if (Array.isArray(errors) && errors.length > 0) {
+            throw new Error(errors[0].message);
+          }
+          if (data && data?.signIn && data?.signIn?.user) {
+            return data?.signIn?.user ?? null;
+          }
+          return null;
+        } catch (error) {
+          throw new Error(error);
         }
-        if (data && data?.signIn && data?.signIn?.user) {
-          return data?.signIn?.user ?? null;
-        }
-        return null;
       },
     }),
     /* EmailProvider({
