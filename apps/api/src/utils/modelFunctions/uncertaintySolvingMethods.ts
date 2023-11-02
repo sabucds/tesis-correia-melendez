@@ -287,104 +287,35 @@ export function method3({
 
   // substract the the values of X variables with uncertainty from the max value of W
   xVariablesWithUncertaintyKeys.forEach((xVariableKey) => {
-    const { client, location, cost } = xVariablesWithUncertainty[xVariableKey];
-    const wVariableName = `w_${client}_${location}`; // w_cn_dn
-    const cVariableName = `c_${client}_${location}`; // c_cn_dn
+    const { cost } = xVariablesWithUncertainty[xVariableKey];
+
+    const xcdk = previousModelResult[xVariableKey] ?? 0; // 1 or 0
 
     // the x variables in the objective function doesn't change and will always be Ccd(l)*Xcd
     wMaxValue -= (previousModelResult[xVariableKey] ?? 0) * cost[0];
 
-    // 1- declare w_cn_dn variables
-    previousModel.constraints[wVariableName] = {
-      min: 0, // w_cn_dn is not integer but it is always positive
-    };
-
-    // 2- declare Ccd as a variable for the new constraints
-    previousModel.constraints[cVariableName] = {
-      // c_cn_dn has a value between the min and max cost and its not integer
-      min: cost[0], // min cost
-      max: cost[1], // max cost
-    };
-
-    // now Ccd and wcd will be in the W constraint in the form W - Ccd(l)*Wcd*Xcd(k) - Ccd(u)*Ccd*Xcd(k) + Ccd(u)*Wcd*Xcd(k) <= the rest of the objective function result of the previous model
+    // W constraint in the form W - Ccd(l)*Xcd*Xcd(k) - Ccd(u)*Xcd(k) + Ccd(u)*Xcd*Xcd(k) <= the rest of the objective function result of the previous model
     // Xcd(k) is the result of the previous Xcd in the previous model
-    // keep in mind that Wcd = Ccd*Xcd
-
-    // 1.1-  add constraint Wcd >= C(l)cd * Xcd in the form of C(l)cd * Xcd - Wcd <= 0
-    previousModel.constraints[`lower_${wVariableName}_${xVariableKey}`] = {
-      // lower_w_cn_dn_x_cn_dn
-      max: 0,
-    };
-    modelMathEquations.constraints[`lower_${wVariableName}_${xVariableKey}`] = {
-      leftSide: wVariableName,
-      inequalitySign: '>=',
-      rightSide: `${cost[0]}*${xVariableKey}`,
-    };
-
-    // 1.2 add constraint C(u)cd - C(u)cd * Xcd >= Ccd - Wcd in the form of  C(u)cd >= Ccd - Wcd + C(u)cd * Xcd
-    previousModel.constraints[
-      `upper_${wVariableName}_${cVariableName}_${xVariableKey}`
-    ] = {
-      max: cost[1],
-    };
-    modelMathEquations.constraints[
-      `upper_${wVariableName}_${cVariableName}_${xVariableKey}`
-    ] = {
-      leftSide: `${cost[1]} - ${cost[1]}*${xVariableKey}`,
-      inequalitySign: '>=',
-      rightSide: `${cVariableName} - ${wVariableName}`,
-    };
-
-    // 2. add - Ccd(u)*Ccd*Xcd to W constraint
-    previousModel.variables[cVariableName] = {
-      ...previousModel.variables[cVariableName],
-      [`w${resultNumber}_constraint`]:
-        (previousModelResult[xVariableKey] ?? 0) * -1 * cost[1], // - Ccd(u)*Ccd*Xcd
-      [`upper_${wVariableName}_${cVariableName}_${xVariableKey}`]: 1,
-      [cVariableName]: 1,
-    };
-
-    modelMathEquations.constraints[`w${resultNumber}_constraint`] = {
-      ...modelMathEquations.constraints[`w${resultNumber}_constraint`],
-      rightSide: `${
-        modelMathEquations.constraints[`w${resultNumber}_constraint`].rightSide
-      } + ${cVariableName}*${previousModelResult[xVariableKey] ?? 0}*${
-        cost[1]
-      }`,
-    };
-
-    // 3. add - Ccd(l)*Wcd*Xcd(k) and + Ccd(u)*Wcd*Xcd(k) to the W constraint
-    previousModel.variables[wVariableName] = {
-      ...previousModel.variables[wVariableName],
-      [`w${resultNumber}_constraint`]:
-        (previousModelResult[xVariableKey] ?? 0) * -1 * cost[0] +
-        (previousModelResult[xVariableKey] ?? 0) * cost[1], // - Ccd(l)*Wcd*Xcd(k) + Ccd(u)*Wcd*Xcd(k)
-      [`lower_${wVariableName}_${xVariableKey}`]: -1,
-      [`upper_${wVariableName}_${cVariableName}_${xVariableKey}`]: -1,
-      [wVariableName]: 1,
-    };
-
-    modelMathEquations.constraints[`w${resultNumber}_constraint`] = {
-      ...modelMathEquations.constraints[`w${resultNumber}_constraint`],
-      rightSide: `${
-        modelMathEquations.constraints[`w${resultNumber}_constraint`].rightSide
-      } + ${wVariableName}*${previousModelResult[xVariableKey] ?? 0}*${
-        cost[0]
-      } - ${wVariableName}*${previousModelResult[xVariableKey] ?? 0}*${
-        cost[1]
-      }`,
-    };
 
     // 4.3- change x variable
     previousModel.variables[xVariableKey] = {
       ...previousModel.variables[xVariableKey], // keep the old constraints
-      [`lower_${wVariableName}_${xVariableKey}`]: cost[0],
-      [`upper_${wVariableName}_${cVariableName}_${xVariableKey}`]: cost[1],
+      [`w${resultNumber}_constraint`]: cost[1] * xcdk - xcdk * cost[0], //  - Ccd(l)*Xcd*Xcd(k)  + Ccd(u)*Xcd*Xcd(k)
+    };
+    // add + Ccd(l)*Xcd*Xcd(k) - Ccd(u)*Xcd*Xcd(k) to the right side of the W constraint (because we are passing it to the other side, signs change)
+    modelMathEquations.constraints[`w${resultNumber}_constraint`] = {
+      ...modelMathEquations.constraints[`w${resultNumber}_constraint`],
+      rightSide: `${
+        modelMathEquations.constraints[`w${resultNumber}_constraint`].rightSide
+      } + ${xVariableKey}*${xcdk * cost[0] - cost[1] * xcdk}`,
     };
 
-    modelMathEquations.variablesNature += `@FREE(${wVariableName}); @BND(${cost[0]}, ${cVariableName}, ${cost[1]}); `;
+    // since - Ccd(u)*Xcd(k) is a number and doesn't have any variables, we pass it to the other side of the W constraint
+    // so we have to add it to the max value of W
+    wMaxValue += cost[1] * xcdk; // - Ccd(u)*Xcd(k)
   });
 
+  // add the max value of W to the right side of the W constraint
   modelMathEquations.constraints[`w${resultNumber}_constraint`] = {
     ...modelMathEquations.constraints[`w${resultNumber}_constraint`],
     rightSide: `${
@@ -406,7 +337,7 @@ export function method3({
       .replace('MIN = ', 'MAX = w - '); // change min to max and add w to the objective function
   }
 
-  if (isTheFirstResult) modelMathEquations.variablesNature += `@FREE(w); `; // w is not integer
+  if (isTheFirstResult) modelMathEquations.variablesNature += `@FREE(w); `; // w is not integer, is a float
 
   const changedModel: Model = {
     ...previousModel,
@@ -420,10 +351,8 @@ export function method3({
     variables: {
       ...previousModel.variables,
       w: {
-        ...previousModel.variables.w,
-        // if w already exists, it is overwritten
+        ...previousModel.variables.w, // keep the old constraints
         [`w${resultNumber}_constraint`]: 1, // add new constraint for W
-        // w: 1, //
         cost: 1, // to put W in the objective function in the form of W - (the other variables)
       },
     },

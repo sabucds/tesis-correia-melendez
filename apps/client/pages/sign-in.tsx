@@ -8,7 +8,7 @@ export default function SignIn() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     try {
-      const { ok } = await signIn('credentials', {
+      const { ok, error } = await signIn('credentials', {
         email: formData.get('email').toString(),
         password: formData.get('password').toString(),
         callbackUrl: '/',
@@ -16,6 +16,8 @@ export default function SignIn() {
       });
       if (ok) {
         notify('Bienvenido', 'success');
+      } else {
+        notify(error, 'error');
       }
     } catch (err) {
       console.log(err);

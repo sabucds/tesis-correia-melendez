@@ -5,11 +5,7 @@ export const UserFragment = gql`
     _id
     firstName
     lastName
-    userType
     email
-    locale
-    dni
-    dniType
     active
   }
 `;
