@@ -29,6 +29,8 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
+        console.log(credentials);
+
         const { data, errors } = await apolloClient.mutate({
           mutation: SIGN_IN,
           variables: {

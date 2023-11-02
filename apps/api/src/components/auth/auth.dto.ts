@@ -1,4 +1,4 @@
-import { UserType } from '../user/user/user.dto';
+import { UserType } from '../user/user.dto';
 
 type TPermissionInput = {
   name: string;

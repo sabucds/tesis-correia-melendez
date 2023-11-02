@@ -16,7 +16,7 @@ import {
   CreateUserInput,
   CurrentUserType,
 } from './auth.dto';
-import { UserType } from '../user/user/user.dto';
+import { UserType } from '../user/user.dto';
 import * as authService from './auth.service';
 
 const cookieConfig =
@@ -85,8 +85,7 @@ const signUp = schemaComposer.createResolver<
     data: SignUpInput,
   },
   async resolve({ args, context }) {
-    const browser = browserDetect(context.req.headers['user-agent']);
-    const { user, token } = await authService.signUp(args.data, browser);
+    const { user, token } = await authService.signUp(args.data);
     context.res.cookie('token', token, cookieConfig);
     return { user, token };
   },
@@ -118,7 +117,6 @@ const signOut = schemaComposer.createResolver({
   type: SignOutType,
   args: {},
   async resolve({ context }) {
-    // TODO: Eliminar la sesion del usuario
     context.res.clearCookie('token', cookieConfig);
     return { success: true };
   },
