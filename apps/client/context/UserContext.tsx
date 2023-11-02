@@ -27,7 +27,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     if (session.status === 'authenticated') {
       setUser(session.data.user as User);
     } else if (session.status === 'unauthenticated') {
-      router.push('/sign-in');
+      // router.push('/sign-in');
       setUser(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

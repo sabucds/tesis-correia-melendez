@@ -11,3 +11,22 @@ export const SIGN_IN = gql`
   }
   ${UserFragment}
 `;
+
+export const SIGN_UP = gql`
+  mutation SIGN_UP($data: SignUpInput!) {
+    signUp(data: $data) {
+      user {
+        ...UserFragment
+      }
+    }
+  }
+  ${UserFragment}
+`;
+
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut {
+      success
+    }
+  }
+`;

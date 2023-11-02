@@ -36,5 +36,8 @@
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "react-hook-form": "^7.47.0"
   }
 }
