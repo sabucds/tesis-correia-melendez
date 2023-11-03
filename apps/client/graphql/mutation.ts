@@ -23,6 +23,26 @@ export const SIGN_UP = gql`
   ${UserFragment}
 `;
 
+// export const SIGN_UP = gql`
+//   mutation SIGN_UP($data: SignUpInput!) {
+//     signUp(data: $data) {
+//       user {
+//         _id
+//         active
+//         createdAt
+//         email
+//         firstName
+//         lastName
+//         password
+//         resetToken
+//         resetTokenValidity
+//         slug
+//         updatedAt
+//       }
+//     }
+//   }
+// `;
+
 export const SIGN_OUT = gql`
   mutation SignOut {
     signOut {

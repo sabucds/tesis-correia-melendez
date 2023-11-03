@@ -2,6 +2,7 @@ import React from 'react';
 import { validateEmail } from 'avilatek-utils';
 import { useFormContext } from 'react-hook-form';
 import { Input } from '@avila-tek/ui/src/input/Input';
+import { PasswordEyeIcon, EyeIcon } from '@avila-tek/ui/src/icons';
 
 export default function SignUpContent() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -18,19 +19,6 @@ export default function SignUpContent() {
       ? {
           firstName: { required: 'required' },
           lastName: { required: 'required' },
-          birthDate: { required: 'required' },
-          // TODO: revisar edad mínima
-          /* [ACTIONS.BIRTH_DATE]: {
-            required: t('required'),
-            validate: {
-              isAdult: (value) => {
-                const date = new Date(value);
-                const today = new Date();
-                const age = today.getFullYear() - date.getFullYear();
-                return age >= 18 || t('invalidAge');
-              },
-            },
-          }, */
           email: {
             required: 'required',
             validate: (value, formValues) => validateEmail(value),
@@ -42,55 +30,50 @@ export default function SignUpContent() {
           },
           passwordConf: {
             required: 'required',
-            validate: (value, formValues) => value === formValues.password, // TODO: revisar
+            validate: (value, formValues) => value === formValues.password,
           },
         }
       : {}),
   };
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-2">
       <div className="">
         <Input
+          label="Nombre"
           error={errors.firstName?.message as string}
           type="text"
           {...register('firstName', formValidations.firstName)}
-          placeholder={'auth.signUp.firstName' ?? ''}
+          placeholder="Ingrese su nombre"
+          required
         />
       </div>
       <div className="">
         <Input
+          label="Apellido"
           type="text"
           {...register('lastName', formValidations.lastName)}
-          placeholder={'auth.signUp.lastName' ?? ''}
+          placeholder="Ingrese su apellido"
           error={errors.lastName?.message as string}
+          required
         />
       </div>
       <div className="">
         <Input
+          label="Correo Electrónico"
           type="email"
           {...register('email', formValidations.email)}
           error={errors.email?.message as string}
-          placeholder={'auth.signUp.email' ?? ''}
-        />
-      </div>
-      <div className="">
-        <Input
+          placeholder="Ingrese su correo electrónico"
           required
-          type="text"
-          onFocus={(e) => (e.target.type = 'date')}
-          error={errors?.birthDate?.message as string}
-          placeholder={'auth.signUp.wizard.personal.birthDay.title' ?? ''}
-          max={new Date().toISOString().split('T')[0]}
-          {...register('birthDate', formValidations.birthDate)}
         />
-        {/* puede que tenga que agregar el icono del calendario */}
       </div>
       <div className="">
         <Input
+          label="Contraseña"
           type={showPassword ? 'text' : 'password'}
           {...register('password', formValidations.password)}
-          placeholder={'auth.signUp.password' ?? ''}
+          placeholder="Ingrese su contraseña"
           rightIcon={
             !showPassword ? (
               <button
@@ -98,7 +81,7 @@ export default function SignUpContent() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {/* <PasswordEyeIcon className="w-5 h-5" /> */}
+                <PasswordEyeIcon className="w-5 h-5" />
               </button>
             ) : (
               <button
@@ -106,22 +89,23 @@ export default function SignUpContent() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {/* <EyeIcon className="w-5 h-5" /> */}
+                <EyeIcon className="w-5 h-5" />
               </button>
             )
           }
         />
         {errors.password && (
           <span className="text-sm text-danger-300">
-            auth.signUp.notifs.passwordRequirements
+            La contraseña es obligatoria
           </span>
         )}
       </div>
       <div className="">
         <Input
+          label="Confirmar contraseña"
           type={showPasswordConf ? 'text' : 'password'}
           {...register('passwordConfirmation', formValidations.passwordConf)}
-          placeholder={'auth.signUp.confirmPassword' ?? ''}
+          placeholder="Confirme su contraseña"
           rightIcon={
             !showPasswordConf ? (
               <button
@@ -129,7 +113,7 @@ export default function SignUpContent() {
                 type="button"
                 onClick={() => setShowPasswordConf(!showPasswordConf)}
               >
-                {/* <PasswordEyeIcon className="w-5 h-5" /> */}
+                <PasswordEyeIcon className="w-5 h-5" />
               </button>
             ) : (
               <button
@@ -137,7 +121,7 @@ export default function SignUpContent() {
                 type="button"
                 onClick={() => setShowPasswordConf(!showPasswordConf)}
               >
-                {/* <EyeIcon className="w-5 h-5" /> */}
+                <EyeIcon className="w-5 h-5" />
               </button>
             )
           }
@@ -145,11 +129,11 @@ export default function SignUpContent() {
         {errors.passwordConfirmation &&
           (errors.passwordConfirmation.type === 'required' ? (
             <span className="text-sm text-danger-300">
-              auth.signUp.notifs.confirmPassword
+              Por favor, confirmar la contraseña
             </span>
           ) : (
             <span className="text-sm text-danger-300">
-              auth.signUp.notifs.differentPasswordValues
+              Las contraseñas no coinciden
             </span>
           ))}
       </div>

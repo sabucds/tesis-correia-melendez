@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { SessionProvider } from 'next-auth/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   ThemeContextProvider,
   ToastContextProvider,
@@ -18,6 +19,7 @@ import Footer from '../components/layout/Footer';
 // @ts-expect-error err is not defined
 function MyApp({ Component, pageProps, err }: AppProps<any>) {
   const apolloClient = useApollo(pageProps.initialApolloState);
+  const queryClient = new QueryClient();
   React.useEffect(() => {
     Router.events.on('routeChangeStart', () => {
       NProgress.start();
@@ -64,19 +66,21 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
             <title>OPTIdecide</title>
           </Head>
           <ThemeContextProvider>
-            <ToastContextProvider>
-              <UserContextProvider>
-                {router.pathname === '/sign-in' ||
-                router.pathname === '/sign-up' ? null : (
-                  <Navbar />
-                )}
-                <Component {...pageProps} err={err} />
-                {router.pathname === '/sign-in' ||
-                router.pathname === '/sign-up' ? null : (
-                  <Footer />
-                )}
-              </UserContextProvider>
-            </ToastContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <ToastContextProvider>
+                <UserContextProvider>
+                  {router.pathname === '/sign-in' ||
+                  router.pathname === '/sign-up' ? null : (
+                    <Navbar />
+                  )}
+                  <Component {...pageProps} err={err} />
+                  {router.pathname === '/sign-in' ||
+                  router.pathname === '/sign-up' ? null : (
+                    <Footer />
+                  )}
+                </UserContextProvider>
+              </ToastContextProvider>
+            </QueryClientProvider>
           </ThemeContextProvider>
         </>
       </ApolloProvider>

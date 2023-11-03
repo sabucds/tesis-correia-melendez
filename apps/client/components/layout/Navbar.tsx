@@ -22,7 +22,7 @@ export default function Navbar() {
       const response: SignOutResponse | undefined = await signOut();
       if (response !== undefined) {
         setUser(null);
-        router.push('/');
+        router.push('/sign-in');
         notify('Sesión cerrada', 'info');
       } else {
         // La respuesta no es válida, maneja el error como corresponda.
@@ -32,7 +32,7 @@ export default function Navbar() {
       console.error(error);
       notify('Hubo un error cerrando la sesión', 'error');
     } finally {
-      router.push('/');
+      router.push('/sign-in');
     }
   };
   return (

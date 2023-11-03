@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="bg-primary-300 py-8  flex flex-col justify-center items-center space-y-3">
+    <footer className="bg-primary-300 py-8  flex flex-col justify-center items-center  text-white">
       <p className="text-lg font-semibold text-center">
         Aplicación desarrollada por Sabrina Correia y Marianna Melendez
       </p>

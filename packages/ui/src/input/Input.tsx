@@ -29,14 +29,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label !== '' ? (
           <span className="font-semibold text-text mb-2">{label}</span>
         ) : null}
-        <div
-          className={`w-full border-[0.5px] border-solid border-neutral-100 rounded flex items-center py-2 `}
-        >
+        <div className={`w-full rounded flex items-center py-2  `}>
           {children}
           <input
             className={`${
               label !== '' ? ' ' : ''
-            } w-full px-4 py-2 border border-primary-300 rounded-md text-text-light ${className}`}
+            } w-full px-4 py-2 border border-primary-300 rounded-md text-text-light ${className} ${
+              rightIcon && 'mr-4'
+            }`}
             ref={ref}
             onChange={onChange}
             {...props}

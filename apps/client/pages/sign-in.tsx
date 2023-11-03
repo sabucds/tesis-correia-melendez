@@ -4,6 +4,7 @@ import router from 'next/router';
 import Logo2 from '@avila-tek/ui/src/icons/Logo2';
 import { Input } from '@avila-tek/ui/src/input/Input';
 import { Button } from '@avila-tek/ui';
+import Link from 'next/link';
 import { useNotify } from '../hooks';
 
 export default function SignIn() {
@@ -93,12 +94,12 @@ export default function SignIn() {
             <p className="text-text-light text-sm">
               ¿Todavía no tienes cuenta?
             </p>
-            <a
+            <Link
               href="/sign-up"
               className="text-primary-300 font-semibold text-sm underline hover:text-primary-400 transition-colors"
             >
               Regístrate
-            </a>
+            </Link>
           </div>
           {/* <input type="email" name="email" placeholder="email" />
           <input type="password" name="password" placeholder="Password" />
