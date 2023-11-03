@@ -1,10 +1,10 @@
 import React from 'react';
 import Logo2 from '@avila-tek/ui/src/icons/Logo2';
-import { Input } from '@avila-tek/ui/src/input/Input';
 import { Button } from '@avila-tek/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client';
+import router from 'next/router';
 import { useNotify } from '../hooks';
 import SignUpContent from '../components/signup/SignUpContent';
 import { SIGN_UP } from '../graphql/mutation';
@@ -24,6 +24,13 @@ export default function SignUp() {
 
   const onSubmit = async (formData: SignUpFields) => {
     try {
+      // Para verificar los datos que esta mandando el usuario
+      console.log({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      });
       await createUser(formData);
     } catch (err) {
       console.log(err);
@@ -46,6 +53,7 @@ export default function SignUp() {
 
       if (data) {
         notify('Registro Exitoso', 'success');
+        router.push('/sign-in');
       } else {
         return notify('Ocurrió un error en el registro', 'error');
       }

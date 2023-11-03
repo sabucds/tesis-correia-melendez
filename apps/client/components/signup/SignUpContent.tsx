@@ -11,29 +11,22 @@ export default function SignUpContent() {
   const {
     register,
     formState: { errors },
-    watch,
   } = useFormContext();
 
   const formValidations = {
-    ...(watch('type') === 'talent'
-      ? {
-          firstName: { required: 'required' },
-          lastName: { required: 'required' },
-          email: {
-            required: 'required',
-            validate: (value, formValues) => validateEmail(value),
-          },
-          password: {
-            required: 'required',
-            pattern:
-              /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!"#$%&'()*+,-.\\/:;<=>?\\@[\]^_`{|}~]).{8,}$/,
-          },
-          passwordConf: {
-            required: 'required',
-            validate: (value, formValues) => value === formValues.password,
-          },
-        }
-      : {}),
+    firstName: { required: 'required' },
+    lastName: { required: 'required' },
+    email: {
+      required: 'required',
+      validate: (value) => validateEmail(value),
+    },
+    password: {
+      required: 'required',
+    },
+    passwordConf: {
+      required: 'required',
+      validate: (value, formValues) => value === formValues.password,
+    },
   };
 
   return (
@@ -41,12 +34,16 @@ export default function SignUpContent() {
       <div className="">
         <Input
           label="Nombre"
-          error={errors.firstName?.message as string}
           type="text"
           {...register('firstName', formValidations.firstName)}
           placeholder="Ingrese su nombre"
           required
         />
+        {errors.firstName && (
+          <span className="text-sm text-red-500 ">
+            El nombre es obligatorio
+          </span>
+        )}
       </div>
       <div className="">
         <Input
@@ -54,19 +51,27 @@ export default function SignUpContent() {
           type="text"
           {...register('lastName', formValidations.lastName)}
           placeholder="Ingrese su apellido"
-          error={errors.lastName?.message as string}
           required
         />
+        {errors.lastName && (
+          <span className="text-sm text-red-500 ">
+            El apellido es obligatorio
+          </span>
+        )}
       </div>
       <div className="">
         <Input
           label="Correo Electrónico"
           type="email"
           {...register('email', formValidations.email)}
-          error={errors.email?.message as string}
           placeholder="Ingrese su correo electrónico"
           required
         />
+        {errors.email && (
+          <span className="text-sm text-red-500 ">
+            El correo electrónico es obligatorio
+          </span>
+        )}
       </div>
       <div className="">
         <Input
@@ -95,7 +100,7 @@ export default function SignUpContent() {
           }
         />
         {errors.password && (
-          <span className="text-sm text-danger-300">
+          <span className="text-sm text-red-500 ">
             La contraseña es obligatoria
           </span>
         )}
@@ -128,11 +133,11 @@ export default function SignUpContent() {
         />
         {errors.passwordConfirmation &&
           (errors.passwordConfirmation.type === 'required' ? (
-            <span className="text-sm text-danger-300">
+            <span className="text-sm text-red-500">
               Por favor, confirmar la contraseña
             </span>
           ) : (
-            <span className="text-sm text-danger-300">
+            <span className="text-sm text-red-500">
               Las contraseñas no coinciden
             </span>
           ))}

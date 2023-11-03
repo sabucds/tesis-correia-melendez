@@ -24,8 +24,9 @@ export const SIGN_UP = gql`
 `;
 
 // export const SIGN_UP = gql`
-//   mutation SIGN_UP($data: SignUpInput!) {
+//   mutation SignUp($data: SignUpInput) {
 //     signUp(data: $data) {
+//       token
 //       user {
 //         _id
 //         active
