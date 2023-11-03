@@ -7,12 +7,21 @@ export interface InputProps
   > {
   label?: string;
   children?: React.ReactNode;
+  error?: string;
   rightIcon?: React.ReactNode;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   function _Input(
-    { label = '', children, rightIcon, className = '', onChange, ...props },
+    {
+      label = '',
+      children,
+      rightIcon,
+      className = '',
+      error = '',
+      onChange,
+      ...props
+    },
     ref
   ) {
     return (
@@ -34,6 +43,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
           {rightIcon}
         </div>
+        {error ? (
+          <span className="text-sm text-danger-300 capitalize">{error}</span>
+        ) : null}
       </label>
     );
   }
