@@ -70,7 +70,7 @@ export interface IModelData {
 export const modelDataSchema = new Schema<IModelData>({
   totalBudget: {
     type: Number,
-    required: [true, 'Please provide a totalBudget'],
+    // required: [true, 'Please provide a totalBudget'],
   },
   factories: [modelItemSchema],
   clients: [modelItemSchema],

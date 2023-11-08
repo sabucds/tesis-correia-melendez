@@ -35,7 +35,8 @@
     "react-query": "^3.39.3",
     "react-table": "^7.8.0",
     "uuid": "^9.0.0",
-    "venezuela": "^2.0.0"
+    "venezuela": "^2.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@avila-tek/tsconfig": "*",

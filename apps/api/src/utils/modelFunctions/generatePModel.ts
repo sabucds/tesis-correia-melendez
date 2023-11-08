@@ -239,9 +239,12 @@ function getConstraints({
       productAmountAndDemandConstraint,
       factoryCapacityPerProductConstraint,
       productAndLocationCapacityConstraint,
-      budgetConstraint: {
-        budgetConstraint: { max: totalBudget },
-      },
+      ...(totalBudget &&
+        totalBudget > 0 && {
+          budgetConstraint: {
+            budgetConstraint: { max: totalBudget },
+          },
+        }),
     },
     xBinaryVariables,
     yBinaryVariables,
@@ -297,6 +300,7 @@ function getVariables({
     productAmountAndDemandConstraint,
     factoryCapacityPerProductConstraint,
     productAndLocationCapacityConstraint,
+    budgetConstraint,
   } = modelConstraints;
 
   // CONSTRAINTS ARRAYS WHERE X VARIABLES ARE INVOLVED / clientAssignationConstraintArray(1), locationSelectionConstraintArray(1), totalDemandLocationCapacityConstraintArray(1), productAmountAndDemandConstraintArray(more than one per xVariable)
@@ -505,7 +509,7 @@ function getVariables({
           }
         : {}),
 
-      budgetConstraint: locationCost, // the sum of all location costs must be less than the budget
+      ...(budgetConstraint && { budgetConstraint: locationCost }), // the sum of all location costs must be less than the budget
 
       cost: locationCost,
     };
@@ -704,7 +708,7 @@ export function constructPModel({
       optimize: 'cost',
       opType: 'min',
       constraints: {
-        ...modelConstraints.budgetConstraint,
+        ...modelConstraints?.budgetConstraint,
         ...modelConstraints.clientAssignationConstraint,
         ...modelConstraints.factoryCapacityPerProductConstraint,
         ...modelConstraints.locationSelectionConstraint,
