@@ -40,3 +40,70 @@ export interface User extends MongooseModel {
   commission?: number;
   sessions?: Array<Session>;
 }
+
+// -------- MODEL TYPES OF DATA GIVEN BY USER --------
+
+export interface PrimaryModelVariable {
+  // Clients, Products, Factories, Locations
+  id: string;
+  name: string;
+}
+
+export interface AssignationClientLocationCost {
+  client: string; // id of client
+  location: string; // id of location
+  cost: number[];
+  uncertainty: boolean;
+}
+
+export interface SelectionLocationCost {
+  location: string; // id of location
+  cost: number;
+}
+
+export interface ShippingFactoryLocationProductCost {
+  factory: string; // id
+  location: string; // id
+  product: string; // id
+  cost: number;
+}
+
+export interface TotalClientDemand {
+  client: string; // id
+  totalDemand: number;
+}
+
+export interface ProductClientDemand {
+  client: string; // id
+  product: string; // id
+  demand: number;
+}
+
+export interface LocationCapacity {
+  location: string; // id
+  capacity: number;
+}
+
+export interface FactoryProductCapacity {
+  factory: string; // id
+  product: string; // id
+  capacity: number;
+}
+
+// all data given by user
+export interface ModelInitialData {
+  // primary data
+  totalBudget: number;
+  factories: PrimaryModelVariable[];
+  clients: PrimaryModelVariable[];
+  locations: PrimaryModelVariable[];
+  products: PrimaryModelVariable[];
+  // derived data
+  assignationClientLocationCost: AssignationClientLocationCost[];
+  selectionLocationCost: SelectionLocationCost[];
+  shippingFactoryLocationProductCost: ShippingFactoryLocationProductCost[];
+  totalClientDemand: TotalClientDemand[];
+  productClientDemand: ProductClientDemand[];
+  locationCapacity: LocationCapacity[];
+  factoryProductCapacity: FactoryProductCapacity[];
+}

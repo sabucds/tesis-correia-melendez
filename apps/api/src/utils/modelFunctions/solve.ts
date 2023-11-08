@@ -22,6 +22,9 @@ export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 1) {
 
   let results: ModelResult = solver.Solve(model);
 
+  if (results.feasible === false)
+    throw new Error('El problema ingresado no tiene solución');
+
   const modelsForLingo = [
     { modelNumber: 0, model: generateMathModelString(modelMathEquations) },
   ];
