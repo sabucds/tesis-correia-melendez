@@ -52,3 +52,4 @@ export { default as ArrowBackIcon } from './ArrowBackIcon';
 export { default as DotIcon } from './DotIcon';
 export { default as WrenchIcon } from './WrenchIcon';
 export { default as MoneyIcon } from './MoneyIcon';
+export { default as DownloadIcon } from './DownloadIcon';
