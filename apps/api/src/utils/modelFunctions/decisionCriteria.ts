@@ -5,8 +5,9 @@ import { IModelData } from '../../components/mathModel/modelData/modelData.schem
 function evaluateSolutionInObjectiveFunction(
   data: IModelData,
   solution: MathModelSolution,
-  natureStateIndex: number
+  natureState: number[]
 ) {
+  const uncertaintyVariables = [];
   let objectiveFunctionSolutionValue = 0;
   // evaluate the solution in the objective function using the nature state index in the cases of uncertainty
   // assignationClientLocationCost;
@@ -15,12 +16,20 @@ function evaluateSolutionInObjectiveFunction(
 
   data.assignationClientLocationCost.forEach(
     ({ client, location, cost, uncertainty }) => {
-      let cost_ = cost[0];
-      if (uncertainty) cost_ = cost[natureStateIndex];
-      objectiveFunctionSolutionValue +=
-        (solution[`x_${client}_${location}`] ?? 0) * cost_;
+      if (!uncertainty) {
+        const cost_ = cost[0];
+        objectiveFunctionSolutionValue +=
+          (solution[`x_${client}_${location}`] ?? 0) * cost_;
+      } else {
+        uncertaintyVariables.push(`x_${client}_${location}`);
+      }
     }
   );
+  uncertaintyVariables.forEach((variable, index) => {
+    objectiveFunctionSolutionValue +=
+      (solution[variable] ?? 0) * natureState[index];
+  });
+
   data.selectionLocationCost.forEach(({ location, cost }) => {
     objectiveFunctionSolutionValue += (solution[`y_${location}`] ?? 0) * cost;
   });
@@ -32,17 +41,20 @@ function evaluateSolutionInObjectiveFunction(
   );
   return Number.parseFloat(objectiveFunctionSolutionValue.toFixed(2));
 }
+
+function cartesian(...args: number[][]) {
+  const result = args.reduce((a, b) =>
+    a.reduce((r, v) => r.concat(b.map((w) => [].concat(v, w))), [])
+  ) as unknown as number[][];
+  return result;
+}
+
 export function getDecisionMatrix(
   initialData: IModelData,
   solutions: MathModelSolution[],
   intervals: number
 ) {
   const decisionMatrix = [];
-  // initalize array with index of the nature states
-  const natureStatesLength = [];
-  for (let i = 0; i <= intervals; i++) {
-    natureStatesLength.push(i);
-  }
   // to get the nature states, we need to discretized the uncertainty ranges in the initial data
   // to do that, we need to get the min and max values of each uncertainty and divide them into n ranges
   // if intervals is 5, the matrix will have 5 columns
@@ -67,14 +79,21 @@ export function getDecisionMatrix(
     }
   );
 
+  // get all the possible nature states (combination of all the uncertainty ranges)
+  const natureStates = cartesian(
+    ...changedModelData.assignationClientLocationCost
+      .filter((c) => c.uncertainty)
+      .map(({ cost }) => cost)
+  );
+
   // generate decision matrix where each row is a solution and each column is a nature state
   solutions.forEach((solution) => {
     const solutionRow = [];
-    natureStatesLength.forEach((natureStateIndex) => {
+    natureStates.forEach((natureState) => {
       const solutionValue = evaluateSolutionInObjectiveFunction(
         changedModelData,
         solution,
-        natureStateIndex
+        natureState
       );
 
       solutionRow.push(solutionValue);
