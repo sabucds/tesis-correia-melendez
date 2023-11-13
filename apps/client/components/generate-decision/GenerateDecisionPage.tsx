@@ -14,13 +14,13 @@ export default function GenerateDecisionPage() {
       <div className="flex flex-col py-5 md:py-0 divide-y-2  md:flex-row w-full md:w-10/12 md:divide-x-2 md:divide-y-0 divide-gray-400">
         <div className="md:w-3/5 mb-4 md:mb-0 md:mr-4 bg-purple-100">FORM</div>
         <div className="flex flex-col md:w-2/5 py-4 md:py-0 md:pl-4 space-y-4 ">
+          <UploadExcelButton />
           <a href="/PLANTILLA EXCEL OPTIDECIDE.xlsx" download>
             <Button className="font-semibold px-6 py-3 w-full flex items-center justify-center">
               <DownloadIcon className="w-6 h-6 mr-2" />
               Descargar plantilla
             </Button>
           </a>
-          <UploadExcelButton />
         </div>
       </div>
     </main>

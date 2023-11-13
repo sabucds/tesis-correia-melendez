@@ -2,13 +2,17 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { UploadIcon } from '@avila-tek/ui/src/icons';
+import { useRouter } from 'next/router';
 import { getModelDataWithExcelJSON } from '../../utils/getModelDataWithExcelJSON';
+import { useNotify } from '../../hooks';
 
 function ExcelToJsonConverter() {
-  const [jsonData, setJsonData] = useState(null);
+  // const [jsonData, setJsonData] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState(null);
+  const router = useRouter();
+  const notify = useNotify();
 
   const processFile = (file) => {
     setSelectedFileName(file.name); // Mostrar el nombre del archivo seleccionado
@@ -36,7 +40,23 @@ function ExcelToJsonConverter() {
       const jsonResult = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       const dataModel = getModelDataWithExcelJSON(jsonResult);
 
-      setJsonData(dataModel);
+      // setJsonData(dataModel);
+      if (
+        dataModel.totalBudget !== null &&
+        dataModel.totalBudget !== undefined
+      ) {
+        // El JSON no está vacío y totalBudgets no es nulo, realiza el push a la nueva vista
+        router.push({
+          pathname: '/results',
+          query: { jsonData: JSON.stringify(dataModel) },
+        });
+      } else {
+        // El JSON está vacío o totalBudgets es nulo, muestra una notificación o realiza alguna acción
+        notify(
+          'El archivo que esta subiendo esta vacío / No es la plantilla',
+          'error'
+        );
+      }
     };
 
     reader.readAsBinaryString(file);
@@ -127,12 +147,12 @@ function ExcelToJsonConverter() {
           />
         </div>
       </label>
-      {jsonData && (
+      {/* {jsonData && (
         <div>
           <h3>JSON Result:</h3>
           <pre>{JSON.stringify(jsonData, null, 2)}</pre>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
