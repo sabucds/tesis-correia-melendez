@@ -64,6 +64,7 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
         <>
           <Head>
             <title>OPTIdecide</title>
+            <link rel="icon" href="/LogoOptidecide.ico" />
           </Head>
           <ThemeContextProvider>
             <QueryClientProvider client={queryClient}>
