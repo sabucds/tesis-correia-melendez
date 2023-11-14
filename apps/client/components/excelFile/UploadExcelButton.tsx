@@ -3,16 +3,20 @@ import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { UploadIcon } from '@avila-tek/ui/src/icons';
 import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/client';
 import { getModelDataWithExcelJSON } from '../../utils/getModelDataWithExcelJSON';
-import { useNotify } from '../../hooks';
+import { useNotify, useUser } from '../../hooks';
+import { CREATE_MATH_MODEL } from '../../graphql/mutation';
 
 function ExcelToJsonConverter() {
+  const [user] = useUser();
   // const [jsonData, setJsonData] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const router = useRouter();
   const notify = useNotify();
+  const [createMathModel] = useMutation(CREATE_MATH_MODEL);
 
   const processFile = (file) => {
     setSelectedFileName(file.name); // Mostrar el nombre del archivo seleccionado
@@ -45,13 +49,12 @@ function ExcelToJsonConverter() {
         dataModel.totalBudget !== null &&
         dataModel.totalBudget !== undefined
       ) {
-        // El JSON no está vacío y totalBudgets no es nulo, realiza el push a la nueva vista
-        router.push({
-          pathname: '/results',
-          query: { jsonData: JSON.stringify(dataModel) },
-        });
+        createMathModelWithExcelJSON(dataModel);
+        // router.push({
+        //   pathname: '/results',
+        //   query: { jsonData: JSON.stringify(dataModel) },
+        // });
       } else {
-        // El JSON está vacío o totalBudgets es nulo, muestra una notificación o realiza alguna acción
         notify(
           'El archivo que esta subiendo esta vacío / No es la plantilla',
           'error'
@@ -61,6 +64,38 @@ function ExcelToJsonConverter() {
 
     reader.readAsBinaryString(file);
     setDisabled(false);
+  };
+
+  const createMathModelWithExcelJSON = async (dataModel) => {
+    try {
+      const { data } = await createMathModel({
+        variables: {
+          data: {
+            user: user._id,
+            data: dataModel,
+            method: 3,
+          },
+        },
+      });
+
+      if (data) {
+        // La mutación fue exitosa
+        const createdModelId = data.createMathModel._id;
+        notify('Creación del modelo exitosa', 'success');
+        console.log(dataModel);
+        router.push({
+          pathname: '/results',
+          query: { id: createdModelId },
+        });
+      } else {
+        // La mutación falló
+        return notify('Ocurrió un error al crear el modelo', 'error');
+      }
+    } catch (err) {
+      // Manejo de errores
+      console.error(err);
+      return notify(err.message, 'error');
+    }
   };
 
   const handleFileUpload = (e) => {
