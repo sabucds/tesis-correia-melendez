@@ -11,8 +11,8 @@ export default function ResultsPage() {
   // Query
   const { data } = useQuery(GET_MATH_MODEL, {
     variables: {
-      data: {
-        id: modelId,
+      filter: {
+        _id: modelId,
       },
     },
   });
