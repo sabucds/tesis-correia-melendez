@@ -73,7 +73,6 @@ function ExcelToJsonConverter() {
           data: {
             user: user._id,
             data: dataModel,
-            method: 3,
           },
         },
       });
