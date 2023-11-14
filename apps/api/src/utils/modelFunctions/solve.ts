@@ -20,9 +20,14 @@ export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 3) {
     modelMathEquations,
   });
 
-  let results: ModelResult = solver.Solve(model);
+  let results: ModelResult = solver.Solve({
+    ...model,
+    options: {
+      timeout: 10000,
+    },
+  });
 
-  if (results.feasible === false)
+  if (!results?.feasible)
     throw new Error('El problema ingresado no tiene solución');
 
   const modelsForLingo = [
