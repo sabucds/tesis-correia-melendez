@@ -138,7 +138,6 @@ export function getSolutionByRobustnessCriteria(
     }
     robustnessBinaryMatrix.push(robustnessValues);
   });
-  console.log(robustnessBinaryMatrix);
 
   return solutions[solutionWithBetterRobustness.solutionIndex];
 }
