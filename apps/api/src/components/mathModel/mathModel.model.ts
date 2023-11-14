@@ -2,6 +2,7 @@ import { Schema, Document, Types, Model, model, models } from 'mongoose';
 import { composeMongoose } from 'graphql-compose-mongoose';
 import { IUser } from '../user/user.model';
 import { IModelData, modelDataSchema } from './modelData/modelData.schema';
+import { DataConventions } from '../../utils/models';
 
 interface MathModelVar {
   [varName: string]: number;
@@ -26,6 +27,7 @@ export interface IMathModel {
   method: 1 | 2 | 3;
   lingoModels: { modelNumber: number; model: string }[];
   intervals?: number; // discretization intervals throw the uncertainty ranges
+  dataConventions?: DataConventions;
   active?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -84,14 +86,16 @@ const mathModelSchema = new Schema<IMathModel>(
         type: Boolean,
       },
     },
-
+    dataConventions: {
+      type: Schema.Types.Map,
+    },
     averageExecutionTime: {
       type: Number,
     },
     method: {
       type: Number,
       enum: [1, 2, 3],
-      default: 1,
+      default: 3,
     },
     lingoModels: [
       {
@@ -105,7 +109,7 @@ const mathModelSchema = new Schema<IMathModel>(
     ],
     intervals: {
       type: Number,
-      default: 5,
+      default: 2,
     },
     active: {
       type: Boolean,

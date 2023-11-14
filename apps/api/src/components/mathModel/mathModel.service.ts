@@ -24,8 +24,9 @@ export async function find(
 
 export async function create(mathModel: IMathModel) {
   const start = Date.now();
-  return solve(mathModel?.data, mathModel?.method ?? 1).then(
+  return solve(mathModel?.data, mathModel?.method).then(
     ({ solutionsMap, modelsForLingo, dataConventions }) => {
+
       const decisionMatrix = getDecisionMatrix(
         mathModel?.data,
         solutionsMap,
@@ -42,6 +43,7 @@ export async function create(mathModel: IMathModel) {
         averageExecutionTime: Date.now() - start,
         lingoModels: modelsForLingo,
         finalSolution,
+        dataConventions,
       });
     }
   );
