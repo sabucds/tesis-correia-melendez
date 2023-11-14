@@ -26,7 +26,6 @@ export async function create(mathModel: IMathModel) {
   const start = Date.now();
   return solve(mathModel?.data, mathModel?.method).then(
     ({ solutionsMap, modelsForLingo, dataConventions }) => {
-
       const decisionMatrix = getDecisionMatrix(
         mathModel?.data,
         solutionsMap,
