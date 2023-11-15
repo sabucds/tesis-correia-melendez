@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GET_MATH_MODEL } from '../../graphql/queries';
 
 export default function ResultsPage() {
   const router = useRouter();
-  const [jsonData, setJsonData] = useState(null);
-  const [modelId, setModelId] = useState(null);
+  const [jsonData, setJsonData] = React.useState(null);
+  const [modelId, setModelId] = React.useState(null);
 
   // Query
   const { data } = useQuery(GET_MATH_MODEL, {
@@ -17,7 +17,7 @@ export default function ResultsPage() {
     },
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const idParam = router.query.id;
     // revisar la data que se muestra al usuario
     setJsonData(data?.mathModel?.data);

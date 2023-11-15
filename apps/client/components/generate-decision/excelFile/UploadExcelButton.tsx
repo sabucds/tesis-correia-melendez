@@ -1,19 +1,19 @@
 /* eslint-disable no-restricted-globals */
-import React, { useState } from 'react';
+import React from 'react';
 import * as XLSX from 'xlsx';
 import { UploadIcon } from '@avila-tek/ui/src/icons';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
-import { getModelDataWithExcelJSON } from '../../utils/getModelDataWithExcelJSON';
-import { useNotify, useUser } from '../../hooks';
-import { CREATE_MATH_MODEL } from '../../graphql/mutation';
+import { getModelDataWithExcelJSON } from '../../../utils/getModelDataWithExcelJSON';
+import { useNotify, useUser } from '../../../hooks';
+import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
 
 function ExcelToJsonConverter() {
   const [user] = useUser();
   // const [jsonData, setJsonData] = useState(null);
-  const [disabled, setDisabled] = useState(false);
-  const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState(null);
+  const [disabled, setDisabled] = React.useState(false);
+  const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+  const [selectedFileName, setSelectedFileName] = React.useState(null);
   const router = useRouter();
   const notify = useNotify();
   const [createMathModel] = useMutation(CREATE_MATH_MODEL);
@@ -50,10 +50,6 @@ function ExcelToJsonConverter() {
         dataModel.totalBudget !== undefined
       ) {
         createMathModelWithExcelJSON(dataModel);
-        // router.push({
-        //   pathname: '/results',
-        //   query: { jsonData: JSON.stringify(dataModel) },
-        // });
       } else {
         notify(
           'El archivo que esta subiendo esta vacío / No es la plantilla',

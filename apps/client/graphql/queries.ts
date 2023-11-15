@@ -103,3 +103,96 @@ export const GET_MATH_MODEL = gql`
     }
   }
 `;
+
+export const GET_MATH_MODELS = gql`
+  query MathModels(
+    $filter: FilterFindManyMathModelInput
+    $skip: Int
+    $limit: Int
+    $sort: SortFindManyMathModelInput
+  ) {
+    mathModels(filter: $filter, skip: $skip, limit: $limit, sort: $sort) {
+      _id
+      active
+      averageExecutionTime
+      createdAt
+      data {
+        _id
+        assignationClientLocationCost {
+          _id
+          client
+          cost
+          location
+          uncertainty
+        }
+        clients {
+          _id
+          id
+          name
+        }
+        factories {
+          _id
+          id
+          name
+        }
+        factoryProductCapacity {
+          _id
+          capacity
+          factory
+          product
+        }
+        locationCapacity {
+          _id
+          capacity
+          location
+        }
+        locations {
+          _id
+          id
+          name
+        }
+        productClientDemand {
+          _id
+          client
+          demand
+          product
+        }
+        products {
+          _id
+          id
+          name
+        }
+        selectionLocationCost {
+          _id
+          cost
+          location
+        }
+        shippingFactoryLocationProductCost {
+          _id
+          cost
+          factory
+          location
+          product
+        }
+        totalBudget
+        totalClientDemand {
+          _id
+          client
+          totalDemand
+        }
+      }
+      finalSolution
+      intervals
+      lingoModels {
+        _id
+        model
+        modelNumber
+      }
+      method
+      name
+      solutions
+      updatedAt
+      user
+    }
+  }
+`;

@@ -82,12 +82,12 @@ export default function Navbar() {
                 <div className="space-y-6 px-4 py-6 text-center h-full  pb-20 text-gray-900 text-lg font-semibold">
                   <div className="flow-root h-full space-y-5 justify-between">
                     <div className="flow-root  hover:bg-primary-500 hover:text-primary-500  hover:bg-opacity-20">
-                      <a href="/" target="_blank" className="-m-2 block p-2  ">
+                      <a href="/generate-decision" className="-m-2 block p-2  ">
                         Generar decisión
                       </a>
                     </div>
                     <div className="flow-root hover:bg-primary-500 hover:text-primary-500  hover:bg-opacity-20">
-                      <a href="/" target="_blank" className="-m-2 block p-2 ">
+                      <a href="/solution-history" className="-m-2 block p-2 ">
                         Historial de soluciones
                       </a>
                     </div>
@@ -133,16 +133,14 @@ export default function Navbar() {
               <div className="flex h-full w-full justify-end items-center ">
                 <div className="relative flex space-x-10 ">
                   <Link
-                    href="/"
-                    target="_blank"
+                    href="/generate-decision"
                     className="relative z-10 flex items-center  font-bold transition-colors duration-200 ease-out border-transparent text-text-dark hover:text-primary-400 "
                   >
                     Generar decisión
                   </Link>
                   <Link
-                    href=""
+                    href="/solution-history"
                     className="relative z-10  flex items-center font-bold transition-colors duration-200 ease-out border-transparent text-text-dark hover:text-primary-400"
-                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     Historial de soluciones
