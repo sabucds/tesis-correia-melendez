@@ -118,12 +118,12 @@ export default function UploadInfoForm() {
   }
 
   const [steps, setSteps] = React.useState(1);
+
   const avanzar = () => {
     setSteps((prevSteps) => prevSteps + 1);
     window.scrollTo(0, 0);
     console.log(methods.getValues());
   };
-
   const retroceder = () => {
     setSteps((prevSteps) => prevSteps - 1);
     window.scrollTo(0, 0);
