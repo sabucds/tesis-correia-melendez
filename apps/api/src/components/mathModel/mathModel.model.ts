@@ -87,7 +87,33 @@ const mathModelSchema = new Schema<IMathModel>(
       },
     },
     dataConventions: {
-      type: Schema.Types.Map,
+      xBinaryVariables: {
+        type: Schema.Types.Map,
+        client: {
+          type: String,
+        },
+        location: {
+          type: String,
+        },
+      },
+      yBinaryVariables: {
+        type: Schema.Types.Map,
+        location: {
+          type: String,
+        },
+      },
+      zIntegerVariables: {
+        type: Schema.Types.Map,
+        factory: {
+          type: String,
+        },
+        location: {
+          type: String,
+        },
+        product: {
+          type: String,
+        },
+      },
     },
     averageExecutionTime: {
       type: Number,
