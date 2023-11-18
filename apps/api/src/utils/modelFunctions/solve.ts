@@ -6,7 +6,7 @@ import { method1, method2, method3 } from './uncertaintySolvingMethods';
 import generateQModel from './generateQModel';
 import { externalSolve } from './lpSolve/externalSolve';
 
-export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 1) {
+export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 3) {
   const solutionsMap: ModelResult[] = [];
   // this object is made with the purpose of constructing the math equations for the model and paste them in Lingo app to compare results
   const modelMathEquations: ModelMathEquations = {
@@ -20,9 +20,14 @@ export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 1) {
     modelMathEquations,
   });
 
-  let results: ModelResult = solver.Solve(model);
+  let results: ModelResult = solver.Solve({
+    ...model,
+    options: {
+      timeout: 10000,
+    },
+  });
 
-  if (results.feasible === false)
+  if (!results?.feasible)
     throw new Error('El problema ingresado no tiene solución');
 
   const modelsForLingo = [
