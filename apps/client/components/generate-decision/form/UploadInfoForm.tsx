@@ -2,6 +2,9 @@ import React from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { AddIcon, DelateIcon } from '@avila-tek/ui/src/icons';
+import { Input } from '@avila-tek/ui/src/input/Input';
+import { Button } from '@avila-tek/ui';
 import { ModelInitialData } from '../../../models';
 import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
 import { useNotify, useUser } from '../../../hooks';
@@ -112,6 +115,7 @@ export default function UploadInfoForm() {
   const [steps, setSteps] = React.useState(1);
   const avanzar = () => {
     setSteps((prevSteps) => prevSteps + 1);
+    console.log(methods.getValues());
   };
 
   const onSubmit = (data) => {
@@ -140,19 +144,23 @@ export default function UploadInfoForm() {
             relation.cost[1] !== 0,
         })
       ),
+      totalClientDemand: data.productClientDemand.map((relation) => ({
+        client: relation.client,
+        totalDemand: relation.demand,
+      })),
     };
     createMathModelWithForm(processedData);
   };
 
-  const createMathModelWithForm = async (dataModel) => {
+  const createMathModelWithForm = async (processedData) => {
     console.log('dataModel');
-    console.log(dataModel);
+    console.log(processedData);
     try {
       const { data } = await createMathModel({
         variables: {
           data: {
             user: user._id,
-            data: dataModel,
+            data: processedData,
           },
         },
       });
@@ -161,7 +169,7 @@ export default function UploadInfoForm() {
         // La mutación fue exitosa
         const createdModelId = data.createMathModel._id;
         notify('Creación del modelo exitosa', 'success');
-        console.log(dataModel);
+        console.log(processedData);
         router.push({
           pathname: '/results',
           query: { id: createdModelId },
@@ -176,6 +184,7 @@ export default function UploadInfoForm() {
       return notify(err.message, 'error');
     }
   };
+
   return (
     <FormProvider {...methods}>
       <form
@@ -184,172 +193,314 @@ export default function UploadInfoForm() {
       >
         {steps === 1 && (
           <>
+            <p className="font-bold text-2xl text-text pb-2 mb-4 w-full border-b border-primary-300">
+              Elementos principales (nombres o códigos)
+            </p>
             {/* Fabricas */}
-            {factoryFields.map((item, index) => (
-              <div key={item.id} className="flex space-x-4">
-                <input
-                  {...register(`factories.${index}.name`)}
-                  className="border p-2"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeFactory(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar fábrica
-                </button>
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+              <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
+                Fábricas:
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 pb-4 w-full">
+                {factoryFields.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-row space-x-4 item text-start"
+                  >
+                    <Input
+                      label={`Fábrica ${index + 1}`}
+                      type="text"
+                      name="factory"
+                      placeholder={`Nombre de la fábrica ${index + 1}`}
+                      {...register(`factories.${index}.name`)}
+                      required
+                      className="w-full"
+                      rightIcon={
+                        <button
+                          type="button"
+                          onClick={() => removeFactory(index)}
+                        >
+                          <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
+                        </button>
+                      }
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendFactory({ id: incrementFactoryId(), name: '' })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar fábrica
-            </button>
+
+              <Button
+                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                type="button"
+                onClick={() =>
+                  appendFactory({ id: incrementFactoryId(), name: '' })
+                }
+              >
+                <AddIcon className="w-4 h-4 mr-2" />
+                Agregar fábrica
+              </Button>
+            </div>
 
             {/* Clientes */}
-            {clientFields.map((item, index) => (
-              <div key={item.id} className="flex space-x-4">
-                <input
-                  {...register(`clients.${index}.name`)}
-                  className="border p-2"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeClient(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar cliente
-                </button>
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+              <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
+                Clientes
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 pb-4 w-full">
+                {clientFields.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-row space-x-4 item text-start"
+                  >
+                    <Input
+                      label={`Cliente ${index + 1}`}
+                      type="text"
+                      name="client"
+                      placeholder={`Nombre del cliente ${index + 1}`}
+                      {...register(`clients.${index}.name`)}
+                      required
+                      className="w-full"
+                      rightIcon={
+                        <button
+                          type="button"
+                          onClick={() => removeClient(index)}
+                        >
+                          <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
+                        </button>
+                      }
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendClient({ id: incrementClientId(), name: '' })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar cliente
-            </button>
+
+              <Button
+                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                type="button"
+                onClick={() =>
+                  appendClient({ id: incrementClientId(), name: '' })
+                }
+              >
+                <AddIcon className="w-4 h-4 mr-2" />
+                Agregar cliente
+              </Button>
+            </div>
 
             {/* Localizaciones */}
-            {locationsFields.map((item, index) => (
-              <div key={item.id} className="flex space-x-4">
-                <input
-                  {...register(`locations.${index}.name`)}
-                  className="border p-2"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeLocation(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar Localización
-                </button>
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+              <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
+                Localizaciones
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 pb-4 w-full">
+                {locationsFields.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-row space-x-4 item text-start"
+                  >
+                    <Input
+                      label={`Localización ${index + 1}`}
+                      type="text"
+                      name="location"
+                      placeholder={`Nombre de la Localización ${index + 1}`}
+                      {...register(`locations.${index}.name`)}
+                      required
+                      className="w-full"
+                      rightIcon={
+                        <button
+                          type="button"
+                          onClick={() => removeLocation(index)}
+                        >
+                          <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
+                        </button>
+                      }
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendLocation({ id: incrementLocationId(), name: '' })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar Localización
-            </button>
+
+              <Button
+                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                type="button"
+                onClick={() =>
+                  appendLocation({ id: incrementLocationId(), name: '' })
+                }
+              >
+                <AddIcon className="w-4 h-4 mr-2" />
+                Agregar Localización
+              </Button>
+            </div>
 
             {/* Productos */}
-            {productFields.map((item, index) => (
-              <div key={item.id} className="flex space-x-4">
-                <input
-                  {...register(`products.${index}.name`)}
-                  className="border p-2"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeProduct(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar Producto
-                </button>
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+              <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
+                Productos
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 pb-4 w-full">
+                {productFields.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-row space-x-4 item text-start"
+                  >
+                    <Input
+                      label={`Producto ${index + 1}`}
+                      type="text"
+                      name="product"
+                      placeholder={`Nombre del Producto ${index + 1}`}
+                      {...register(`products.${index}.name`)}
+                      required
+                      className="w-full"
+                      rightIcon={
+                        <button
+                          type="button"
+                          onClick={() => removeProduct(index)}
+                        >
+                          <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
+                        </button>
+                      }
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendProduct({ id: incrementProductId(), name: '' })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar Producto
-            </button>
+
+              <Button
+                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                type="button"
+                onClick={() =>
+                  appendProduct({ id: incrementProductId(), name: '' })
+                }
+              >
+                <AddIcon className="w-4 h-4 mr-2" />
+                Agregar Producto
+              </Button>
+            </div>
           </>
         )}
 
         {steps === 2 && (
           <>
             {/* Relaciones Cliente-Localización-Costo */}
-            {combinationsClientLocation.map((combination, combinationIndex) => (
-              <div key={`${combinationIndex}`} className="flex space-x-4">
-                <input
-                  {...register(
-                    `assignationClientLocationCost.${combinationIndex}.client`
-                  )}
-                  value={`${combination.client.id}`}
-                  type="hidden"
-                />
-                <p>{combination.client.name}</p>
-                <input
-                  {...register(
-                    `assignationClientLocationCost.${combinationIndex}.location`
-                  )}
-                  value={`${combination.location.id}`}
-                  type="hidden"
-                />
-                <p>{combination.location.name}</p>
-                <input
-                  {...register(
-                    `assignationClientLocationCost.${combinationIndex}.cost.0`,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                  min="0"
-                  type="number"
-                  className="border p-2"
-                />
-                <input
-                  {...register(
-                    `assignationClientLocationCost.${combinationIndex}.cost.1`,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                  min="0"
-                  type="number"
-                  className="border p-2"
-                  defaultValue={
-                    methods.getValues(
-                      `assignationClientLocationCost.${combinationIndex}.cost.1`
-                    ) || 0
-                  }
-                  onChange={(e) => {
-                    const value = parseFloat(e.target.value);
-                    if (!Number.isNaN(value)) {
-                      // Actualizar el valor en el estado del formulario directamente
-                      methods.setValue(
-                        `assignationClientLocationCost.${combinationIndex}.cost.1`,
-                        value
-                      );
-                    }
-                  }}
-                />
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+              <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
+                Costo de asignación Localización-cliente
+              </p>
+              <div className="flex flex-col divide-y  divide-text-light">
+                {combinationsClientLocation.map(
+                  (combination, combinationIndex) => (
+                    <div
+                      key={`${combinationIndex}`}
+                      className="flex space-x-4 py-3 justify-between items-center text-start "
+                    >
+                      <div className="flex flex-col">
+                        <p className="font-medium">
+                          Cliente:{' '}
+                          <span className="font-normal">
+                            {combination.client.name}
+                          </span>
+                        </p>
+                        <p className="font-medium">
+                          Localización:{' '}
+                          <span className="font-normal">
+                            {combination.location.name}
+                          </span>
+                        </p>
+                      </div>
+                      <input
+                        {...register(
+                          `assignationClientLocationCost.${combinationIndex}.client`
+                        )}
+                        value={`${combination.client.id}`}
+                        type="hidden"
+                      />
+                      <input
+                        {...register(
+                          `assignationClientLocationCost.${combinationIndex}.location`
+                        )}
+                        value={`${combination.location.id}`}
+                        type="hidden"
+                      />
+                      <div className="flex w-1/2  space-x-4">
+                        <Input
+                          label="Costo mínimo"
+                          name="minCost"
+                          {...register(
+                            `assignationClientLocationCost.${combinationIndex}.cost.0`,
+                            {
+                              valueAsNumber: true,
+                            }
+                          )}
+                          min="0"
+                          type="number"
+                          required
+                        />
+                        <Input
+                          label="Costo máximo"
+                          name="maxCost"
+                          {...register(
+                            `assignationClientLocationCost.${combinationIndex}.cost.1`,
+                            {
+                              valueAsNumber: true,
+                            }
+                          )}
+                          min="0"
+                          type="number"
+                          required
+                          defaultValue={
+                            methods.getValues(
+                              `assignationClientLocationCost.${combinationIndex}.cost.1`
+                            ) || 0
+                          }
+                          onChange={(e) => {
+                            const value = parseFloat(e.target.value);
+                            if (!Number.isNaN(value)) {
+                              // Actualizar el valor en el estado del formulario directamente
+                              methods.setValue(
+                                `assignationClientLocationCost.${combinationIndex}.cost.1`,
+                                value
+                              );
+                            }
+                          }}
+                        />
+                      </div>
+                      {/* <input
+                        {...register(
+                          `assignationClientLocationCost.${combinationIndex}.cost.0`,
+                          {
+                            valueAsNumber: true,
+                          }
+                        )}
+                        min="0"
+                        type="number"
+                        className="border p-2"
+                      /> */}
+                      {/* <input
+                        {...register(
+                          `assignationClientLocationCost.${combinationIndex}.cost.1`,
+                          {
+                            valueAsNumber: true,
+                          }
+                        )}
+                        min="0"
+                        type="number"
+                        className="border p-2"
+                        defaultValue={
+                          methods.getValues(
+                            `assignationClientLocationCost.${combinationIndex}.cost.1`
+                          ) || 0
+                        }
+                        onChange={(e) => {
+                          const value = parseFloat(e.target.value);
+                          if (!Number.isNaN(value)) {
+                            // Actualizar el valor en el estado del formulario directamente
+                            methods.setValue(
+                              `assignationClientLocationCost.${combinationIndex}.cost.1`,
+                              value
+                            );
+                          }
+                        }}
+                      /> */}
+                    </div>
+                  )
+                )}
               </div>
-            ))}
+            </div>
           </>
         )}
 
