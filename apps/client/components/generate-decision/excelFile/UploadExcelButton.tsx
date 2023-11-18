@@ -70,6 +70,7 @@ function ExcelToJsonConverter() {
           data: {
             user: user._id,
             data: dataModel,
+            name: 'Modelo de decisión',
           },
         },
       });
