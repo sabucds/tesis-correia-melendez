@@ -367,3 +367,352 @@
 //         }
 //     ]
 // }
+
+// RESULTADO DEL FORM
+// {
+//     "factories": [
+//         {
+//             "id": "f1",
+//             "name": "Guarenas"
+//         },
+//         {
+//             "id": "f2",
+//             "name": "El junquito"
+//         }
+//     ],
+//     "clients": [
+//         {
+//             "id": "c1",
+//             "name": "altamira"
+//         },
+//         {
+//             "id": "c2",
+//             "name": "La castellana"
+//         },
+//         {
+//             "id": "c3",
+//             "name": "Las mercedes"
+//         },
+//         {
+//             "id": "c4",
+//             "name": "san martin"
+//         },
+//         {
+//             "id": "c5",
+//             "name": "la yaguara"
+//         }
+//     ],
+//     "locations": [
+//         {
+//             "id": "d1",
+//             "name": "sebucan"
+//         },
+//         {
+//             "id": "d2",
+//             "name": "macaracuay"
+//         },
+//         {
+//             "id": "d3",
+//             "name": "sabana grande"
+//         }
+//     ],
+//     "products": [
+//         {
+//             "id": "p1",
+//             "name": "Papel"
+//         },
+//         {
+//             "id": "p2",
+//             "name": "Plastico"
+//         }
+//     ],
+//     "assignationClientLocationCost": [
+//         {
+//             "client": "c1",
+//             "location": "d1",
+//             "cost": [
+//                 8,
+//                 15
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c1",
+//             "location": "d2",
+//             "cost": [
+//                 7,
+//                 20
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c1",
+//             "location": "d3",
+//             "cost": [
+//                 6,
+//                 0
+//             ],
+//             "uncertainty": false
+//         },
+//         {
+//             "client": "c2",
+//             "location": "d1",
+//             "cost": [
+//                 5,
+//                 0
+//             ],
+//             "uncertainty": false
+//         },
+//         {
+//             "client": "c2",
+//             "location": "d2",
+//             "cost": [
+//                 3,
+//                 0
+//             ],
+//             "uncertainty": false
+//         },
+//         {
+//             "client": "c2",
+//             "location": "d3",
+//             "cost": [
+//                 8,
+//                 0
+//             ],
+//             "uncertainty": false
+//         },
+//         {
+//             "client": "c3",
+//             "location": "d1",
+//             "cost": [
+//                 9,
+//                 25
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c3",
+//             "location": "d2",
+//             "cost": [
+//                 3,
+//                 8
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c3",
+//             "location": "d3",
+//             "cost": [
+//                 7,
+//                 14
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c4",
+//             "location": "d1",
+//             "cost": [
+//                 4,
+//                 8
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c4",
+//             "location": "d2",
+//             "cost": [
+//                 7,
+//                 13
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c4",
+//             "location": "d3",
+//             "cost": [
+//                 5,
+//                 0
+//             ],
+//             "uncertainty": false
+//         },
+//         {
+//             "client": "c5",
+//             "location": "d1",
+//             "cost": [
+//                 8,
+//                 0
+//             ],
+//             "uncertainty": false
+//         },
+//         {
+//             "client": "c5",
+//             "location": "d2",
+//             "cost": [
+//                 2,
+//                 15
+//             ],
+//             "uncertainty": true
+//         },
+//         {
+//             "client": "c5",
+//             "location": "d3",
+//             "cost": [
+//                 3,
+//                 7
+//             ],
+//             "uncertainty": true
+//         }
+//     ],
+//     "selectionLocationCost": [
+//         {
+//             "location": "d1",
+//             "cost": 1500
+//         },
+//         {
+//             "location": "d2",
+//             "cost": 1800
+//         },
+//         {
+//             "location": "d3",
+//             "cost": 1700
+//         }
+//     ],
+//     "shippingFactoryLocationProductCost": [
+//         {
+//             "product": "p1",
+//             "factory": "f1",
+//             "location": "d1",
+//             "cost": 2
+//         },
+//         {
+//             "product": "p2",
+//             "factory": "f1",
+//             "location": "d1",
+//             "cost": 4
+//         },
+//         {
+//             "product": "p1",
+//             "factory": "f2",
+//             "location": "d1",
+//             "cost": 4
+//         },
+//         {
+//             "product": "p2",
+//             "factory": "f2",
+//             "location": "d1",
+//             "cost": 7
+//         },
+//         {
+//             "product": "p1",
+//             "factory": "f1",
+//             "location": "d2",
+//             "cost": 3
+//         },
+//         {
+//             "product": "p2",
+//             "factory": "f1",
+//             "location": "d2",
+//             "cost": 3
+//         },
+//         {
+//             "product": "p1",
+//             "factory": "f2",
+//             "location": "d2",
+//             "cost": 4
+//         },
+//         {
+//             "product": "p2",
+//             "factory": "f2",
+//             "location": "d2",
+//             "cost": 3
+//         },
+//         {
+//             "product": "p1",
+//             "factory": "f1",
+//             "location": "d3",
+//             "cost": 7
+//         },
+//         {
+//             "product": "p2",
+//             "factory": "f1",
+//             "location": "d3",
+//             "cost": 8
+//         },
+//         {
+//             "product": "p1",
+//             "factory": "f2",
+//             "location": "d3",
+//             "cost": 4
+//         },
+//         {
+//             "product": "p2",
+//             "factory": "f2",
+//             "location": "d3",
+//             "cost": 4
+//         }
+//     ],
+//     "productClientDemand": [
+//         {
+//             "client": "c1",
+//             "product": "p1",
+//             "demand": 100
+//         },
+//         {
+//             "client": "c2",
+//             "product": "p1",
+//             "demand": 300
+//         },
+//         {
+//             "client": "c3",
+//             "product": "p1",
+//             "demand": 200
+//         },
+//         {
+//             "client": "c4",
+//             "product": "p2",
+//             "demand": 500
+//         },
+//         {
+//             "client": "c5",
+//             "product": "p2",
+//             "demand": 500
+//         }
+//     ],
+//     "locationCapacity": [
+//         {
+//             "location": "d1",
+//             "capacity": 1000
+//         },
+//         {
+//             "location": "d2",
+//             "capacity": 800
+//         },
+//         {
+//             "location": "d3",
+//             "capacity": 700
+//         }
+//     ],
+//     "factoryProductCapacity": [
+//         {
+//             "factory": "f1",
+//             "product": "p1",
+//             "capacity": 500
+//         },
+//         {
+//             "factory": "f1",
+//             "product": "p2",
+//             "capacity": 400
+//         },
+//         {
+//             "factory": "f2",
+//             "product": "p1",
+//             "capacity": 400
+//         },
+//         {
+//             "factory": "f2",
+//             "product": "p2",
+//             "capacity": 700
+//         }
+//     ],
+//     "totalBudget": 5000
+// }

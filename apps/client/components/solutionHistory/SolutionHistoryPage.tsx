@@ -61,12 +61,20 @@ export default function SolutionHistoryPage() {
       <h1 className="w-10/12 pb-4 border-b border-primary-300 text-3xl md:text-4xl font-bold ">
         Resultados
       </h1>
-      <p>Cantidad de soluciones: {models?.length}</p>
+      <p>Cantidad de modelos generados: {models?.length}</p>
       <div className="flex flex-wrap gap-4 items-center justify-center">
         {models?.map((item) => (
           <div key={item.id}>
-            <Button className="px-6 py-3 " onClick={() => onClick(item._id)}>
+            <Button
+              className="px-6 py-3 flex flex-col items-center justify-center "
+              onClick={() => onClick(item._id)}
+            >
               <span className="font-semibold">Id del Modelo: </span> {item._id}
+              <span className="font-semibold">
+                {' '}
+                Cantidad de soluciones
+              </span>{' '}
+              {item.solutions.length}
             </Button>
           </div>
         ))}

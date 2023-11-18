@@ -78,6 +78,7 @@ function ExcelToJsonConverter() {
         // La mutación fue exitosa
         const createdModelId = data.createMathModel._id;
         notify('Creación del modelo exitosa', 'success');
+        console.log('modelo creado con excel');
         console.log(dataModel);
         router.push({
           pathname: '/results',

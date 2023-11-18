@@ -1,10 +1,18 @@
 import React from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
+import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 import { ModelInitialData } from '../../../models';
+import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
+import { useNotify, useUser } from '../../../hooks';
 
 export default function UploadInfoForm() {
   const methods = useForm<ModelInitialData>();
   const { register, control, handleSubmit } = methods;
+  const [createMathModel] = useMutation(CREATE_MATH_MODEL);
+  const router = useRouter();
+  const notify = useNotify();
+  const [user] = useUser();
 
   const {
     fields: factoryFields,
@@ -62,69 +70,112 @@ export default function UploadInfoForm() {
     return `p${productId.toString()}`;
   };
 
-  // Relación assignationClientLocationCost
-  const {
-    fields: assignationClientLocationCostFields,
-    append: appendAssignationCLC,
-    remove: removeAssignationCLC,
-  } = useFieldArray({
-    control,
-    name: 'assignationClientLocationCost',
-  });
+  // Combinaciones de fábricas y productos
+  const combinationsFactoryProductCapacity = [];
+  for (let i = 0; i < methods.getValues().factories?.length; i += 1) {
+    for (let j = 0; j < methods.getValues().products?.length; j += 1) {
+      const combination = {
+        factory: methods.getValues().factories[i],
+        product: methods.getValues().products[j],
+      };
+      combinationsFactoryProductCapacity.push(combination);
+    }
+  }
 
-  // Relación selectionLocationCost
-  const {
-    fields: selectionLocationCostFields,
-    append: appendAssignationLC,
-    remove: removeAssignationLC,
-  } = useFieldArray({
-    control,
-    name: 'selectionLocationCost',
-  });
+  // Combinaciones de clientes y localizaciones
+  const combinationsClientLocation = [];
+  for (let i = 0; i < methods.getValues().clients?.length; i += 1) {
+    for (let j = 0; j < methods.getValues().locations?.length; j += 1) {
+      const combination = {
+        client: methods.getValues().clients[i],
+        location: methods.getValues().locations[j],
+      };
+      combinationsClientLocation.push(combination);
+    }
+  }
 
-  // Relación shippingFactoryLocationProductCost
-  const {
-    fields: shippingFactoryLocationProductCostFields,
-    append: appendShippingFLPC,
-    remove: removeShippingFLPC,
-  } = useFieldArray({
-    control,
-    name: 'shippingFactoryLocationProductCost',
-  });
+  // Combinaciones de fábricas, productos y localización
+  const combinationsShippingFactoryLocationProductCost = [];
+  for (let j = 0; j < methods.getValues().locations?.length; j += 1) {
+    for (let k = 0; k < methods.getValues().factories?.length; k += 1) {
+      for (let l = 0; l < methods.getValues().products?.length; l += 1) {
+        const combination = {
+          location: methods.getValues().locations[j],
+          factory: methods.getValues().factories[k],
+          product: methods.getValues().products[l],
+        };
+        combinationsShippingFactoryLocationProductCost.push(combination);
+      }
+    }
+  }
 
   const [steps, setSteps] = React.useState(1);
   const avanzar = () => {
     setSteps((prevSteps) => prevSteps + 1);
-    const data = methods.getValues();
-    console.log(data);
   };
 
   const onSubmit = (data) => {
-    if (data.factories.length === 0) {
-      alert('Debe agregar al menos una fábrica');
-      return;
-    }
-
-    if (data.clients.length === 0) {
-      alert('Debe agregar al menos un cliente');
-      return;
-    }
     const processedData = {
       ...data,
       assignationClientLocationCost: data.assignationClientLocationCost.map(
         (relation) => ({
           ...relation,
-          uncertainty: relation.cost[1] !== '',
+          cost: [
+            relation.cost[0] !== '' &&
+            relation.cost[0] !== null &&
+            relation.cost[0] !== 0
+              ? relation.cost[0]
+              : 0,
+            relation.cost[1] !== '' &&
+            relation.cost[1] !== null &&
+            relation.cost[1] !== 0 &&
+            !Number.isNaN(relation.cost[1])
+              ? relation.cost[1]
+              : 0,
+          ],
+
+          uncertainty:
+            relation.cost[1] !== '' &&
+            relation.cost[1] !== null &&
+            relation.cost[1] !== 0,
         })
       ),
-      totalClientDemand: data.productClientDemand.map((relation) => ({
-        client: relation.client,
-        totalDemand: relation.demand,
-      })),
     };
-    console.log(processedData);
+    createMathModelWithForm(processedData);
   };
 
+  const createMathModelWithForm = async (dataModel) => {
+    console.log('dataModel');
+    console.log(dataModel);
+    try {
+      const { data } = await createMathModel({
+        variables: {
+          data: {
+            user: user._id,
+            data: dataModel,
+          },
+        },
+      });
+
+      if (data) {
+        // La mutación fue exitosa
+        const createdModelId = data.createMathModel._id;
+        notify('Creación del modelo exitosa', 'success');
+        console.log(dataModel);
+        router.push({
+          pathname: '/results',
+          query: { id: createdModelId },
+        });
+      } else {
+        // La mutación falló
+        return notify('Ocurrió un error al crear el modelo', 'error');
+      }
+    } catch (err) {
+      // Manejo de errores
+      console.error(err);
+      return notify(err.message, 'error');
+    }
+  };
   return (
     <FormProvider {...methods}>
       <form
@@ -242,190 +293,134 @@ export default function UploadInfoForm() {
         {steps === 2 && (
           <>
             {/* Relaciones Cliente-Localización-Costo */}
-            {assignationClientLocationCostFields.map((item, index) => (
-              <div key={item.id} className="flex space-x-4">
-                <select
-                  {...register(`assignationClientLocationCost.${index}.client`)}
-                  className="border p-2"
-                >
-                  {methods.getValues().clients.map((client, clientIndex) => (
-                    <option key={client.id} value={`c${clientIndex + 1}`}>
-                      {client.name}
-                    </option>
-                  ))}
-                </select>
-                <select
+            {combinationsClientLocation.map((combination, combinationIndex) => (
+              <div key={`${combinationIndex}`} className="flex space-x-4">
+                <input
                   {...register(
-                    `assignationClientLocationCost.${index}.location`
+                    `assignationClientLocationCost.${combinationIndex}.client`
                   )}
-                  className="border p-2"
-                >
-                  {methods
-                    .getValues()
-                    .locations.map((location, locationIndex) => (
-                      <option key={location.id} value={`d${locationIndex + 1}`}>
-                        {location.name}
-                      </option>
-                    ))}
-                </select>
+                  value={`${combination.client.id}`}
+                  type="hidden"
+                />
+                <p>{combination.client.name}</p>
                 <input
-                  {...register(`assignationClientLocationCost.${index}.cost.0`)}
+                  {...register(
+                    `assignationClientLocationCost.${combinationIndex}.location`
+                  )}
+                  value={`${combination.location.id}`}
+                  type="hidden"
+                />
+                <p>{combination.location.name}</p>
+                <input
+                  {...register(
+                    `assignationClientLocationCost.${combinationIndex}.cost.0`,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  min="0"
                   type="number"
                   className="border p-2"
                 />
                 <input
-                  {...register(`assignationClientLocationCost.${index}.cost.1`)}
+                  {...register(
+                    `assignationClientLocationCost.${combinationIndex}.cost.1`,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  min="0"
                   type="number"
                   className="border p-2"
+                  defaultValue={
+                    methods.getValues(
+                      `assignationClientLocationCost.${combinationIndex}.cost.1`
+                    ) || 0
+                  }
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value);
+                    if (!Number.isNaN(value)) {
+                      // Actualizar el valor en el estado del formulario directamente
+                      methods.setValue(
+                        `assignationClientLocationCost.${combinationIndex}.cost.1`,
+                        value
+                      );
+                    }
+                  }}
                 />
-                <button
-                  type="button"
-                  onClick={() => removeAssignationCLC(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar relación
-                </button>
               </div>
             ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendAssignationCLC({
-                  client: '',
-                  location: '',
-                  cost: [0, 0],
-                  uncertainty: false,
-                })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar relación
-            </button>
           </>
         )}
 
         {steps === 3 && (
           <>
             {/* Relaciones Localización-Costo */}
-            {selectionLocationCostFields.map((item, index) => (
+            {methods.getValues().locations.map((item, index) => (
               <div key={item.id} className="flex space-x-4">
-                <select
-                  {...register(`selectionLocationCost.${index}.location`)}
-                  className="border p-2"
-                >
-                  {methods
-                    .getValues()
-                    .locations.map((location, locationIndex) => (
-                      <option key={location.id} value={`d${locationIndex + 1}`}>
-                        {location.name}
-                      </option>
-                    ))}
-                </select>
                 <input
-                  {...register(`selectionLocationCost.${index}.cost`)}
+                  {...register(`selectionLocationCost.${index}.location`)}
+                  value={`d${index + 1}`}
+                  type="hidden"
+                />
+                <p>{item.name}</p>
+                <input
+                  {...register(`selectionLocationCost.${index}.cost`, {
+                    valueAsNumber: true,
+                  })}
                   type="number"
+                  min="0"
                   className="border p-2"
                 />
-                <button
-                  type="button"
-                  onClick={() => removeAssignationLC(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar relación
-                </button>
               </div>
             ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendAssignationLC({
-                  location: '',
-                  cost: 0,
-                })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar relación
-            </button>
           </>
         )}
 
         {steps === 4 && (
           <>
             {/* Relación shippingFactoryLocationProductCost */}
-            {shippingFactoryLocationProductCostFields.map((item, index) => (
-              <div key={item.id} className="flex space-x-4">
-                <select
-                  {...register(
-                    `shippingFactoryLocationProductCost.${index}.product`
-                  )}
-                  className="border p-2"
-                >
-                  {methods.getValues().products.map((product, productIndex) => (
-                    <option key={product.id} value={`p${productIndex + 1}`}>
-                      {product.name}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  {...register(
-                    `shippingFactoryLocationProductCost.${index}.factory`
-                  )}
-                  className="border p-2"
-                >
-                  {methods
-                    .getValues()
-                    .factories.map((factory, factoryIndex) => (
-                      <option key={factory.id} value={`f${factoryIndex + 1}`}>
-                        {factory.name}
-                      </option>
-                    ))}
-                </select>
-                <select
-                  {...register(
-                    `shippingFactoryLocationProductCost.${index}.location`
-                  )}
-                  className="border p-2"
-                >
-                  {methods
-                    .getValues()
-                    .locations.map((location, locationIndex) => (
-                      <option key={location.id} value={`d${locationIndex + 1}`}>
-                        {location.name}
-                      </option>
-                    ))}
-                </select>
-                <input
-                  {...register(
-                    `shippingFactoryLocationProductCost.${index}.cost`
-                  )}
-                  type="number"
-                  className="border p-2"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => removeShippingFLPC(index)}
-                  className="bg-red-500 text-white p-2"
-                >
-                  Eliminar relación
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() =>
-                appendShippingFLPC({
-                  product: '',
-                  factory: '',
-                  location: '',
-                  cost: 0,
-                })
-              }
-              className="bg-blue-500 text-white p-2"
-            >
-              Agregar relación
-            </button>
+            {combinationsShippingFactoryLocationProductCost.map(
+              (combination, combinationIndex) => (
+                <div key={`${combinationIndex}`} className="flex space-x-4">
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.product`
+                    )}
+                    value={`${combination.product.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.product.name}</p>
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.factory`
+                    )}
+                    value={`${combination.factory.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.factory.name}</p>
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.location`
+                    )}
+                    value={`${combination.location.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.location.name}</p>
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.cost`,
+                      {
+                        valueAsNumber: true,
+                      }
+                    )}
+                    type="number"
+                    min="0"
+                    className="border p-2"
+                  />
+                </div>
+              )
+            )}
           </>
         )}
 
@@ -453,8 +448,11 @@ export default function UploadInfoForm() {
                   ))}
                 </select>
                 <input
-                  {...register(`productClientDemand.${index}.demand`)}
+                  {...register(`productClientDemand.${index}.demand`, {
+                    valueAsNumber: true,
+                  })}
                   type="number"
+                  min="0"
                   className="border p-2"
                 />
               </div>
@@ -475,7 +473,10 @@ export default function UploadInfoForm() {
                 />
                 <p>{item.name}</p>
                 <input
-                  {...register(`locationCapacity.${index}.capacity`)}
+                  {...register(`locationCapacity.${index}.capacity`, {
+                    valueAsNumber: true,
+                  })}
+                  min="0"
                   type="number"
                   className="border p-2"
                 />
@@ -487,37 +488,38 @@ export default function UploadInfoForm() {
         {steps === 7 && (
           <>
             {/* Relación factoryProductCapacity */}
-            {methods.getValues().factories.map((factory, factoryIndex) =>
-              methods.getValues().products.map((product, productIndex) => (
-                <div
-                  key={`${factoryIndex}-${productIndex}`}
-                  className="flex space-x-4"
-                >
+            {combinationsFactoryProductCapacity.map(
+              (combination, combinationIndex) => (
+                <div key={`${combinationIndex}`} className="flex space-x-4">
                   <input
                     {...register(
-                      `factoryProductCapacity.${factoryIndex}.factory`
+                      `factoryProductCapacity.${combinationIndex}.factory`
                     )}
-                    value={`f${factoryIndex + 1}`}
+                    value={`${combination.factory.id}`}
                     type="hidden"
                   />
-                  <p>{factory.name}</p>
+                  <p>{combination.factory.name}</p>
                   <input
                     {...register(
-                      `factoryProductCapacity.${productIndex}.product`
+                      `factoryProductCapacity.${combinationIndex}.product`
                     )}
-                    value={`p${productIndex + 1}`}
+                    value={`${combination.product.id}`}
                     type="hidden"
                   />
-                  <p>{product.name}</p>
+                  <p>{combination.product.name}</p>
                   <input
                     {...register(
-                      `factoryProductCapacity.${factoryIndex}.capacity`
+                      `factoryProductCapacity.${combinationIndex}.capacity`,
+                      {
+                        valueAsNumber: true,
+                      }
                     )}
+                    min="0"
                     type="number"
                     className="border p-2"
                   />
                 </div>
-              ))
+              )
             )}
           </>
         )}
@@ -527,7 +529,10 @@ export default function UploadInfoForm() {
             {/* Presupuesto total */}
             <p>Presupuesto Total</p>
             <input
-              {...register(`totalBudget`)}
+              {...register(`totalBudget`, {
+                valueAsNumber: true,
+              })}
+              min="0"
               type="number"
               className="border p-2"
             />
