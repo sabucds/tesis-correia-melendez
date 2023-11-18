@@ -43,6 +43,7 @@ function ExcelToJsonConverter() {
 
       const jsonResult = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       const dataModel = getModelDataWithExcelJSON(jsonResult);
+      console.log(dataModel);
 
       // setJsonData(dataModel);
       if (
