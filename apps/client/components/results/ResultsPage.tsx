@@ -48,16 +48,16 @@ export default function ResultsPage() {
                 {jsonData?.mathModel?.name}
               </span>
             </p>
-            <p className="text-lg text-text-light">
+            {/* <p className="text-lg text-text-light">
               Costo mínimo total de transporte, alquiler y asignación:{' '}
               <span className="font-semibold text-text">
                 {jsonData?.mathModel?.finalSolution.result} $
               </span>
-            </p>
+            </p> */}
           </div>
-          <div className="flex flex-col md:w-1/2 space-y-1 text-start pt-4 md:pl-4">
+          <div className="flex flex-col md:w-1/2 space-y-1 text-start pt-4 md:pt-0 md:pl-4 items-start">
             <p className="text-lg text-text-light text-start w-full underline font-semibold">
-              Se deben construir los siguientes centros de distribución:{' '}
+              Se deben seleccionar los siguientes centros de distribución:{' '}
             </p>
             <ul className="list-disc ml-12 text-start">
               {finalSolution &&
@@ -80,7 +80,7 @@ export default function ResultsPage() {
             <p className="text-lg text-text-light text-start w-full underline font-semibold">
               Asignación de Clientes a Centros de Distribución:
             </p>
-            {/* <table className="w-3/5  bg-white rounded  text-start">
+            <table className="w-3/5  bg-white rounded  text-start">
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b text-start">Cliente</th>
@@ -106,8 +106,8 @@ export default function ResultsPage() {
                   ) : null;
                 })}
               </tbody>
-            </table> */}
-            <div className="flex flex-col w-full space-y-1 ">
+            </table>
+            {/* <div className="flex flex-col w-full space-y-1 ">
               <ul className="list-disc ml-12 text-start">
                 {finalSolution &&
                   Object.keys(dataConventions_?.xBinaryVariables).map((key) => {
@@ -133,7 +133,7 @@ export default function ResultsPage() {
                     ) : null;
                   })}
               </ul>
-            </div>
+            </div> */}
           </div>
         )}
         {finalSolution && (

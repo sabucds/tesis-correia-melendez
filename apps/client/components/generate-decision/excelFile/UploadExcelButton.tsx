@@ -7,6 +7,7 @@ import { useMutation } from '@apollo/client';
 import { getModelDataWithExcelJSON } from '../../../utils/getModelDataWithExcelJSON';
 import { useNotify, useUser } from '../../../hooks';
 import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
+import Modal from './Modal';
 
 function ExcelToJsonConverter() {
   const [user] = useUser();
@@ -17,6 +18,20 @@ function ExcelToJsonConverter() {
   const router = useRouter();
   const notify = useNotify();
   const [createMathModel] = useMutation(CREATE_MATH_MODEL);
+  const [showModal, setShowModal] = React.useState(false);
+  const [excelName, setExcelName] = React.useState('');
+  const [jsonData, setJsonData] = React.useState(null);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirm = (inputValue) => {
+    setExcelName(inputValue);
+    console.log(inputValue);
+    setShowModal(false);
+    createMathModelWithExcelJSON(jsonData);
+  };
 
   const processFile = (file) => {
     setSelectedFileName(file.name); // Mostrar el nombre del archivo seleccionado
@@ -45,12 +60,12 @@ function ExcelToJsonConverter() {
       const dataModel = getModelDataWithExcelJSON(jsonResult);
       console.log(dataModel);
 
-      // setJsonData(dataModel);
       if (
         dataModel.totalBudget !== null &&
         dataModel.totalBudget !== undefined
       ) {
-        createMathModelWithExcelJSON(dataModel);
+        setShowModal(true);
+        setJsonData(dataModel);
       } else {
         notify(
           'El archivo que esta subiendo esta vacío / No es la plantilla',
@@ -70,7 +85,7 @@ function ExcelToJsonConverter() {
           data: {
             user: user._id,
             data: dataModel,
-            name: 'Modelo de decisión',
+            name: excelName,
           },
         },
       });
@@ -179,7 +194,15 @@ function ExcelToJsonConverter() {
             disabled={disabled}
           />
         </div>
+        <Modal
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          name={excelName}
+          setName={setExcelName}
+          handleConfirm={handleConfirm}
+        />
       </label>
+
       {/* {jsonData && (
         <div>
           <h3>JSON Result:</h3>

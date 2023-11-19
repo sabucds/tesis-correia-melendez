@@ -2,12 +2,7 @@ import React from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
-import {
-  AddIcon,
-  DelateIcon,
-  ArrowIcon,
-  ArrowBackIcon,
-} from '@avila-tek/ui/src/icons';
+import { AddIcon, DelateIcon, ArrowIcon } from '@avila-tek/ui/src/icons';
 import { Input } from '@avila-tek/ui/src/input/Input';
 import { Button } from '@avila-tek/ui';
 import { ModelInitialData } from '../../../models';
@@ -21,6 +16,11 @@ export default function UploadInfoForm() {
   const router = useRouter();
   const notify = useNotify();
   const [user] = useUser();
+  const [modelName, setModelName] = React.useState('');
+
+  const handleInputChange = (e) => {
+    setModelName(e.target.value);
+  };
 
   const {
     fields: factoryFields,
@@ -172,6 +172,7 @@ export default function UploadInfoForm() {
           data: {
             user: user._id,
             data: processedData,
+            name: modelName,
           },
         },
       });
@@ -871,21 +872,38 @@ export default function UploadInfoForm() {
 
         {steps === 8 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Presupuesto Total
-              </p>
-              <div className="w-full">
-                <Input
-                  type="number"
-                  min="0"
-                  placeholder="Ingrese su presupuesto total"
-                  {...register(`totalBudget`, {
-                    valueAsNumber: true,
-                  })}
-                  required
-                  className="w-full"
-                />
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end space-y-4">
+              <div className="w-full flex flex-col ">
+                <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
+                  Presupuesto Total
+                </p>
+                <div className="w-full">
+                  <Input
+                    type="number"
+                    min="0"
+                    placeholder="Ingrese su presupuesto total"
+                    {...register(`totalBudget`, {
+                      valueAsNumber: true,
+                    })}
+                    required
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              <div className="w-full flex flex-col ">
+                <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
+                  Nombre del modelo
+                </p>
+                <div className="w-full">
+                  <Input
+                    type="text"
+                    placeholder="Ingrese un nombre para su modelo"
+                    value={modelName}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full"
+                  />
+                </div>
               </div>
             </div>
             {/* Presupuesto total */}
