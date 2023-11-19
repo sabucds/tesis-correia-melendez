@@ -241,7 +241,7 @@ export default function UploadInfoForm() {
               </div>
 
               <Button
-                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                className="font-medium text-sm text-white px-6 py-3 w-fit flex items-center justify-center space-x-2"
                 type="button"
                 onClick={() =>
                   appendFactory({ id: incrementFactoryId(), name: '' })
@@ -285,7 +285,7 @@ export default function UploadInfoForm() {
               </div>
 
               <Button
-                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                className="font-medium text-white text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
                 type="button"
                 onClick={() =>
                   appendClient({ id: incrementClientId(), name: '' })
@@ -329,7 +329,7 @@ export default function UploadInfoForm() {
               </div>
 
               <Button
-                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                className="font-medium text-white text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
                 type="button"
                 onClick={() =>
                   appendLocation({ id: incrementLocationId(), name: '' })
@@ -373,7 +373,7 @@ export default function UploadInfoForm() {
               </div>
 
               <Button
-                className="font-medium text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
+                className="font-medium  text-white text-sm px-6 py-3 w-fit flex items-center justify-center space-x-2"
                 type="button"
                 onClick={() =>
                   appendProduct({ id: incrementProductId(), name: '' })
@@ -921,7 +921,7 @@ export default function UploadInfoForm() {
         {steps === 1 && (
           <Button
             onClick={() => avanzar()}
-            className="w-1/2 shadow-md bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
+            className="w-1/2 shadow-md  bg-gray-200 hover:bg-gray-300 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
             type="button"
           >
             Siguiente
@@ -933,14 +933,14 @@ export default function UploadInfoForm() {
             <Button
               type="button"
               onClick={() => retroceder()}
-              className="shadow-md rounded-lg bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
+              className="shadow-md rounded-lg bg-gray-200 hover:bg-gray-300 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
             >
               <ArrowIcon className="h-3 w-3 mr-2 rotate-180" />
               Anterior
             </Button>
             <Button
               onClick={() => avanzar()}
-              className="shadow-md bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
+              className="w-1/2 shadow-md  bg-gray-200 hover:bg-gray-300 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
               type="button"
             >
               Siguiente
@@ -954,13 +954,13 @@ export default function UploadInfoForm() {
             <Button
               type="button"
               onClick={() => retroceder()}
-              className="shadow-md rounded-lg bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
+              className="shadow-md rounded-lg bg-gray-200 hover:bg-gray-300 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
             >
               <ArrowIcon className="h-3 w-3 mr-2 rotate-180" />
               Anterior
             </Button>
             <Button
-              className=" font-semibold px-6 py-3 shadow-md "
+              className="text-white font-semibold px-6 py-3 shadow-md "
               type="submit"
             >
               Enviar

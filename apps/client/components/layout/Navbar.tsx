@@ -94,7 +94,7 @@ export default function Navbar() {
                   </div>
                   <div className="flow-root">
                     <Button
-                      className=" inline-flex  rounded-full px-12 py-3"
+                      className="text-white inline-flex  rounded-full px-12 py-3"
                       onClick={handleLogout}
                     >
                       <span className="[vertical-align:text-bottom] [line-height:1.5]">

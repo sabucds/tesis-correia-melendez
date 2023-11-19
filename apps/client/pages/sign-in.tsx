@@ -87,10 +87,13 @@ export default function SignIn() {
           >
             Olvidé mi contraseña
           </a>
-          <Button className=" font-medium px-6 py-3 w-full" type="submit">
+          <Button
+            className=" text-white font-medium px-6 py-3 w-full"
+            type="submit"
+          >
             Iniciar Sesión
           </Button>
-          <div className="flex space-x-2 w-full justify-center">
+          <div className="flex text-white space-x-2 w-full justify-center">
             <p className="text-text-light text-sm">
               ¿Todavía no tienes cuenta?
             </p>

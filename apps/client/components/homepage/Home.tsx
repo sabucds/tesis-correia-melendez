@@ -27,7 +27,7 @@ export default function Home() {
             industry. Lorem Ipsum has been the industrys standard
           </p>
           <Button
-            className="font-semibold  px-6 py-3"
+            className="font-semibold  text-white px-6 py-3"
             onClick={handleButtonClick}
           >
             Generar nueva decisión

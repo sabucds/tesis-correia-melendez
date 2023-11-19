@@ -82,7 +82,10 @@ export default function SignUp() {
             >
               <SignUpContent />
 
-              <Button type="submit" className=" font-medium px-6 py-3 w-full">
+              <Button
+                type="submit"
+                className=" text-white font-medium px-6 py-3 w-full"
+              >
                 Registrarse
               </Button>
               <div className="flex space-x-2 w-full justify-center">

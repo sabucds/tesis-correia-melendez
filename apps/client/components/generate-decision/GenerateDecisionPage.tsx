@@ -19,7 +19,7 @@ export default function GenerateDecisionPage() {
         <div className="flex flex-col md:w-2/5 py-4 md:py-0 md:pl-4 space-y-4 ">
           <UploadExcelButton />
           <a href="/PLANTILLA EXCEL OPTIDECIDE.xlsx" download>
-            <Button className="font-semibold px-6 py-3 w-full flex items-center justify-center">
+            <Button className="font-semibold px-6 py-3 w-full flex items-center justify-center text-white">
               <DownloadIcon className="w-6 h-6 mr-2" />
               Descargar plantilla
             </Button>
