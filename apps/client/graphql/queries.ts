@@ -96,6 +96,11 @@ export const GET_MATH_MODEL = gql`
         modelNumber
       }
       method
+      dataConventions {
+        xBinaryVariables
+        yBinaryVariables
+        zIntegerVariables
+      }
       name
       solutions
       updatedAt
