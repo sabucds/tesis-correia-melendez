@@ -2,12 +2,7 @@ import React from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
-import {
-  AddIcon,
-  DelateIcon,
-  ArrowIcon,
-  ArrowBackIcon,
-} from '@avila-tek/ui/src/icons';
+import { AddIcon, DelateIcon } from '@avila-tek/ui/src/icons';
 import { Input } from '@avila-tek/ui/src/input/Input';
 import { Button } from '@avila-tek/ui';
 import { ModelInitialData } from '../../../models';
@@ -121,7 +116,6 @@ export default function UploadInfoForm() {
 
   const avanzar = () => {
     setSteps((prevSteps) => prevSteps + 1);
-    window.scrollTo(0, 0);
     console.log(methods.getValues());
   };
   const retroceder = () => {
@@ -204,7 +198,7 @@ export default function UploadInfoForm() {
       >
         {steps === 1 && (
           <>
-            <p className="font-bold text-2xl text-primary-400 pb-2 mb-4 w-full border-b border-primary-300">
+            <p className="font-bold text-2xl text-text pb-2 mb-4 w-full border-b border-primary-300">
               Elementos principales (nombres o códigos)
             </p>
             {/* Fabricas */}
@@ -389,7 +383,7 @@ export default function UploadInfoForm() {
           <>
             {/* Relaciones Cliente-Localización-Costo */}
             <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
+              <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
                 Costo de asignación Localización-cliente
               </p>
               <div className="flex flex-col divide-y  divide-text-light">
@@ -517,50 +511,8 @@ export default function UploadInfoForm() {
 
         {steps === 3 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-center ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Costo de seleccionar la localización
-              </p>
-              <div className="w-full text-base flex items-end justify-between px-8 border-b pb-2 border-text font-semibold ">
-                <p>Localización</p>
-                <p>Costo de selección</p>
-              </div>
-              <div className="flex flex-col divide-y w-full divide-text-light">
-                {methods.getValues().locations.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="flex space-x-4 py-3 justify-between items-center text-start "
-                  >
-                    <input
-                      {...register(`selectionLocationCost.${index}.location`)}
-                      value={`d${index + 1}`}
-                      type="hidden"
-                    />
-                    <p className="font-normal">{item.name}</p>
-                    {/* <input
-                      {...register(`selectionLocationCost.${index}.cost`, {
-                        valueAsNumber: true,
-                      })}
-                      type="number"
-                      min="0"
-                      className="border p-2"
-                    /> */}
-                    <Input
-                      type="number"
-                      min="0"
-                      placeholder={`Costo de selección ${index + 1}`}
-                      {...register(`selectionLocationCost.${index}.cost`, {
-                        valueAsNumber: true,
-                      })}
-                      required
-                      className="w-full"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
             {/* Relaciones Localización-Costo */}
-            {/* {methods.getValues().locations.map((item, index) => (
+            {methods.getValues().locations.map((item, index) => (
               <div key={item.id} className="flex space-x-4">
                 <input
                   {...register(`selectionLocationCost.${index}.location`)}
@@ -577,99 +529,54 @@ export default function UploadInfoForm() {
                   className="border p-2"
                 />
               </div>
-            ))} */}
+            ))}
           </>
         )}
 
         {steps === 4 && (
           <>
             {/* Relación shippingFactoryLocationProductCost */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Costo de envío de cada producto desde cada fabrica a cada
-                localización
-              </p>
-              <div className="w-full text-base flex items-end justify-between px-8 border-b pb-2 border-text font-semibold ">
-                <p>Relación producto-fábrica-localización</p>
-                <p>Costo de envío</p>
-              </div>
-              <div className="flex flex-col divide-y w-full divide-text-light">
-                {combinationsShippingFactoryLocationProductCost.map(
-                  (combination, combinationIndex) => (
-                    <div
-                      key={`${combinationIndex}`}
-                      className="flex space-x-4 py-3 justify-between items-center text-start "
-                    >
-                      <input
-                        {...register(
-                          `shippingFactoryLocationProductCost.${combinationIndex}.product`
-                        )}
-                        value={`${combination.product.id}`}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(
-                          `shippingFactoryLocationProductCost.${combinationIndex}.factory`
-                        )}
-                        value={`${combination.factory.id}`}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(
-                          `shippingFactoryLocationProductCost.${combinationIndex}.location`
-                        )}
-                        value={`${combination.location.id}`}
-                        type="hidden"
-                      />
-                      <div className="flex flex-col">
-                        <p className="font-medium">
-                          Producto:{' '}
-                          <span className="font-normal">
-                            {combination.product.name}
-                          </span>
-                        </p>
-                        <p className="font-medium">
-                          Fábrica:{' '}
-                          <span className="font-normal">
-                            {combination.factory.name}
-                          </span>
-                        </p>
-                        <p className="font-medium">
-                          Localización:{' '}
-                          <span className="font-normal">
-                            {combination.location.name}
-                          </span>
-                        </p>
-                      </div>
-                      <Input
-                        placeholder="Costo"
-                        name="cost"
-                        {...register(
-                          `shippingFactoryLocationProductCost.${combinationIndex}.cost`,
-                          {
-                            valueAsNumber: true,
-                          }
-                        )}
-                        min="0"
-                        type="number"
-                        required
-                      />
-                      {/* <input
-                      {...register(
-                        `shippingFactoryLocationProductCost.${combinationIndex}.cost`,
-                        {
-                          valueAsNumber: true,
-                        }
-                      )}
-                      type="number"
-                      min="0"
-                      className="border p-2"
-                    /> */}
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
+            {combinationsShippingFactoryLocationProductCost.map(
+              (combination, combinationIndex) => (
+                <div key={`${combinationIndex}`} className="flex space-x-4">
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.product`
+                    )}
+                    value={`${combination.product.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.product.name}</p>
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.factory`
+                    )}
+                    value={`${combination.factory.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.factory.name}</p>
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.location`
+                    )}
+                    value={`${combination.location.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.location.name}</p>
+                  <input
+                    {...register(
+                      `shippingFactoryLocationProductCost.${combinationIndex}.cost`,
+                      {
+                        valueAsNumber: true,
+                      }
+                    )}
+                    type="number"
+                    min="0"
+                    className="border p-2"
+                  />
+                </div>
+              )
+            )}
           </>
         )}
 
@@ -677,275 +584,134 @@ export default function UploadInfoForm() {
           <>
             {/* Relación totalClientDemand */}
             {/* Relación productClientDemand */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Demanda de cada producto para cada cliente
-              </p>
-              <div className="w-full text-base flex items-end justify-between px-8 border-b pb-2 border-text font-semibold ">
-                <p>Relación cliente-producto</p>
-                <p>Demanda del producto</p>
+
+            {methods.getValues().clients.map((item, index) => (
+              <div key={item.id} className="flex space-x-4">
+                <input
+                  {...register(`productClientDemand.${index}.client`)}
+                  value={`c${index + 1}`}
+                  type="hidden"
+                />
+                <p>{item.name}</p>
+                <select
+                  className="border p-2"
+                  {...register(`productClientDemand.${index}.product`)}
+                >
+                  {methods.getValues().products.map((product, productIndex) => (
+                    <option key={product.id} value={`p${productIndex + 1}`}>
+                      {product.name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  {...register(`productClientDemand.${index}.demand`, {
+                    valueAsNumber: true,
+                  })}
+                  type="number"
+                  min="0"
+                  className="border p-2"
+                />
               </div>
-              <div className="flex flex-col divide-y w-full divide-text-light">
-                {methods.getValues().clients.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="flex space-x-4 py-3 justify-between items-center text-start "
-                  >
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-center md:w-1/2 ">
-                      <input
-                        {...register(`productClientDemand.${index}.client`)}
-                        value={`c${index + 1}`}
-                        type="hidden"
-                      />
-                      <p className="font-medium">
-                        Cliente:{' '}
-                        <span className="font-normal">{item.name}</span>
-                      </p>
-                      <select
-                        className={` md:w-2/5 px-4 py-2 border border-primary-300 rounded-md text-text-light `}
-                        {...register(`productClientDemand.${index}.product`)}
-                      >
-                        {methods
-                          .getValues()
-                          .products.map((product, productIndex) => (
-                            <option
-                              key={product.id}
-                              value={`p${productIndex + 1}`}
-                            >
-                              {product.name}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                    <Input
-                      name="demand"
-                      {...register(`productClientDemand.${index}.demand`, {
-                        valueAsNumber: true,
-                      })}
-                      placeholder={`Demanda ${index + 1}`}
-                      min="0"
-                      type="number"
-                      required
-                      className="w-full md:w-auto"
-                    />
-                    {/* <input
-                      {...register(`productClientDemand.${index}.demand`, {
-                        valueAsNumber: true,
-                      })}
-                      type="number"
-                      min="0"
-                      className="border p-2"
-                    /> */}
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </>
         )}
 
         {steps === 6 && (
           <>
             {/* Relación locationCapacity */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Capacidad de cada localización
-              </p>
-              <div className="w-full text-base flex items-end justify-between px-8 border-b pb-2 border-text font-semibold ">
-                <p>Localización</p>
-                <p>Capacidad</p>
+
+            {methods.getValues().locations.map((item, index) => (
+              <div key={item.id} className="flex space-x-4">
+                <input
+                  {...register(`locationCapacity.${index}.location`)}
+                  value={`d${index + 1}`}
+                  type="hidden"
+                />
+                <p>{item.name}</p>
+                <input
+                  {...register(`locationCapacity.${index}.capacity`, {
+                    valueAsNumber: true,
+                  })}
+                  min="0"
+                  type="number"
+                  className="border p-2"
+                />
               </div>
-              <div className="flex flex-col divide-y w-full divide-text-light">
-                {methods.getValues().locations.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="flex space-x-4 py-3 justify-between items-center text-start "
-                  >
-                    <input
-                      {...register(`locationCapacity.${index}.location`)}
-                      value={`d${index + 1}`}
-                      type="hidden"
-                    />
-                    <p className="font-normal">{item.name}</p>
-                    {/* <input
-                      {...register(`locationCapacity.${index}.capacity`, {
-                        valueAsNumber: true,
-                      })}
-                      min="0"
-                      type="number"
-                      className="border p-2"
-                    /> */}
-                    <Input
-                      type="number"
-                      min="0"
-                      placeholder={`Capacidad ${index + 1}`}
-                      {...register(`locationCapacity.${index}.capacity`, {
-                        valueAsNumber: true,
-                      })}
-                      required
-                      className="w-full"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </>
         )}
 
         {steps === 7 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Capacidad de producción de cada fabrica por cada producto
-              </p>
-              <div className="w-full text-base flex items-end justify-between px-8 border-b pb-2 border-text font-semibold ">
-                <p>Relación fábrica-producto</p>
-                <p>Capacidad</p>
-              </div>
-              <div className="flex flex-col divide-y w-full divide-text-light">
-                {combinationsFactoryProductCapacity.map(
-                  (combination, combinationIndex) => (
-                    <div
-                      key={`${combinationIndex}`}
-                      className="flex space-x-4 py-3 justify-between items-center text-start "
-                    >
-                      <input
-                        {...register(
-                          `factoryProductCapacity.${combinationIndex}.factory`
-                        )}
-                        value={`${combination.factory.id}`}
-                        type="hidden"
-                      />
-                      <input
-                        {...register(
-                          `factoryProductCapacity.${combinationIndex}.product`
-                        )}
-                        value={`${combination.product.id}`}
-                        type="hidden"
-                      />
-                      <div className="flex flex-col">
-                        <p className="font-medium">
-                          Fábrica:{' '}
-                          <span className="font-normal">
-                            {combination.factory.name}
-                          </span>
-                        </p>
-                        <p className="font-medium">
-                          Producto:{' '}
-                          <span className="font-normal">
-                            {combination.product.name}
-                          </span>
-                        </p>
-                      </div>
-                      {/* <input
-                        {...register(
-                          `factoryProductCapacity.${combinationIndex}.capacity`,
-                          {
-                            valueAsNumber: true,
-                          }
-                        )}
-                        min="0"
-                        type="number"
-                        className="border p-2"
-                      /> */}
-                      <Input
-                        type="number"
-                        min="0"
-                        placeholder={`Capacidad ${combinationIndex + 1}`}
-                        {...register(
-                          `factoryProductCapacity.${combinationIndex}.capacity`,
-                          {
-                            valueAsNumber: true,
-                          }
-                        )}
-                        required
-                        className="w-full"
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
             {/* Relación factoryProductCapacity */}
+            {combinationsFactoryProductCapacity.map(
+              (combination, combinationIndex) => (
+                <div key={`${combinationIndex}`} className="flex space-x-4">
+                  <input
+                    {...register(
+                      `factoryProductCapacity.${combinationIndex}.factory`
+                    )}
+                    value={`${combination.factory.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.factory.name}</p>
+                  <input
+                    {...register(
+                      `factoryProductCapacity.${combinationIndex}.product`
+                    )}
+                    value={`${combination.product.id}`}
+                    type="hidden"
+                  />
+                  <p>{combination.product.name}</p>
+                  <input
+                    {...register(
+                      `factoryProductCapacity.${combinationIndex}.capacity`,
+                      {
+                        valueAsNumber: true,
+                      }
+                    )}
+                    min="0"
+                    type="number"
+                    className="border p-2"
+                  />
+                </div>
+              )
+            )}
           </>
         )}
 
         {steps === 8 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
-              <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
-                Presupuesto Total
-              </p>
-              <div className="w-full">
-                <Input
-                  type="number"
-                  min="0"
-                  placeholder="Ingrese su presupuesto total"
-                  {...register(`totalBudget`, {
-                    valueAsNumber: true,
-                  })}
-                  required
-                  className="w-full"
-                />
-              </div>
-            </div>
             {/* Presupuesto total */}
-            {/* <input
+            <p>Presupuesto Total</p>
+            <input
               {...register(`totalBudget`, {
                 valueAsNumber: true,
               })}
               min="0"
               type="number"
               className="border p-2"
-            /> */}
+            />
           </>
         )}
 
-        {steps === 1 && (
-          <Button
-            onClick={() => avanzar()}
-            className="w-1/2 bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
-            type="button"
-          >
-            Siguiente
-            <ArrowIcon className="h-3 w-3 ml-2" />
-          </Button>
-        )}
-        {steps > 1 && steps < 8 && (
-          <div className="flex space-x-4">
-            <button
-              type="button"
-              onClick={() => retroceder()}
-              className="w-1/2 rounded-lg bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
-            >
-              <ArrowIcon className="h-3 w-3 mr-2 rotate-180" />
-              Anterior
-            </button>
-            <Button
-              onClick={() => avanzar()}
-              className="w-1/2 bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
-              type="button"
-            >
-              Siguiente
-              <ArrowIcon className="h-3 w-3 ml-2" />
-            </Button>
-          </div>
-        )}
-
-        {steps === 8 && (
-          <div className="flex space-x-4">
-            <button
-              type="button"
-              onClick={() => retroceder()}
-              className="w-1/2 rounded-lg bg-gray-100 hover:bg-gray-200 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
-            >
-              <ArrowIcon className="h-3 w-3 mr-2 rotate-180" />
-              Anterior
-            </button>
-            <Button className=" font-medium px-6 py-3 w-1/2" type="submit">
-              Enviar
-            </Button>
-          </div>
-        )}
+        <button
+          type="button"
+          onClick={() => setSteps((prevSteps) => prevSteps - 1)}
+          className="bg-gray-200 text-white p-2"
+        >
+          Anterior
+        </button>
+        <button
+          type="button"
+          onClick={() => avanzar()}
+          className="bg-yellow-500 text-white p-2"
+        >
+          Siguiente
+        </button>
+        <button type="submit" className="bg-green-500 text-white p-2">
+          Enviar
+        </button>
       </form>
     </FormProvider>
   );
