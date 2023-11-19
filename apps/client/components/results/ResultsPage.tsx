@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { GET_MATH_MODEL } from '../../graphql/queries';
+import { DataConventions } from '../../models';
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function ResultsPage() {
     }
   }, [router.query.id, data]);
 
+  // const dataConventions_ = dataConventions as DataConventions;
   // const totalBudget = jsonData?.mathModel?.data.totalBudget;
   // console.log(jsonData?.mathModel?.finalSolution);
 
