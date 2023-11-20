@@ -5,7 +5,6 @@ export interface MongooseModel {
   updatedAt?: string | Date;
 }
 
-
 export interface User extends MongooseModel {
   slug?: string;
   email: string;
