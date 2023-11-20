@@ -63,9 +63,9 @@ function ExcelToJsonConverter() {
       console.log(dataModel);
 
       if (
-        dataModel?.clients?.length > 0 ||
-        dataModel?.products?.length > 0 ||
-        dataModel?.locations?.length > 0 ||
+        dataModel?.clients?.length > 0 &&
+        dataModel?.products?.length > 0 &&
+        dataModel?.locations?.length > 0 &&
         dataModel?.factories?.length > 0
       ) {
         setShowModal(true);
