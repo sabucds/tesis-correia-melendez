@@ -111,7 +111,7 @@ export default function Navbar() {
       {/* Desktop menu */}
       <header className="relative bg-primary-500">
         <nav aria-label="Top" className="mx-auto px-8 py-4">
-          <div className="flex h-20 items-center justify-start space-x-6 w-full ">
+          <div className="flex items-center justify-start space-x-6 w-full ">
             {/* Hamburger Menu */}
             <button
               type="button"

@@ -209,7 +209,7 @@ export default function UploadInfoForm() {
               Elementos principales (nombres o códigos)
             </p>
             {/* Fabricas */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end shadow-md">
               <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
                 Fábricas:
               </p>
@@ -253,7 +253,7 @@ export default function UploadInfoForm() {
             </div>
 
             {/* Clientes */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end  shadow-md">
               <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
                 Clientes
               </p>
@@ -297,7 +297,7 @@ export default function UploadInfoForm() {
             </div>
 
             {/* Localizaciones */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end shadow-md ">
               <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
                 Localizaciones
               </p>
@@ -341,7 +341,7 @@ export default function UploadInfoForm() {
             </div>
 
             {/* Productos */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end  shadow-md">
               <p className="font-semibold text-xl text-text pb-3  w-full text-start underline">
                 Productos
               </p>
@@ -389,7 +389,7 @@ export default function UploadInfoForm() {
         {steps === 2 && (
           <>
             {/* Relaciones Cliente-Localización-Costo */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end  shadow-md">
               <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                 Costo de asignación Localización-cliente
               </p>
@@ -518,7 +518,7 @@ export default function UploadInfoForm() {
 
         {steps === 3 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-center ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-center  shadow-md">
               <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                 Costo de seleccionar la localización
               </p>
@@ -585,7 +585,7 @@ export default function UploadInfoForm() {
         {steps === 4 && (
           <>
             {/* Relación shippingFactoryLocationProductCost */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end shadow-md ">
               <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                 Costo de envío de cada producto desde cada fabrica a cada
                 localización
@@ -678,7 +678,7 @@ export default function UploadInfoForm() {
           <>
             {/* Relación totalClientDemand */}
             {/* Relación productClientDemand */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end shadow-md ">
               <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                 Demanda de cada producto para cada cliente
               </p>
@@ -747,7 +747,7 @@ export default function UploadInfoForm() {
         {steps === 6 && (
           <>
             {/* Relación locationCapacity */}
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end  shadow-md">
               <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                 Capacidad de cada localización
               </p>
@@ -794,7 +794,7 @@ export default function UploadInfoForm() {
 
         {steps === 7 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end  shadow-md">
               <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                 Capacidad de producción de cada fabrica por cada producto
               </p>
@@ -872,7 +872,7 @@ export default function UploadInfoForm() {
 
         {steps === 8 && (
           <>
-            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end space-y-4">
+            <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end space-y-4 shadow-md">
               <div className="w-full flex flex-col ">
                 <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
                   Presupuesto Total
@@ -960,7 +960,7 @@ export default function UploadInfoForm() {
               Anterior
             </Button>
             <Button
-              className="text-white font-semibold px-6 py-3 shadow-md "
+              className="bg-primary-300 hover:bg-primary-400 text-white font-semibold px-6 py-3 shadow-md "
               type="submit"
             >
               Enviar
