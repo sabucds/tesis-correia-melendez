@@ -69,7 +69,7 @@ export default function ResultsPage() {
                   </span>
                   DEL MODELO
                 </p>
-                <div className="flex flex-col md:flex-row justify-between bg-white divide-y-2 md:divide-y-0 md:divide-x-2 divide-primary-300 px-3 md:px-5 py-4 rounded">
+                <div className="flex flex-col md:flex-row justify-between bg-white divide-y-2 md:divide-y-0 md:divide-x-2 divide-primary-300 px-3 md:px-5 py-4 rounded shadow-md">
                   <div className="flex flex-col md:w-1/2 space-y-1 text-start pt-4 md:pt-0  items-start">
                     <p className="text-lg text-text-light text-start w-full underline font-semibold">
                       Se deben seleccionar los siguientes centros de
@@ -98,7 +98,7 @@ export default function ResultsPage() {
                 </div>
 
                 {solutions && (
-                  <div className="w-full bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5">
+                  <div className="w-full bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5 shadow-md">
                     <p className="text-lg text-text-light text-start w-full underline font-semibold">
                       Asignación de Clientes a Centros de Distribución:
                     </p>
@@ -136,7 +136,7 @@ export default function ResultsPage() {
                 )}
 
                 {solutions && (
-                  <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5">
+                  <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
                     <p className="text-lg text-text-light text-start w-full underline font-semibold">
                       Número de unidades del producto demandado P a enviar desde
                       la fábrica F al centro de distribución D:
@@ -191,7 +191,7 @@ export default function ResultsPage() {
         </div>
       ) : (
         <div className="w-11/12 md:w-10/12 flex flex-col justify-start space-y-10 ">
-          <div className="flex flex-col md:flex-row justify-between bg-white divide-y-2 md:divide-y-0 md:divide-x-2 divide-primary-300 px-3 md:px-5 py-4 rounded">
+          <div className="flex flex-col md:flex-row justify-between bg-white divide-y-2 md:divide-y-0 md:divide-x-2 divide-primary-300 px-3 md:px-5 py-4 rounded shadow-md">
             <div className="md:w-1/2 flex flex-col justify-start space-y-2 text-left pb-4 md:pr-4">
               <p className="text-lg text-text-light">
                 Nombre del modelo:{' '}
@@ -221,7 +221,7 @@ export default function ResultsPage() {
           </div>
 
           {finalSolution && (
-            <div className="w-full bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5">
+            <div className="w-full bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5 shadow-md">
               <p className="text-lg text-text-light text-start w-full underline font-semibold">
                 Asignación de Clientes a Centros de Distribución:
               </p>
@@ -257,7 +257,7 @@ export default function ResultsPage() {
             </div>
           )}
           {finalSolution && (
-            <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5">
+            <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5 shadow-md">
               <p className="text-lg text-text-light text-start w-full underline font-semibold">
                 Número de unidades del producto demandado P a enviar desde la
                 fábrica F al centro de distribución D:

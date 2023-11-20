@@ -11,7 +11,7 @@ export default function Button({
 >) {
   return (
     <button
-      className={` bg-primary-300 hover:bg-primary-400 rounded-lg w-fit h-fit ${className}`}
+      className={` hover:bg-primary-400 rounded-lg w-fit h-fit ${className}`}
       {...props}
     >
       {children}

@@ -33,7 +33,7 @@ export default function SolutionHistoryPage() {
         Cantidad de modelos generados:{' '}
         <span className="font-semibold text-text">{models?.length}</span>
       </p>
-      <div className="w-10/12 p-5 bg-white rounded">
+      <div className="w-10/12 p-5 bg-white rounded shadow-md">
         <div className="w-full overflow-auto overflow-x-scroll sm:overflow-x-auto text-start">
           <table className="w-full bg-white rounded text-start">
             <thead>
