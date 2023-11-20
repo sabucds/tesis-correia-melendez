@@ -30,7 +30,7 @@ export { default as ToastCloseIcon } from './ToastCloseIcon';
 export { default as SpinnerIcon } from './SpinnerIcon';
 export { default as CheckEmptyIcon } from './CheckEmptyIcon';
 export { default as CheckFullIcon } from './CheckFullIcon';
-
+export { default as PasswordEyeIcon } from './PasswordEyeIcon';
 export { default as UploadIcon } from './UploadIcon';
 export { default as CloseIcon } from './CloseIcon';
 export { default as PageIcon } from './PageIcon';
@@ -52,3 +52,5 @@ export { default as ArrowBackIcon } from './ArrowBackIcon';
 export { default as DotIcon } from './DotIcon';
 export { default as WrenchIcon } from './WrenchIcon';
 export { default as MoneyIcon } from './MoneyIcon';
+export { default as DownloadIcon } from './DownloadIcon';
+export { default as DelateIcon } from './DelateIcon';

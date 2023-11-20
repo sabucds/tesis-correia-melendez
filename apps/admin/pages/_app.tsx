@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
       <ApolloProvider client={apolloClient}>
         <>
           <Head>
-            <title>Avila Tek | Template</title>
+            <title>OPTIdecide</title>
           </Head>
           <ThemeContextProvider>
             <ToastContextProvider>

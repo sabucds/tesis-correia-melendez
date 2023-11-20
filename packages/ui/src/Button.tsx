@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 
-export function Button({
+export default function Button({
   className,
   children,
   ...props
@@ -11,7 +11,7 @@ export function Button({
 >) {
   return (
     <button
-      className={` py-2 px-4 rounded w-full bg-primary-400 text-white font-semibold tracking-wide  ${className}`}
+      className={` bg-primary-300 hover:bg-primary-400 rounded-lg w-fit h-fit ${className}`}
       {...props}
     >
       {children}

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
-const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors');
+// const defaultTheme = require('tailwindcss/defaultTheme');
+// const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -22,11 +22,27 @@ module.exports = {
     },
     extend: {
       colors: {
-        slate: colors.slate,
-        primary: colors.emerald,
+        primary: {
+          400: '#3C7A9C',
+          300: '#6096B4',
+          200: '#93BFCF',
+          100: '#BDCDD6',
+        },
+        secondary: {
+          DEFAULT: '#EEE9DA',
+        },
+        text: {
+          DEFAULT: '#333333',
+          light: '#6F6E6E',
+          dark: '#2F2E41',
+        },
+      },
+      backgroundImage: {
+        'waves-pattern': "url('/img/background.png')",
       },
       fontFamily: {
-        sans: [...defaultTheme.fontFamily.sans],
+        body: ['Raleway'],
+        sans: ['Raleway'],
       },
     },
   },
