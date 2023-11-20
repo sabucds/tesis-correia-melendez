@@ -5,23 +5,6 @@ export interface MongooseModel {
   updatedAt?: string | Date;
 }
 
-export type UserTypeEnum = 'client' | 'superadmin';
-
-export type DniTypeEnum = 'V' | 'E' | 'J' | 'G' | 'P' | 'N/A';
-
-export type PermissionOptionEnum = 'create' | 'read' | 'update' | 'delete';
-
-export interface Permission extends MongooseModel {
-  name: string;
-  key: string;
-  options: Array<PermissionOptionEnum>;
-}
-
-export interface Session extends MongooseModel {
-  user: string | User;
-  token: string;
-  device: string;
-}
 
 export interface User extends MongooseModel {
   slug?: string;
@@ -30,15 +13,9 @@ export interface User extends MongooseModel {
   firstName: string;
   lastName: string;
   locale?: string;
-  permission: Array<Permission>;
-  userType: UserTypeEnum;
   emailVerify: boolean;
   resetTokenValidity?: Date;
   resetToken?: string;
-  dni?: string;
-  dniType?: DniTypeEnum;
-  commission?: number;
-  sessions?: Array<Session>;
 }
 
 // -------- MODEL TYPES OF DATA GIVEN BY USER --------
