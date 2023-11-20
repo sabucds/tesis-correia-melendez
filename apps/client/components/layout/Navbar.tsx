@@ -145,8 +145,8 @@ export default function Navbar() {
                   >
                     Historial de soluciones
                   </Link>
-                  <Button className="px-4 py-3 " onClick={handleLogout}>
-                    <LogoutIcon className="w-6 h-6 text-white" />
+                  <Button className="px-3 py-2 " onClick={handleLogout}>
+                    <LogoutIcon className="w-4 h-4 text-white" />
                   </Button>
                 </div>
               </div>
