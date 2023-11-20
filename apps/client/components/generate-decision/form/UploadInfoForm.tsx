@@ -8,6 +8,7 @@ import { Button } from '@avila-tek/ui';
 import { ModelInitialData } from '../../../models';
 import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
 import { useNotify, useUser } from '../../../hooks';
+import LoadingModal from './LoadingModal';
 
 export default function UploadInfoForm() {
   const methods = useForm<ModelInitialData>();
@@ -17,6 +18,7 @@ export default function UploadInfoForm() {
   const notify = useNotify();
   const [user] = useUser();
   const [modelName, setModelName] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
 
   const handleInputChange = (e) => {
     setModelName(e.target.value);
@@ -167,6 +169,7 @@ export default function UploadInfoForm() {
     console.log('dataModel');
     console.log(processedData);
     try {
+      setLoading(true);
       const { data } = await createMathModel({
         variables: {
           data: {
@@ -194,8 +197,12 @@ export default function UploadInfoForm() {
       // Manejo de errores
       console.error(err);
       return notify(err.message, 'error');
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) return <LoadingModal />;
 
   return (
     <FormProvider {...methods}>

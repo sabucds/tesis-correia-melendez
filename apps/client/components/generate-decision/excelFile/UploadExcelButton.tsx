@@ -8,6 +8,7 @@ import { getModelDataWithExcelJSON } from '../../../utils/getModelDataWithExcelJ
 import { useNotify, useUser } from '../../../hooks';
 import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
 import Modal from './Modal';
+import LoadingModal from '../form/LoadingModal';
 
 function ExcelToJsonConverter() {
   const [user] = useUser();
@@ -19,6 +20,7 @@ function ExcelToJsonConverter() {
   const notify = useNotify();
   const [createMathModel] = useMutation(CREATE_MATH_MODEL);
   const [showModal, setShowModal] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [excelName, setExcelName] = React.useState('');
   const [jsonData, setJsonData] = React.useState(null);
 
@@ -61,11 +63,13 @@ function ExcelToJsonConverter() {
       console.log(dataModel);
 
       if (
-        dataModel.totalBudget !== null &&
-        dataModel.totalBudget !== undefined
+        dataModel?.clients?.length > 0 ||
+        dataModel?.products?.length > 0 ||
+        dataModel?.locations?.length > 0 ||
+        dataModel?.factories?.length > 0
       ) {
         setShowModal(true);
-        setJsonData(dataModel);
+        setJsonData({ ...dataModel, totalBudget: dataModel?.totalBudget || 0 });
       } else {
         notify(
           'El archivo que esta subiendo esta vacío / No es la plantilla',
@@ -79,7 +83,9 @@ function ExcelToJsonConverter() {
   };
 
   const createMathModelWithExcelJSON = async (dataModel) => {
+    if (loading) return;
     try {
+      setLoading(true);
       const { data } = await createMathModel({
         variables: {
           data: {
@@ -89,7 +95,6 @@ function ExcelToJsonConverter() {
           },
         },
       });
-
       if (data) {
         // La mutación fue exitosa
         const createdModelId = data.createMathModel._id;
@@ -108,6 +113,8 @@ function ExcelToJsonConverter() {
       // Manejo de errores
       console.error(err);
       return notify(err.message, 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,6 +145,8 @@ function ExcelToJsonConverter() {
   const handleDragLeave = () => {
     setIsDraggingOver(false);
   };
+
+  if (loading) return <LoadingModal />;
 
   return (
     <div className="flex-col">
