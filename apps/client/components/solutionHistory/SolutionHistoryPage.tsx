@@ -1,6 +1,7 @@
-import { useQuery } from '@apollo/client';
 import React from 'react';
+import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODELS } from '../../graphql/queries';
 import { useUser } from '../../hooks';
 
@@ -8,7 +9,7 @@ export default function SolutionHistoryPage() {
   const [user] = useUser();
   const router = useRouter();
   // Query
-  const { data } = useQuery(GET_MATH_MODELS, {
+  const { data, loading } = useQuery(GET_MATH_MODELS, {
     variables: {
       filter: {
         user: user?._id,
@@ -29,44 +30,56 @@ export default function SolutionHistoryPage() {
       <h1 className="w-10/12 pb-4 border-b border-primary-300 text-3xl md:text-4xl font-bold ">
         Historial de Soluciones
       </h1>
-      <p className="text-lg text-text-light">
-        Cantidad de modelos generados:{' '}
-        <span className="font-semibold text-text">{models?.length}</span>
-      </p>
-      <div className="w-10/12 p-5 bg-white rounded shadow-md">
-        <div className="w-full overflow-auto overflow-x-scroll sm:overflow-x-auto text-start">
-          <table className="w-full bg-white rounded text-start">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border-b text-start">
-                  Nombre del Modelo
-                </th>
-                <th className="py-2 px-4 border-b text-start">Id del Modelo</th>
-                <th className="py-2 px-4 border-b text-start">
-                  Cantidad de Soluciones
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {models?.map((item) => (
-                <React.Fragment key={item.id}>
-                  <tr
-                    key={item.id}
-                    className="hover:bg-gray-100 hover:cursor-pointer"
-                    onClick={() => onClick(item._id)}
-                  >
-                    <td className="py-2 px-4 border-b">{item.name}</td>
-                    <td className="py-2 px-4 border-b">{item._id}</td>
-                    <td className="py-2 px-4 border-b">
-                      {item.solutions.length}
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+      {loading ? (
+        <div className="w-full h-[70vh] flex  opacity-70 z-30">
+          <SpinnerIcon className="m-auto w-24 h-24 text-gray-200 animate-spin  fill-primary-300" />
+          <span className="sr-only">Loading...</span>
         </div>
-      </div>
+      ) : (
+        <>
+          <p className="text-lg text-text-light">
+            Cantidad de modelos generados:{' '}
+            <span className="font-semibold text-text">{models?.length}</span>
+          </p>
+
+          <div className="w-10/12 p-5 bg-white rounded shadow-md">
+            <div className="w-full overflow-auto overflow-x-scroll sm:overflow-x-auto text-start">
+              <table className="w-full bg-white rounded text-start">
+                <thead>
+                  <tr>
+                    <th className="py-2 px-4 border-b text-start">
+                      Nombre del Modelo
+                    </th>
+                    <th className="py-2 px-4 border-b text-start">
+                      Id del Modelo
+                    </th>
+                    <th className="py-2 px-4 border-b text-start">
+                      Cantidad de Soluciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {models?.map((item) => (
+                    <React.Fragment key={item.id}>
+                      <tr
+                        key={item.id}
+                        className="hover:bg-gray-100 hover:cursor-pointer"
+                        onClick={() => onClick(item._id)}
+                      >
+                        <td className="py-2 px-4 border-b">{item.name}</td>
+                        <td className="py-2 px-4 border-b">{item._id}</td>
+                        <td className="py-2 px-4 border-b">
+                          {item.solutions.length}
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
     </main>
   );
 }
