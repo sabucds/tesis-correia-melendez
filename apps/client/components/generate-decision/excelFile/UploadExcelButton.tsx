@@ -69,7 +69,7 @@ function ExcelToJsonConverter() {
         dataModel?.factories?.length > 0
       ) {
         setShowModal(true);
-        setJsonData({ ...dataModel, totalBudget: dataModel?.totalBudget || 0 });
+        setJsonData({ ...dataModel });
       } else {
         notify(
           'El archivo que esta subiendo esta vacío / No es la plantilla',
