@@ -10,7 +10,12 @@ export default function Button({
   HTMLButtonElement
 >) {
   return (
-    <button className={` rounded-lg w-fit h-fit ${className}`} {...props}>
+    <button
+      className={` rounded-lg w-fit h-fit ${className} ${
+        !className.includes('bg') ? 'bg-primary-300 hover:bg-primary-400' : ''
+      }`}
+      {...props}
+    >
       {children}
     </button>
   );
