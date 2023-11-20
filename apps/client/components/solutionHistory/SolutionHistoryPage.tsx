@@ -8,15 +8,23 @@ import { useUser } from '../../hooks';
 export default function SolutionHistoryPage() {
   const [user] = useUser();
   const router = useRouter();
+  const [models, setModels] = React.useState([]);
   // Query
-  const { data, loading } = useQuery(GET_MATH_MODELS, {
+  const { data, loading, refetch } = useQuery(GET_MATH_MODELS, {
     variables: {
       filter: {
         user: user?._id,
       },
     },
   });
-  const models = data?.mathModels;
+
+  React.useEffect(() => {
+    setModels(data?.mathModels ?? []);
+  }, [data]);
+
+  React.useEffect(() => {
+    refetch();
+  }, []);
 
   const onClick = (ModelId) => {
     router.push({
