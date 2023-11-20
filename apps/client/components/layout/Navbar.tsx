@@ -36,7 +36,7 @@ export default function Navbar() {
     }
   };
   return (
-    <div className={`bg-white sticky top-0 z-30 `}>
+    <div className={`bg-white sticky top-0 z-30 shadow `}>
       {/* Mobile menu */}
       <Transition.Root show={open} as={React.Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
