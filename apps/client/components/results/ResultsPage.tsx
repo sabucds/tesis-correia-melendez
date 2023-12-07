@@ -1,10 +1,14 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Button } from '@avila-tek/ui';
 import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODEL } from '../../graphql/queries';
-import { DataConventions } from '../../models';
+import { DataConventions, ModelInitialData, ModelResult } from '../../models';
+import { getGraphEdges, getGraphNodes } from '../graph/graphData';
+
+const Graph = dynamic(() => import('../graph/Graph'), { ssr: false });
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -12,7 +16,14 @@ export default function ResultsPage() {
   const [modelId, setModelId] = React.useState(null);
 
   // Query
-  const { data, loading } = useQuery(GET_MATH_MODEL, {
+  const { data, loading } = useQuery<{
+    mathModel: {
+      data: ModelInitialData;
+      dataConventions: DataConventions;
+      solutions: ModelResult[];
+      finalSolution: ModelResult;
+    };
+  }>(GET_MATH_MODEL, {
     variables: {
       filter: {
         _id: modelId,
@@ -43,6 +54,7 @@ export default function ResultsPage() {
     setShowSolutions(!showSolutions);
     window.scrollTo(0, 0);
   };
+  console.log(data);
 
   return (
     <main className="pt-16 px-8 md:px-0 bg-white md:min-h-screen relative flex flex-col space-y-3 md:space-y-20 items-center text-center text-text bg-[url('/img/background-design2.jpg')] bg-contain md:bg-auto bg-no-repeat bg-left-bottom">
@@ -197,6 +209,18 @@ export default function ResultsPage() {
                         </table>
                       </div>
                     )}
+                    {data && !loading && solution && (
+                      <Graph
+                        nodes={getGraphNodes({
+                          clients: data?.mathModel?.data?.clients,
+                          locations: data?.mathModel?.data?.locations,
+                          factories: data?.mathModel?.data?.factories,
+                        })}
+                        edges={getGraphEdges({
+                          results: solution,
+                        })}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -260,9 +284,6 @@ export default function ResultsPage() {
                           const result = finalSolution[key] ?? 0;
                           const { client, location } =
                             dataConventions_.xBinaryVariables[key];
-                          console.log(result);
-                          console.log(client);
-                          console.log(location);
 
                           return result !== 0 ? (
                             <tr key={key} className=" text-text-light">
@@ -319,6 +340,18 @@ export default function ResultsPage() {
                     </tbody>
                   </table>
                 </div>
+              )}
+              {data && !loading && finalSolution && (
+                <Graph
+                  nodes={getGraphNodes({
+                    clients: data?.mathModel?.data?.clients,
+                    locations: data?.mathModel?.data?.locations,
+                    factories: data?.mathModel?.data?.factories,
+                  })}
+                  edges={getGraphEdges({
+                    results: finalSolution,
+                  })}
+                />
               )}
             </div>
           )}
