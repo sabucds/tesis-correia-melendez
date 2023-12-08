@@ -14,14 +14,14 @@ interface IToastContext {
 }
 
 type TAlert = {
-  content: React.ReactNode;
+  content: any;
   type: 'success' | 'error' | 'warning' | 'info';
   id: string;
   timeOut: NodeJS.Timeout;
 };
 
 interface ToastContextProvider {
-  children?: React.ReactNode;
+  children?: any;
 }
 
 export const ToastContext = React.createContext({
