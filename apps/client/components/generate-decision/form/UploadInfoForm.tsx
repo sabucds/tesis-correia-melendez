@@ -236,6 +236,8 @@ export default function UploadInfoForm() {
                       className="w-full"
                       rightIcon={
                         <button
+                          id="removeFactory"
+                          aria-label="remove factory"
                           type="button"
                           onClick={() => removeFactory(index)}
                         >
@@ -281,6 +283,8 @@ export default function UploadInfoForm() {
                       rightIcon={
                         <button
                           type="button"
+                          id="removeClient"
+                          aria-label="remove client"
                           onClick={() => removeClient(index)}
                         >
                           <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
@@ -324,6 +328,8 @@ export default function UploadInfoForm() {
                       className="w-full"
                       rightIcon={
                         <button
+                          id="removeLocation"
+                          aria-label="remove location"
                           type="button"
                           onClick={() => removeLocation(index)}
                         >
@@ -368,6 +374,8 @@ export default function UploadInfoForm() {
                       className="w-full"
                       rightIcon={
                         <button
+                          id="removeProduct"
+                          aria-label="remove product"
                           type="button"
                           onClick={() => removeProduct(index)}
                         >
