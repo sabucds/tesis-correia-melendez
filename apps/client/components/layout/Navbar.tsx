@@ -1,5 +1,3 @@
-// eslint-disable @typescript-eslint/ban-ts-comment
-
 'use client';
 
 import React from 'react';
@@ -40,7 +38,7 @@ export default function Navbar() {
   return (
     <div className={`bg-white sticky top-0 z-30 shadow `}>
       {/* Mobile menu */}
-      <Transition.Root show={open} as={React.Fragment}>
+      <Transition.Root show={open}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
           <Transition.Child
             as={React.Fragment}
