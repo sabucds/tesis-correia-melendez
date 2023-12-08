@@ -43,6 +43,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }`}
             ref={ref}
             onChange={onChange}
+            aria-label={label}
             {...props}
           />
           {rightIcon}
