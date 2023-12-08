@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import * as Sentry from '@sentry/nextjs';
 import { ClientOnlyPortal, Toast } from '@avila-tek/ui/src';
@@ -68,45 +67,43 @@ export function ToastContextProvider({ children }: ToastContextProvider) {
   };
   const context = React.useMemo(() => ({ alerts, notify }), [alerts, notify]);
   return (
-    <>
-      <ToastContext.Provider value={context}>
-        <ClientOnlyPortal selector="#toast">
-          {alerts?.length > 0 ? (
-            <div
-              className="fixed py-4 px-4 md:px-0 w-full lg:w-1/4 right-0 top-10"
-              style={{
-                zIndex: 200,
-              }}
-            >
-              <AnimatePresence>
-                {alerts.map((alert) => (
-                  <motion.div
+    <ToastContext.Provider value={context}>
+      <ClientOnlyPortal selector="#toast">
+        {alerts?.length > 0 ? (
+          <div
+            className="fixed py-4 px-4 md:px-0 w-full lg:w-1/4 right-0 top-10"
+            style={{
+              zIndex: 200,
+            }}
+          >
+            <AnimatePresence>
+              {alerts.map((alert) => (
+                <motion.div
+                  key={alert.id}
+                  initial={{ opacity: 0, scale: 0.3 }}
+                  animate={{ opacity: 1, scale: 1.0 }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.5,
+                    transition: { duration: 0.2 },
+                  }}
+                  transition={{ type: 'spring', stiffness: 100 }}
+                >
+                  <Toast
                     key={alert.id}
-                    initial={{ opacity: 0, scale: 0.3 }}
-                    animate={{ opacity: 1, scale: 1.0 }}
-                    exit={{
-                      opacity: 0,
-                      scale: 0.5,
-                      transition: { duration: 0.2 },
-                    }}
-                    transition={{ type: 'spring', stiffness: 100 }}
+                    type={alert.type}
+                    id={alert.id}
+                    onDelete={onDelete}
                   >
-                    <Toast
-                      key={alert.id}
-                      type={alert.type}
-                      id={alert.id}
-                      onDelete={onDelete}
-                    >
-                      {alert.content}
-                    </Toast>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          ) : null}
-        </ClientOnlyPortal>
-        {children}
-      </ToastContext.Provider>
-    </>
-  );
+                    {alert.content}
+                  </Toast>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        ) : null}
+      </ClientOnlyPortal>
+      {children}
+    </ToastContext.Provider>
+  ) as any;
 }

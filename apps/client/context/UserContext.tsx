@@ -38,5 +38,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   if (session.status === 'loading') {
     return null;
   }
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={value}>{children}</UserContext.Provider>
+  ) as any;
 }
