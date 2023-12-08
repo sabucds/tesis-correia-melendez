@@ -68,19 +68,17 @@ export default function SolutionHistoryPage() {
                 </thead>
                 <tbody>
                   {models?.map((item) => (
-                    <React.Fragment key={item.id}>
-                      <tr
-                        key={item.id}
-                        className="hover:bg-gray-100 hover:cursor-pointer"
-                        onClick={() => onClick(item._id)}
-                      >
-                        <td className="py-2 px-4 border-b">{item.name}</td>
-                        <td className="py-2 px-4 border-b">{item._id}</td>
-                        <td className="py-2 px-4 border-b">
-                          {item.solutions.length}
-                        </td>
-                      </tr>
-                    </React.Fragment>
+                    <tr
+                      key={item.id}
+                      className="hover:bg-gray-100 hover:cursor-pointer"
+                      onClick={() => onClick(item._id)}
+                    >
+                      <td className="py-2 px-4 border-b">{item.name}</td>
+                      <td className="py-2 px-4 border-b">{item._id}</td>
+                      <td className="py-2 px-4 border-b">
+                        {item.solutions.length}
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
