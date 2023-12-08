@@ -41,7 +41,6 @@ export default function Navbar() {
       <Transition.Root show={open}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
           <Transition.Child
-            as={React.Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
@@ -53,7 +52,6 @@ export default function Navbar() {
           </Transition.Child>
           <div className="fixed inset-0 z-40 flex">
             <Transition.Child
-              as={React.Fragment}
               enter="transition ease-in-out duration-300 transform"
               enterFrom="-translate-x-full"
               enterTo="translate-x-0"
