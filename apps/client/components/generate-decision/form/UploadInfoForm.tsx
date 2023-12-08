@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { AddIcon, DelateIcon, ArrowIcon } from '@avila-tek/ui/src/icons';
 import { Input } from '@avila-tek/ui/src/input/Input';
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import { ModelInitialData } from '../../../models';
 import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
 import { useNotify, useUser } from '../../../hooks';

@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo2 from '@avila-tek/ui/src/icons/Logo2';
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import { FormProvider, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client';

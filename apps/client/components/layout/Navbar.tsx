@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import { LogoutIcon } from '@avila-tek/ui/src/icons';
 import Logo2 from '@avila-tek/ui/src/icons/Logo2';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';

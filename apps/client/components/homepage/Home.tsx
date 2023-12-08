@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks';
 import { Icons } from '../icons';

@@ -1,4 +1,4 @@
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import React from 'react';
 import { Input } from '@avila-tek/ui/src/input/Input';
 

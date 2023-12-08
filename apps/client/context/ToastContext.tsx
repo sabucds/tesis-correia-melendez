@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Sentry from '@sentry/nextjs';
-import { ClientOnlyPortal, Toast } from '@avila-tek/ui';
+import { ClientOnlyPortal, Toast } from '@avila-tek/ui/src';
 import { AnimatePresence, motion } from 'framer-motion';
 import { v4 as uuid } from 'uuid';
 

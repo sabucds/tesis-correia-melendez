@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import { DownloadIcon } from '@avila-tek/ui/src/icons';
 import UploadExcelButton from './excelFile/UploadExcelButton';
 import UploadInfoForm from './form/UploadInfoForm';

@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/react';
 import router from 'next/router';
 import Logo2 from '@avila-tek/ui/src/icons/Logo2';
 import { Input } from '@avila-tek/ui/src/input/Input';
-import { Button } from '@avila-tek/ui';
+import { Button } from '@avila-tek/ui/src';
 import Link from 'next/link';
 import { useNotify } from '../hooks';
 
