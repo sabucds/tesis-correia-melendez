@@ -12,7 +12,7 @@ export const UserContext = React.createContext<IUserContext>({
   user: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setUser: () => {},
-});
+}) as any;
 
 interface UserContextProviderProps {
   children: React.ReactNode;
