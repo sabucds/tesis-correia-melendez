@@ -6,11 +6,7 @@ import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import {
-  ThemeContextProvider,
-  ToastContextProvider,
-  UserContextProvider,
-} from '../context';
+import { ToastContextProvider, UserContextProvider } from '../context';
 import { useApollo } from '../hooks';
 import '../style.css';
 import Navbar from '../components/layout/Navbar';
@@ -66,23 +62,21 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
             <title>OPTIdecide</title>
             <link rel="icon" href="/LogoOptidecide.ico" />
           </Head>
-          <ThemeContextProvider>
-            <QueryClientProvider client={queryClient}>
-              <ToastContextProvider>
-                <UserContextProvider>
-                  {router.pathname === '/sign-in' ||
-                  router.pathname === '/sign-up' ? null : (
-                    <Navbar />
-                  )}
-                  <Component {...pageProps} err={err} />
-                  {router.pathname === '/sign-in' ||
-                  router.pathname === '/sign-up' ? null : (
-                    <Footer />
-                  )}
-                </UserContextProvider>
-              </ToastContextProvider>
-            </QueryClientProvider>
-          </ThemeContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <ToastContextProvider>
+              <UserContextProvider>
+                {router.pathname === '/sign-in' ||
+                router.pathname === '/sign-up' ? null : (
+                  <Navbar />
+                )}
+                <Component {...pageProps} err={err} />
+                {router.pathname === '/sign-in' ||
+                router.pathname === '/sign-up' ? null : (
+                  <Footer />
+                )}
+              </UserContextProvider>
+            </ToastContextProvider>
+          </QueryClientProvider>
         </>
       </ApolloProvider>
     </SessionProvider>

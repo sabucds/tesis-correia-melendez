@@ -5,11 +5,7 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { SessionProvider } from 'next-auth/react';
-import {
-  ThemeContextProvider,
-  ToastContextProvider,
-  UserContextProvider,
-} from '../context';
+import { ToastContextProvider, UserContextProvider } from '../context';
 import { useApollo } from '../hooks';
 import '../style.css';
 
@@ -59,13 +55,11 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
           <Head>
             <title>OPTIdecide</title>
           </Head>
-          <ThemeContextProvider>
-            <ToastContextProvider>
-              <UserContextProvider>
-                <Component {...pageProps} err={err} />
-              </UserContextProvider>
-            </ToastContextProvider>
-          </ThemeContextProvider>
+          <ToastContextProvider>
+            <UserContextProvider>
+              <Component {...pageProps} err={err} />
+            </UserContextProvider>
+          </ToastContextProvider>
         </>
       </ApolloProvider>
     </SessionProvider>
