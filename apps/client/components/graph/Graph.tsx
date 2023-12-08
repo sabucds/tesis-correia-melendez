@@ -82,21 +82,8 @@ const GraphConfig = {
   },
 };
 
-export default class Graph extends React.Component<{
-  nodes: any[];
-  edges: any[];
-}> {
-  constructor(
-    props:
-      | {
-          nodes: any[];
-          edges: any[];
-        }
-      | Readonly<{
-          nodes: any[];
-          edges: any[];
-        }>
-  ) {
+export default class Graph extends React.Component<any> {
+  constructor(props: any | Readonly<any>) {
     super(props);
     this.isControlKeyPressed = this.isControlKeyPressed.bind(this);
   }

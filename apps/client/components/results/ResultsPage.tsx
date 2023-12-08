@@ -8,7 +8,7 @@ import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
 
-const Graph = dynamic(() => import('../graph/Graph'), { ssr: false });
+const Graph = dynamic<any>(() => import('../graph/Graph'), { ssr: false });
 
 export default function ResultsPage() {
   const router = useRouter();
