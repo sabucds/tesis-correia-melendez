@@ -29,7 +29,7 @@ export const ToastContext = React.createContext({
   notify: (content, type, err) => {
     console.log('');
   },
-});
+}) as any;
 
 export function ToastContextProvider({ children }: ToastContextProvider) {
   const [alerts, setAlerts] = React.useState<TAlert[]>([]);
