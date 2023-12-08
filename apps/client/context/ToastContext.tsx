@@ -24,7 +24,7 @@ interface ToastContextProvider {
   children?: React.ReactNode;
 }
 
-export const ToastContext = React.createContext<IToastContext>({
+export const ToastContext = React.createContext({
   alerts: [],
   notify: (content, type, err) => {
     console.log('');
