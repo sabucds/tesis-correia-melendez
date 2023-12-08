@@ -83,6 +83,8 @@ export default function SignUpContent() {
           rightIcon={
             !showPassword ? (
               <button
+                aria-label="Mostrar contraseña"
+                id="password"
                 className=""
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -91,6 +93,8 @@ export default function SignUpContent() {
               </button>
             ) : (
               <button
+                aria-label="Ocultar contraseña"
+                id="password"
                 className=""
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -115,6 +119,8 @@ export default function SignUpContent() {
           rightIcon={
             !showPasswordConf ? (
               <button
+                aria-label="Mostrar contraseña"
+                id="passwordConf"
                 className=""
                 type="button"
                 onClick={() => setShowPasswordConf(!showPasswordConf)}
@@ -123,6 +129,8 @@ export default function SignUpContent() {
               </button>
             ) : (
               <button
+                aria-label="Ocultar contraseña"
+                id="passwordConf"
                 className=""
                 type="button"
                 onClick={() => setShowPasswordConf(!showPasswordConf)}
