@@ -55,6 +55,7 @@ export function externalSolve(model): Promise<ModelResult> {
       // Write the model data to a file
       fs.writeFile(textPath, data, (err) => {
         console.log(err);
+        console.log('data', data);
 
         if (err) reject(err);
 
