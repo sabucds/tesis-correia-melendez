@@ -47,9 +47,7 @@ export function externalSolve(model): Promise<ModelResult> {
         .replace('dist', 'src');
       console.log(scriptPath);
 
-      const textPath = path
-        .join(__dirname, '/temp/out.txt')
-        .replace('dist', 'src');
+      const textPath = path.join(__dirname, '/temp/out.txt');
       console.log(textPath);
 
       // Write the model data to a file
@@ -77,7 +75,16 @@ export function externalSolve(model): Promise<ModelResult> {
               // Handle other error cases
               const codes = {
                 '-2': 'Out of Memory',
-                // Add more error codes as needed
+                '1': 'SUBOPTIMAL',
+                '2': 'INFEASIBLE',
+                '3': 'UNBOUNDED',
+                '4': 'DEGENERATE',
+                '5': 'NUMFAILURE',
+                '6': 'USER-ABORT',
+                '7': 'TIMEOUT',
+                '9': 'PRESOLVED',
+                '25': 'ACCURACY ERROR',
+                '255': 'FILE-ERROR',
               };
 
               const retObj = {
@@ -85,6 +92,7 @@ export function externalSolve(model): Promise<ModelResult> {
                 meaning: codes[error.code] || 'Unknown Error',
                 data: data_,
               };
+              console.log(retObj);
 
               reject(retObj);
             }
