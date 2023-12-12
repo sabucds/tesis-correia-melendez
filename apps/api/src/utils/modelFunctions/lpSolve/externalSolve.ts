@@ -63,7 +63,7 @@ export function externalSolve(model): Promise<ModelResult> {
         // Execute the external process
         exec(scriptPath, [textPath], (error, data_) => {
           if (error) {
-            console.log(error);
+            console.log('error ejec', error);
 
             if (error.code === 1) {
               // Handle specific exit code 1 as needed
@@ -100,6 +100,8 @@ export function externalSolve(model): Promise<ModelResult> {
         });
       });
     } catch (e) {
+      console.log('error catch', e);
+
       reject(e);
     }
   });
