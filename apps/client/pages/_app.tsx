@@ -12,6 +12,8 @@ import '../style.css';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 
+// a
+
 // @ts-expect-error err is not defined
 function MyApp({ Component, pageProps, err }: AppProps<any>) {
   const apolloClient = useApollo(pageProps.initialApolloState);
