@@ -7,12 +7,12 @@ import { LogoutIcon } from '@avila-tek/ui/src/icons';
 import Logo2 from '@avila-tek/ui/src/icons/Logo2';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, Transition } from '@headlessui/react';
-import router from 'next/router';
+import router, { withRouter } from 'next/router';
 import { SignOutResponse, signOut } from 'next-auth/react';
 import { useNotify, useUser } from '../../hooks';
 import { Icons } from '../icons';
 
-export default function Navbar() {
+function Navbar() {
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = useUser();
   const notify = useNotify();
@@ -155,3 +155,5 @@ export default function Navbar() {
     </div>
   );
 }
+
+export default withRouter(Navbar);

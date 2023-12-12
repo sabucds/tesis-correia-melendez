@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from '@avila-tek/ui/src';
-import { useRouter } from 'next/router';
+import { useRouter, withRouter } from 'next/router';
 import { useUser } from '../../hooks';
 import { Icons } from '../icons';
 
-export default function Home() {
+function Home() {
   const [user] = useUser();
   const router = useRouter();
 
@@ -37,3 +37,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default withRouter(Home);

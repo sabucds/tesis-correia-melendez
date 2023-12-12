@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import { useRouter, withRouter } from 'next/router';
 import { Button } from '@avila-tek/ui/src';
 import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODEL } from '../../graphql/queries';
@@ -12,7 +12,7 @@ const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
 });
 
-export default function ResultsPage() {
+function ResultsPage() {
   const router = useRouter();
   const [jsonData, setJsonData] = React.useState(null);
   const [modelId, setModelId] = React.useState(null);
@@ -371,3 +371,5 @@ export default function ResultsPage() {
     </main>
   );
 }
+
+export default withRouter(ResultsPage);

@@ -2,7 +2,7 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 import { UploadIcon } from '@avila-tek/ui/src/icons';
-import { useRouter } from 'next/router';
+import { useRouter, withRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
 import { getModelDataWithExcelJSON } from '../../../utils/getModelDataWithExcelJSON';
 import { useNotify, useUser } from '../../../hooks';
@@ -222,4 +222,4 @@ function ExcelToJsonConverter() {
   );
 }
 
-export default ExcelToJsonConverter;
+export default withRouter(ExcelToJsonConverter);

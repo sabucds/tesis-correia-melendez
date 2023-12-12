@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
+import { useRouter, withRouter } from 'next/router';
 import { AddIcon, DelateIcon, ArrowIcon } from '@avila-tek/ui/src/icons';
 import { Input } from '@avila-tek/ui/src/input/Input';
 import { Button } from '@avila-tek/ui/src';
@@ -10,7 +10,7 @@ import { CREATE_MATH_MODEL } from '../../../graphql/mutation';
 import { useNotify, useUser } from '../../../hooks';
 import LoadingModal from './LoadingModal';
 
-export default function UploadInfoForm() {
+function UploadInfoForm() {
   const methods = useForm<ModelInitialData>();
   const { register, control, handleSubmit } = methods;
   const [createMathModel] = useMutation(CREATE_MATH_MODEL);
@@ -986,3 +986,5 @@ export default function UploadInfoForm() {
     </FormProvider>
   );
 }
+
+export default withRouter(UploadInfoForm);
