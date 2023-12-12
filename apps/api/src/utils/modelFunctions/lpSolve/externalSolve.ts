@@ -47,7 +47,9 @@ export function externalSolve(model): Promise<ModelResult> {
         .replace('dist', 'src');
       console.log(scriptPath);
 
-      const textPath = path.join(__dirname, '/temp/out.txt');
+      const textPath = path
+        .join(__dirname, '/temp/out.txt')
+        .replace('dist', 'src');
       console.log(textPath);
 
       // Write the model data to a file
