@@ -45,12 +45,17 @@ export function externalSolve(model): Promise<ModelResult> {
       const scriptPath = path
         .join(__dirname, '/lp_solve_5.5/lp_solve/bin/osx64/lp_solve')
         .replace('dist', 'src');
+      console.log(scriptPath);
 
       const textPath = path
         .join(__dirname, '/temp/out.txt')
         .replace('dist', 'src');
+      console.log(textPath);
+
       // Write the model data to a file
       fs.writeFile(textPath, data, (err) => {
+        console.log(err);
+
         if (err) reject(err);
 
         const exec = execFile.execFile;
@@ -58,6 +63,8 @@ export function externalSolve(model): Promise<ModelResult> {
         // Execute the external process
         exec(scriptPath, [textPath], (error, data_) => {
           if (error) {
+            console.log(error);
+
             if (error.code === 1) {
               // Handle specific exit code 1 as needed
               resolve({
