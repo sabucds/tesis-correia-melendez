@@ -4,20 +4,19 @@
 // with Sentry.
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
+const path = require('path');
 
 const withTM = require('next-transpile-modules')(['@avila-tek/ui']);
 const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
-  // Your existing module.exports
   reactStrictMode: true,
-  swcMinify: true,
-  // experimental: {
-  //   images: {
-  //     allowFutureImage: true,
-  //   },
-  // },
+  transpilePackages: ['@avila-tek/ui', '@avila-tek/models'],
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, '../../'),
+    serverComponentsExternalPackages: [],
+  },
 };
 
 const sentryWebpackPluginOptions = {
