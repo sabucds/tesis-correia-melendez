@@ -9,7 +9,7 @@
       "outputs": ["dist/**", ".next/**"]
     },
     "ui#build": {
-      "dependsOn": ["models#build", "utils#build"],
+      "dependsOn": ["utils#build"],
       "outputs": ["dist/**"]
     },
     "admin#build": {
