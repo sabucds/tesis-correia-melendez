@@ -1,10 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
-import FacebookProvider from 'next-auth/providers/facebook';
-import GithubProvider from 'next-auth/providers/github';
-import TwitterProvider from 'next-auth/providers/twitter';
-import Auth0Provider from 'next-auth/providers/auth0';
 import { createApolloClient } from '../../../hooks/useApollo';
 import { SIGN_IN } from '../../../graphql/mutation';
 
@@ -21,6 +16,7 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: '/auth/verify-request',
     newUser: '/sign-up',
   },
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'Credentials',
