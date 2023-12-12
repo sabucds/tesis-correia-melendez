@@ -52,8 +52,4 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),
   ],
-  purge: {
-    content: ['./apps/client/**/*.tsx', './apps/client/**/*.ts'],
-    safelist: ['lg:hidden', 'lg:block'],
-  },
 };
