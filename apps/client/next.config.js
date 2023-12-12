@@ -12,10 +12,13 @@ const { withSentryConfig } = require('@sentry/nextjs');
 /** @type {import('next').NextConfig} */
 const moduleExports = {
   reactStrictMode: true,
+  swcMinify: true,
   transpilePackages: ['@avila-tek/ui', '@avila-tek/models'],
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, '../../'),
-    serverComponentsExternalPackages: [],
+  productionBrowserSourceMaps: true,
+  ignoreBuildErrors: true,
+  output: 'standalone',
+  sentry: {
+    hideSourceMaps: true,
   },
 };
 
