@@ -8,8 +8,12 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
+    "ui#build": {
+      "dependsOn": ["models#build", "utils#build"],
+      "outputs": ["dist/**"]
+    },
     "admin#build": {
-      "dependsOn": ["^build", "@avila-tek/ui#build"],
+      "dependsOn": ["^build", "ui#build", "models#build", "utils#build"],
       "outputs": [".next/**"],
       "env": [
         "NEXT_PUBLIC_GOOGLE_MAPS_KEY",
@@ -20,7 +24,7 @@
       ]
     },
     "client#build": {
-      "dependsOn": ["^build", "@avila-tek/ui#build"],
+      "dependsOn": ["^build", "ui#build", "models#build", "utils#build"],
       "outputs": [".next/**"],
       "env": [
         "NEXT_PUBLIC_GOOGLE_MAPS_KEY",
@@ -31,7 +35,7 @@
       ]
     },
     "api#build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "utils#build"],
       "outputs": ["dist/**"]
     },
     "lint": {
@@ -41,4 +45,3 @@
       "cache": false
     }
   }
-}
