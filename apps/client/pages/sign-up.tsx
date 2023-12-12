@@ -4,7 +4,7 @@ import { Button } from '@avila-tek/ui/src';
 import { FormProvider, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useMutation } from '@apollo/client';
-import router from 'next/router';
+import router, { withRouter } from 'next/router';
 import { useNotify } from '../hooks';
 import SignUpContent from '../components/signup/SignUpContent';
 import { SIGN_UP } from '../graphql/mutation';
@@ -17,7 +17,7 @@ export interface SignUpFields {
   passwordConf?: string;
 }
 
-export default function SignUp() {
+function SignUp() {
   const methods = useForm<SignUpFields>();
   const notify = useNotify();
   const [register] = useMutation(SIGN_UP);
@@ -104,3 +104,5 @@ export default function SignUp() {
     </div>
   );
 }
+
+export default withRouter(SignUp);

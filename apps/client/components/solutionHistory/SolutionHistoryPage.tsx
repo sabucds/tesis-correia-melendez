@@ -1,11 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import { useRouter, withRouter } from 'next/router';
 import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODELS } from '../../graphql/queries';
 import { useUser } from '../../hooks';
 
-export default function SolutionHistoryPage() {
+function SolutionHistoryPage() {
   const [user] = useUser();
   const router = useRouter();
   const [models, setModels] = React.useState([]);
@@ -89,3 +89,5 @@ export default function SolutionHistoryPage() {
     </main>
   );
 }
+
+export default withRouter(SolutionHistoryPage);
