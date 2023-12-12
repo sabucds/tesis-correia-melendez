@@ -1,6 +1,6 @@
 import React from 'react';
 import NProgress from 'nprogress';
-import Router, { useRouter } from 'next/router';
+import Router, { useRouter, withRouter } from 'next/router';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
@@ -85,4 +85,4 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
   );
 }
 
-export default MyApp;
+export default withRouter(MyApp);
