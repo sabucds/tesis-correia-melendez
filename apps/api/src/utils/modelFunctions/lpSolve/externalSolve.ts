@@ -45,17 +45,14 @@ export function externalSolve(model): Promise<ModelResult> {
       const scriptPath = path
         .join(__dirname, '/lp_solve_5.5/lp_solve/bin/osx64/lp_solve')
         .replace('dist', 'src');
-      console.log(scriptPath);
 
       const textPath = path
         .join(__dirname, '/temp/out.txt')
         .replace('dist', 'src');
-      console.log(textPath);
 
       // Write the model data to a file
       fs.writeFile(textPath, data, (err) => {
         console.log('WRITE FILE ERROR: ', err);
-        console.log('data: ', data);
 
         if (err) reject(err);
 
