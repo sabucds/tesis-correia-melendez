@@ -7,6 +7,7 @@ import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
+import InitialData from './InitialData';
 
 const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
@@ -55,12 +56,14 @@ function ResultsPage() {
   const [showInitialValues, setShowInitialValues] = React.useState(false);
 
   const switchSolution = () => {
+    setShowInitialValues(false);
     setShowSolutions(!showSolutions);
     window.scrollTo(0, 0);
   };
 
   const showInitialData = () => {
     setShowInitialValues(!showInitialValues);
+    window.scrollTo(0, 0);
     setShowSolutions(false);
   };
   console.log('data', initialData);
@@ -85,182 +88,8 @@ function ResultsPage() {
         </div>
       )}
       {showInitialValues ? (
-        <div className="w-10/12 ">
-          <div className="w-full flex flex-col justify-start text-left ">
-            <p className="text-xl text-text-light">
-              Nombre del modelo:{' '}
-              <span className="font-semibold text-text">
-                {jsonData?.mathModel?.name}
-              </span>
-            </p>
-          </div>
-          <div className="w-full flex flex-col space-y-10">
-            <div className=" flex flex-col justify-start space-y-5 py-5 border-b-2 border-gray-600">
-              <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
-                <p className="text-lg text-text-light text-start w-full underline font-semibold">
-                  Elementos principales (nombres o códigos):
-                </p>
-                <table className="w-full bg-white rounded text-start overflow-auto overflow-x-scroll sm:overflow-x-auto">
-                  <thead>
-                    <tr>
-                      <th className="py-2 px-4 border-b text-start">
-                        Fabricas
-                      </th>
-                      <th className="py-2 px-4 border-b text-start">
-                        Clientes
-                      </th>
-                      <th className="py-2 px-4 border-b text-start">
-                        Centro de distribución
-                      </th>
-                      <th className="py-2 px-4 border-b text-start">
-                        Productos
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array(
-                      Math.max(
-                        initialData?.factories.length || 0,
-                        initialData?.clients.length || 0,
-                        initialData?.products.length || 0,
-                        initialData?.locations.length || 0
-                      )
-                    )
-                      .fill({ name: '' })
-                      .map((_, index) => (
-                        <tr key={index}>
-                          <td className="py-2 px-4 border-b">
-                            {initialData?.factories[index]?.name || ''}
-                          </td>
-                          <td className="py-2 px-4 border-b">
-                            {initialData?.clients[index]?.name || ''}
-                          </td>
-                          <td className="py-2 px-4 border-b">
-                            {initialData?.locations[index]?.name || ''}
-                          </td>
-                          <td className="py-2 px-4 border-b">
-                            {initialData?.products[index]?.name || ''}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* {solutions && (
-                <div className="w-full bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5 shadow-md">
-                  <p className="text-lg text-text-light text-start w-full underline font-semibold">
-                    Asignación de Clientes a Centros de Distribución:
-                  </p>
-                  <table className="w-3/5  bg-white rounded  text-start">
-                    <thead>
-                      <tr>
-                        <th className="py-2 px-4 border-b text-start">
-                          Cliente
-                        </th>
-                        <th className="py-2 px-4 border-b text-start">
-                          Centro de distribución
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(dataConventions_?.xBinaryVariables).map(
-                        (key) => {
-                          const result = solution[key] ?? 0;
-                          const { client, location } =
-                            dataConventions_.xBinaryVariables[key];
-
-                          return result !== 0 ? (
-                            <tr key={key} className=" text-text-light">
-                              <td className="py-2 px-4 border-b">{client}</td>
-                              <td className="py-2 px-4 border-b">{location}</td>
-                            </tr>
-                          ) : null;
-                        }
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              )} */}
-
-              {/* {solutions && (
-                <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
-                  <p className="text-lg text-text-light text-start w-full underline font-semibold">
-                    Número de unidades del producto demandado P a enviar desde
-                    la fábrica F al centro de distribución D:
-                  </p>
-                  <table className="w-full bg-white rounded text-start overflow-auto overflow-x-scroll sm:overflow-x-auto">
-                    <thead>
-                      <tr>
-                        <th className="py-2 px-4 border-b text-start">
-                          Producto
-                        </th>
-                        <th className="py-2 px-4 border-b text-start">
-                          Fábrica
-                        </th>
-                        <th className="py-2 px-4 border-b text-start">
-                          Centro de distribución
-                        </th>
-                        <th className="py-2 px-4 border-b text-start">
-                          Unidades
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(dataConventions_?.zIntegerVariables).map(
-                        (key) => {
-                          const result = solution[key] ?? 0;
-                          const { factory, product, location } =
-                            dataConventions_.zIntegerVariables[key];
-
-                          return result !== 0 ? (
-                            <tr key={key} className=" text-text-light">
-                              <td className="py-2 px-4 border-b">{product}</td>
-                              <td className="py-2 px-4 border-b">{factory}</td>
-                              <td className="py-2 px-4 border-b">{location}</td>
-                              <td className="py-2 px-4 border-b">{result}</td>
-                            </tr>
-                          ) : null;
-                        }
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              )} */}
-            </div>
-          </div>
-        </div>
+        <InitialData />
       ) : (
-        // <div className="w-full bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5 shadow-md">
-        //   <p className="text-lg text-text-light text-start w-full underline font-semibold">
-        //     Asignación de Clientes a Centros de Distribución:
-        //   </p>
-        //   <table className="w-3/5  bg-white rounded  text-start">
-        //     <thead>
-        //       <tr>
-        //         <th className="py-2 px-4 border-b text-start">Cliente</th>
-        //         <th className="py-2 px-4 border-b text-start">
-        //           Centro de distribución
-        //         </th>
-        //       </tr>
-        //     </thead>
-        //     <tbody>
-        //       {Object.keys(dataConventions_?.xBinaryVariables).map((key) => {
-        //         const result = finalSolution[key] ?? 0;
-        //         const { client, location } =
-        //           dataConventions_.xBinaryVariables[key];
-
-        //         return result !== 0 ? (
-        //           <tr key={key} className=" text-text-light">
-        //             <td className="py-2 px-4 border-b">{client}</td>
-        //             <td className="py-2 px-4 border-b">{location}</td>
-        //           </tr>
-        //         ) : null;
-        //       })}
-        //     </tbody>
-        //   </table>
-        // </div>
-
         <div className="w-full flex flex-col space-y-3 md:space-y-20 items-center text-center text-text ">
           {showSolutions ? (
             <div className="w-10/12 ">
