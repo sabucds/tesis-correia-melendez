@@ -165,7 +165,7 @@ export function getSolutionByRobustnessCriteria(
     }
     robustnessBinaryMatrix.push(robustnessValues);
   });
-  console.log(robustnessBinaryMatrix);
+  console.log(robustnessBinaryMatrix.map((row) => row.length));
 
   return solutions[solutionWithBetterRobustness.solutionIndex];
 }
