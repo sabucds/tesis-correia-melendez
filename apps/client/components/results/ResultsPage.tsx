@@ -7,6 +7,7 @@ import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
+import InitialData from './InitialData';
 
 const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
@@ -46,28 +47,48 @@ function ResultsPage() {
     }
   }, [router.query.id, data]);
 
+  const initialData = jsonData?.mathModel?.data;
   const dataConventions_ = data?.mathModel?.dataConventions as DataConventions;
   const finalSolution = jsonData?.mathModel?.finalSolution;
   const solutions = jsonData?.mathModel?.solutions;
 
   const [showSolutions, setShowSolutions] = React.useState(false);
+  const [showInitialValues, setShowInitialValues] = React.useState(false);
 
   const switchSolution = () => {
+    setShowInitialValues(false);
     setShowSolutions(!showSolutions);
     window.scrollTo(0, 0);
   };
-  console.log(data);
+
+  const showInitialData = () => {
+    setShowInitialValues(!showInitialValues);
+    window.scrollTo(0, 0);
+    setShowSolutions(false);
+  };
+  console.log('data', initialData);
+  let message = '';
+  if (showInitialValues) {
+    message = 'Valores Iniciales';
+  } else if (showSolutions) {
+    message = 'Soluciones Generadas';
+  } else {
+    message = 'Solución Final Generada';
+  }
 
   return (
     <main className="pt-16 px-8 md:px-0 bg-white md:min-h-screen relative flex flex-col space-y-3 md:space-y-20 items-center text-center text-text bg-[url('/img/background-design2.jpg')] bg-contain md:bg-auto bg-no-repeat bg-left-bottom">
       <h1 className="w-10/12 pb-4 border-b border-primary-300 text-3xl md:text-4xl font-bold ">
-        {showSolutions ? 'Soluciones Generadas' : 'Solución Final Generada'}
+        {message}
       </h1>
-      {loading ? (
+      {loading && (
         <div className="w-full h-[70vh] flex  opacity-70 z-30">
           <SpinnerIcon className="m-auto w-24 h-24 text-gray-200 animate-spin  fill-primary-300" />
           <span className="sr-only">Loading...</span>
         </div>
+      )}
+      {showInitialValues ? (
+        <InitialData />
       ) : (
         <div className="w-full flex flex-col space-y-3 md:space-y-20 items-center text-center text-text ">
           {showSolutions ? (
@@ -359,13 +380,20 @@ function ResultsPage() {
           )}
         </div>
       )}
-      <div className="pb-10">
+      <div className="pb-10 flex space-x-5">
         <Button
           type="button"
           onClick={() => switchSolution()}
           className="shadow-md rounded-lg bg-gray-200 hover:bg-gray-300 text-primary-400 font-medium px-6 py-3 "
         >
           {showSolutions ? 'Ver solución final' : 'Ver soluciones generadas'}
+        </Button>
+        <Button
+          type="button"
+          onClick={() => showInitialData()}
+          className="shadow-md rounded-lg bg-white hover:bg-gray-300 text-primary-400 font-medium px-6 py-3 "
+        >
+          Ver valores iniciales
         </Button>
       </div>
     </main>

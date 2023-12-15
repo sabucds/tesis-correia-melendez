@@ -886,7 +886,7 @@ function UploadInfoForm() {
         )}
 
         {steps === 8 && (
-          <>
+          <div>
             <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end space-y-4 shadow-md">
               <div className="w-full flex flex-col ">
                 <p className="font-semibold text-xl text-primary-400 pb-3  w-full text-start underline">
@@ -900,7 +900,6 @@ function UploadInfoForm() {
                     {...register(`totalBudget`, {
                       valueAsNumber: true,
                     })}
-                    required
                     className="w-full"
                   />
                 </div>
@@ -921,16 +920,7 @@ function UploadInfoForm() {
                 </div>
               </div>
             </div>
-            {/* Presupuesto total */}
-            {/* <input
-              {...register(`totalBudget`, {
-                valueAsNumber: true,
-              })}
-              min="0"
-              type="number"
-              className="border p-2"
-            /> */}
-          </>
+          </div>
         )}
 
         {steps === 1 && (

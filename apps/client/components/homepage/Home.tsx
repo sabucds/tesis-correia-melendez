@@ -23,8 +23,8 @@ function Home() {
         <Icons.IllustrationHome className="h-72 w-auto md:h-auto pt-10 md:pt-0" />
         <div className="space-y-6 md:space-y-10 flex flex-col justify-end items-center md:items-end">
           <p className="text-3xl text-text font-semibold max-w-[376px] md:text-end">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industrys standard
+            Toma decisiones seguras en un mundo incierto con{' '}
+            <span className="font-light">OPTIdecide</span>
           </p>
           <Button
             className="font-semibold  text-white px-6 py-3"
