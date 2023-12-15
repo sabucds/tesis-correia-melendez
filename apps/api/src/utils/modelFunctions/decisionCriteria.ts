@@ -85,6 +85,11 @@ export function getDecisionMatrix(
       .filter((c) => c.uncertainty)
       .map(({ cost }) => cost)
   );
+  console.log('natureStates', natureStates);
+  console.log(
+    'changedModelData.assignationClientLocationCost',
+    changedModelData.assignationClientLocationCost
+  );
 
   // generate decision matrix where each row is a solution and each column is a nature state
   solutions.forEach((solution) => {
@@ -100,6 +105,7 @@ export function getDecisionMatrix(
     });
     decisionMatrix.push(solutionRow);
   });
+  console.log(decisionMatrix);
 
   return decisionMatrix;
 }
