@@ -29,7 +29,7 @@ export async function create(mathModel: IMathModel) {
       const decisionMatrix = getDecisionMatrix(
         mathModel?.data,
         solutionsMap,
-        mathModel.intervals ?? 2
+        mathModel.intervals ?? 1
       );
       const finalSolution = getSolutionByRobustnessCriteria(
         decisionMatrix,
