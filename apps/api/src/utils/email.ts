@@ -14,12 +14,12 @@ interface BrowserDetectInfo {
   os?: string;
 }
 
-// const client = new postmark.ServerClient(process.env.POSTMARK_API_KEY);
+const client = new postmark.ServerClient(process.env.POSTMARK_API_KEY);
 
-const fromEmail = 'notificacions@avilatek.com';
+const fromEmail = 'sabrina.correia@correo.unimet.edu.ve';
 const adminUrl = process.env.DASHBOARD_URL;
 const clientUrl = process.env.CLIENT_URL;
-const companyName = 'Caledonia';
+const companyName = 'OPTIdecide';
 const companyAddress = 'Caracas, Venezuela';
 
 export async function sendWelcomeEmail(user: any) {
@@ -49,18 +49,18 @@ export async function sendResetPasswordEmail({
       To: `${user?.email}`,
       TemplateAlias: 'password-reset',
       TemplateModel: {
-        product_url: adminUrl,
+        product_url: clientUrl,
         product_name: companyName,
         name: user?.firstName ?? '',
         action_url: url,
         operating_system: os.os ?? 'N/A',
         browser_name: `${os?.name ?? 'N/A'} ${os?.version ?? '-'}`,
-        support_url: `${adminUrl}/frequently-asked-questions`, // definir
+        support_url: `${clientUrl}/frequently-asked-questions`, // definir
         company_name: companyName,
         company_address: companyAddress,
       },
     };
-    // return client.sendEmailWithTemplate(emailOptions);
+    return client.sendEmailWithTemplate(emailOptions);
   } catch (error) {
     console.log(error);
   }
