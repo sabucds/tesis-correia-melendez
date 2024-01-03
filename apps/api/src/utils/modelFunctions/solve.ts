@@ -68,7 +68,7 @@ export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 3) {
       if (results.feasible === true && results.result > 0) return solveAsync();
 
       return {
-        solutionsMap,
+        solutionsMap: [...solutionsMap, ...(results.feasible ? [results] : [])],
         modelsForLingo,
         dataConventions,
       };

@@ -26,7 +26,7 @@ function Navbar() {
         notify('Sesión cerrada', 'info');
       } else {
         // La respuesta no es válida, maneja el error como corresponda.
-        notify('Error al cerrar la sesión', 'info');
+        // notify('Error al cerrar la sesión', 'info');
       }
     } catch (error) {
       console.error(error);

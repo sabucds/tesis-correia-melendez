@@ -113,7 +113,7 @@ export async function resetPassword(
     sendResetPasswordEmail({
       user,
       os: browserData,
-      url: `${process.env.DASHBOARD_URL}/reset-password/${user?.resetToken}`,
+      url: `${process.env.CLIENT_URL}/reset-password/${user?.resetToken}`,
     }),
   ]);
 }

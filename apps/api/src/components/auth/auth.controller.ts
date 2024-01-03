@@ -157,6 +157,8 @@ const resetPassword = schemaComposer.createResolver<
       );
       return { success: true };
     } catch (err) {
+      console.log(err);
+
       return { err: err.message, success: false };
     }
   },

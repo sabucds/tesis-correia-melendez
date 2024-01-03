@@ -25,7 +25,11 @@ function evaluateSolutionInObjectiveFunction(
       }
     }
   );
+  console.log(uncertaintyVariables);
+
   uncertaintyVariables.forEach((variable, index) => {
+    console.log(variable, index, natureState);
+
     objectiveFunctionSolutionValue +=
       (solution[variable] ?? 0) * natureState[index];
   });
@@ -42,6 +46,23 @@ function evaluateSolutionInObjectiveFunction(
   return Number.parseFloat(objectiveFunctionSolutionValue.toFixed(2));
 }
 
+function esMatriz(variable) {
+  // Verifica si la variable es un array y si todos sus elementos son arrays
+  return Array.isArray(variable) && variable.every(Array.isArray);
+}
+
+function convertirAMatriz(arrayNormal) {
+  if (
+    Array.isArray(arrayNormal) &&
+    arrayNormal.every((elem) => typeof elem === 'number')
+  ) {
+    // Verifica que la variable sea un array de números
+    const matriz = [...arrayNormal.map((elem) => [elem])];
+
+    return matriz;
+  }
+  return arrayNormal;
+}
 function cartesian(...args: number[][]) {
   const result = args.reduce((a, b) =>
     a.reduce((r, v) => r.concat(b.map((w) => [].concat(v, w))), [])
@@ -80,15 +101,20 @@ export function getDecisionMatrix(
   );
 
   // get all the possible nature states (combination of all the uncertainty ranges)
-  const natureStates = cartesian(
+  let natureStates = cartesian(
     ...changedModelData.assignationClientLocationCost
       .filter((c) => c.uncertainty)
       .map(({ cost }) => cost)
   );
 
+  if (!esMatriz(natureStates)) {
+    natureStates = convertirAMatriz(natureStates);
+  }
+
   // generate decision matrix where each row is a solution and each column is a nature state
-  solutions.forEach((solution) => {
+  solutions.forEach((solution, i) => {
     const solutionRow = [];
+    console.log('SOLUCION: ', i);
     natureStates.forEach((natureState) => {
       const solutionValue = evaluateSolutionInObjectiveFunction(
         changedModelData,
@@ -100,6 +126,7 @@ export function getDecisionMatrix(
     });
     decisionMatrix.push(solutionRow);
   });
+  console.log(decisionMatrix);
 
   return decisionMatrix;
 }
@@ -138,6 +165,7 @@ export function getSolutionByRobustnessCriteria(
     }
     robustnessBinaryMatrix.push(robustnessValues);
   });
+  console.log(robustnessBinaryMatrix.map((row) => row.length));
 
   return solutions[solutionWithBetterRobustness.solutionIndex];
 }
