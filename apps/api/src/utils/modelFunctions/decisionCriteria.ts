@@ -110,11 +110,11 @@ export function getDecisionMatrix(
   if (!esMatriz(natureStates)) {
     natureStates = convertirAMatriz(natureStates);
   }
-  console.log('natureStates', natureStates);
 
   // generate decision matrix where each row is a solution and each column is a nature state
-  solutions.forEach((solution) => {
+  solutions.forEach((solution, i) => {
     const solutionRow = [];
+    console.log('SOLUCION: ', i);
     natureStates.forEach((natureState) => {
       const solutionValue = evaluateSolutionInObjectiveFunction(
         changedModelData,
