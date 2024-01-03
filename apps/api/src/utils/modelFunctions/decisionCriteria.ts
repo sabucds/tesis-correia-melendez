@@ -25,7 +25,6 @@ function evaluateSolutionInObjectiveFunction(
       }
     }
   );
-  console.log(uncertaintyVariables);
 
   uncertaintyVariables.forEach((variable, index) => {
     console.log(variable, index, natureState);
@@ -168,4 +167,24 @@ export function getSolutionByRobustnessCriteria(
   console.log(robustnessBinaryMatrix.map((row) => row.length));
 
   return solutions[solutionWithBetterRobustness.solutionIndex];
+}
+
+export function getSolutionByLaplaceCriteria(
+  decisionMatrix: Array<Array<number>>,
+  solutions: MathModelSolution[]
+) {
+  const averagesMatrix = [];
+  const bestAverage = { solutionIndex: 0, average: 0 };
+  decisionMatrix.forEach((row, index) => {
+    const averageValue = row.reduce((a, b) => a + b, 0) / row.length;
+
+    if (averageValue < bestAverage.average || bestAverage.average === 0) {
+      bestAverage.solutionIndex = index;
+      bestAverage.average = averageValue;
+    }
+    averagesMatrix.push([averageValue]);
+  });
+  console.log(averagesMatrix, bestAverage);
+
+  return solutions[bestAverage.solutionIndex];
 }

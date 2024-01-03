@@ -3,6 +3,7 @@ import { IMathModel, MathModel } from './mathModel.model';
 import { solve } from '../../utils/modelFunctions/solve';
 import {
   getDecisionMatrix,
+  getSolutionByLaplaceCriteria,
   getSolutionByRobustnessCriteria,
 } from '../../utils/modelFunctions/decisionCriteria';
 
@@ -35,6 +36,10 @@ export async function create(mathModel: IMathModel) {
         decisionMatrix,
         solutionsMap
       );
+      const laplaceSolution = getSolutionByLaplaceCriteria(
+        decisionMatrix,
+        solutionsMap
+      );
 
       return MathModel.create({
         ...mathModel,
@@ -43,6 +48,7 @@ export async function create(mathModel: IMathModel) {
         lingoModels: modelsForLingo,
         finalSolution,
         dataConventions,
+        laplaceSolution,
       });
     }
   );
