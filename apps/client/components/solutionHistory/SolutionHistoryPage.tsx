@@ -14,6 +14,7 @@ function SolutionHistoryPage() {
     variables: {
       filter: {
         user: user?._id,
+        active: true,
       },
     },
   });
