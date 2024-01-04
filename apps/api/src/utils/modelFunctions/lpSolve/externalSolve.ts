@@ -43,7 +43,7 @@ export function externalSolve(model): Promise<ModelResult> {
       const data = formatFromJSON(model);
 
       const scriptPath = path
-        .join(__dirname, '/lp_solve_5.5/lp_solve/bin/osx64/lp_solve')
+        .join(__dirname, '/lp_solve_5/lp_solve') // FIXME: vamos a ver
         .replace('dist', 'src');
 
       const textPath = path
