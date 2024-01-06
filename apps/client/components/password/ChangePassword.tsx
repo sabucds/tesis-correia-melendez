@@ -44,6 +44,7 @@ export default function ChangePassword() {
 
   const onSubmit = async (formData: resetPasswordFields) => {
     try {
+      if (loading) return;
       await handlePasswordChange(formData);
     } catch (err) {
       console.log(err);
@@ -53,7 +54,7 @@ export default function ChangePassword() {
 
   const handlePasswordChange = async (formData: resetPasswordFields) => {
     try {
-      if (loading) return;
+      setLoading(true);
       await changePassword({
         variables: {
           data: {
