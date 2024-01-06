@@ -68,12 +68,18 @@ function MyApp({ Component, pageProps, err }: AppProps<any>) {
             <ToastContextProvider>
               <UserContextProvider>
                 {router.pathname === '/sign-in' ||
-                router.pathname === '/sign-up' ? null : (
+                router.pathname === '/sign-up' ||
+                router.pathname === '/forgot-password' ||
+                router.pathname === '/reset-password/[token]' ||
+                router.pathname === '/reset-password/confirmation' ? null : (
                   <Navbar />
                 )}
                 <Component {...pageProps} err={err} />
                 {router.pathname === '/sign-in' ||
-                router.pathname === '/sign-up' ? null : (
+                router.pathname === '/sign-up' ||
+                router.pathname === '/forgot-password' ||
+                router.pathname === '/reset-password/[token]' ||
+                router.pathname === '/reset-password/confirmation' ? null : (
                   <Footer />
                 )}
               </UserContextProvider>

@@ -82,7 +82,7 @@ function SignIn() {
             required
           />
           <a
-            href="/sign-in/forgot-password"
+            href="/forgot-password"
             className="text-primary-300 font-semibold text-sm underline hover:text-primary-400 transition-colors text-end w-full "
           >
             Olvidé mi contraseña
