@@ -30,18 +30,18 @@ const Modal = ({ isOpen, onClose, name, setName, handleConfirm }) => {
             </div>
 
             {/* Botones del modal */}
-            <div className="mt-4 flex justify-end">
-              <Button
-                className="px-4 py-2 bg-primary-400 font-semibold text-white rounded mr-2"
-                onClick={handleConfirm}
-              >
-                Confirmar
-              </Button>
+            <div className="mt-4 flex justify-end space-x-2">
               <Button
                 className="px-4 py-2 bg-gray-500 font-light text-white rounded"
                 onClick={onClose}
               >
                 Cancelar
+              </Button>
+              <Button
+                className="px-4 py-2 bg-primary-400 font-semibold text-white rounded "
+                onClick={handleConfirm}
+              >
+                Confirmar
               </Button>
             </div>
           </div>
