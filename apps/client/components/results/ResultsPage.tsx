@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { useQuery } from '@apollo/client';
-import { useRouter, withRouter } from 'next/router';
+import { useMutation, useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 import { Button } from '@avila-tek/ui/src';
 import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODEL } from '../../graphql/queries';
@@ -9,23 +9,49 @@ import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
 import InitialData from './InitialData';
 import DeleteModal from './DeleteModal';
+import { useNotify } from '../../hooks';
+import { UPDATE_MATH_MODEL } from '../../graphql/mutation';
 
 const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
 });
 
-function ResultsPage() {
+export default function ResultsPage() {
   const router = useRouter();
+  const notify = useNotify();
+  const [updateMathModel] = useMutation(UPDATE_MATH_MODEL);
   const [jsonData, setJsonData] = React.useState(null);
   const [modelId, setModelId] = React.useState(null);
   const [deleteModal, setDeleteModal] = React.useState(false);
 
-  // eliminar modelo
-  const handleConfirm = () => {
-    // setExcelName(inputValue);
-    alert('Modelo eliminado');
-    setDeleteModal(false);
-    // createMathModelWithExcelJSON(jsonData);
+  const handleConfirm = async () => {
+    try {
+      const { data: dataModel } = await updateMathModel({
+        variables: {
+          record: {
+            active: false,
+          },
+          filter: {
+            _id: modelId,
+          },
+        },
+      });
+      if (dataModel) {
+        notify(
+          `Modelo ${jsonData?.mathModel?.name} eliminado con éxito`,
+          'success'
+        );
+        setDeleteModal(false);
+      } else {
+        // La mutación falló
+        return notify('Ocurrió un error al eliminar el modelo', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      return notify(err.message, 'error');
+    } finally {
+      router.push('/solution-history');
+    }
   };
 
   // Query
@@ -424,5 +450,3 @@ function ResultsPage() {
     </main>
   );
 }
-
-export default withRouter(ResultsPage);

@@ -1,6 +1,5 @@
 import { Button } from '@avila-tek/ui/src';
 import React from 'react';
-import { Input } from '@avila-tek/ui/src/input/Input';
 import { WarningIcon } from '@avila-tek/ui/src/icons';
 
 const DeleteModal = ({ isOpen, onClose, name, handleConfirm }) => (

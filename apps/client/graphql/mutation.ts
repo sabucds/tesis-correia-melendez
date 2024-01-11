@@ -136,3 +136,20 @@ export const CHANGE_PASSWORD = gql`
     }
   }
 `;
+
+export const UPDATE_MATH_MODEL = gql`
+  mutation UpdateMathModel(
+    $record: UpdateOneMathModelInput!
+    $filter: FilterUpdateOneMathModelInput
+  ) {
+    updateMathModel(record: $record, filter: $filter) {
+      record {
+        name
+        user
+        active
+        _id
+      }
+      recordId
+    }
+  }
+`;
