@@ -54,3 +54,4 @@ export { default as WrenchIcon } from './WrenchIcon';
 export { default as MoneyIcon } from './MoneyIcon';
 export { default as DownloadIcon } from './DownloadIcon';
 export { default as DelateIcon } from './DelateIcon';
+export { default as WarningIcon } from './WarningIcon';

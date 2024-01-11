@@ -8,6 +8,7 @@ import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
 import InitialData from './InitialData';
+import DeleteModal from './DeleteModal';
 
 const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
@@ -17,6 +18,15 @@ function ResultsPage() {
   const router = useRouter();
   const [jsonData, setJsonData] = React.useState(null);
   const [modelId, setModelId] = React.useState(null);
+  const [deleteModal, setDeleteModal] = React.useState(false);
+
+  // eliminar modelo
+  const handleConfirm = () => {
+    // setExcelName(inputValue);
+    alert('Modelo eliminado');
+    setDeleteModal(false);
+    // createMathModelWithExcelJSON(jsonData);
+  };
 
   // Query
   const { data, loading } = useQuery<{
@@ -380,22 +390,37 @@ function ResultsPage() {
           )}
         </div>
       )}
-      <div className="pb-10 flex space-x-5">
+      <div className="pb-10 space-y-5 w-full flex flex-col items-center">
+        <div className=" flex space-x-5">
+          <Button
+            type="button"
+            onClick={() => switchSolution()}
+            className="shadow-md rounded-lg bg-gray-200 hover:bg-gray-300 text-primary-400 font-medium px-6 py-3 "
+          >
+            {showSolutions ? 'Ver solución final' : 'Ver soluciones generadas'}
+          </Button>
+          <Button
+            type="button"
+            onClick={() => showInitialData()}
+            className="shadow-md rounded-lg bg-white hover:bg-gray-300 text-primary-400 font-medium px-6 py-3 "
+          >
+            Ver valores iniciales
+          </Button>
+        </div>
         <Button
           type="button"
-          onClick={() => switchSolution()}
-          className="shadow-md rounded-lg bg-gray-200 hover:bg-gray-300 text-primary-400 font-medium px-6 py-3 "
+          onClick={() => setDeleteModal(true)}
+          className="shadow-md rounded-lg bg-red-600 hover:bg-red-700 text-white  text-sm font-normal px-6 py-3 "
         >
-          {showSolutions ? 'Ver solución final' : 'Ver soluciones generadas'}
-        </Button>
-        <Button
-          type="button"
-          onClick={() => showInitialData()}
-          className="shadow-md rounded-lg bg-white hover:bg-gray-300 text-primary-400 font-medium px-6 py-3 "
-        >
-          Ver valores iniciales
+          Eliminar modelo
         </Button>
       </div>
+      <DeleteModal
+        isOpen={deleteModal}
+        name={jsonData?.mathModel?.name}
+        onClose={() => setDeleteModal(false)}
+        handleConfirm={handleConfirm}
+      />
     </main>
   );
 }
