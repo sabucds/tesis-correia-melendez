@@ -118,3 +118,38 @@ export const CREATE_MATH_MODEL = gql`
     }
   }
 `;
+
+export const RESET_PASSWORD = gql`
+  mutation ResetPassword($data: ResetPasswordInput) {
+    resetPassword(data: $data) {
+      success
+      err
+    }
+  }
+`;
+
+export const CHANGE_PASSWORD = gql`
+  mutation ChangePassword($data: ChangePasswordInput) {
+    changePassword(data: $data) {
+      success
+      err
+    }
+  }
+`;
+
+export const UPDATE_MATH_MODEL = gql`
+  mutation UpdateMathModel(
+    $record: UpdateOneMathModelInput!
+    $filter: FilterUpdateOneMathModelInput
+  ) {
+    updateMathModel(record: $record, filter: $filter) {
+      record {
+        name
+        user
+        active
+        _id
+      }
+      recordId
+    }
+  }
+`;

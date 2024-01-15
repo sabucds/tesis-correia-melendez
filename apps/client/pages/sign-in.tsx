@@ -12,6 +12,7 @@ function SignIn() {
 
   const [email, setEmail] = useState('');
   const [emailValid, setEmailValid] = useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   const handleEmailChange = (e) => {
     const { value } = e.target;
@@ -25,8 +26,10 @@ function SignIn() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (loading) return;
     const formData = new FormData(e.currentTarget);
     try {
+      setLoading(true);
       const { ok, error } = await signIn('credentials', {
         email: formData.get('email').toString(),
         password: formData.get('password').toString(),
@@ -42,6 +45,8 @@ function SignIn() {
     } catch (err) {
       console.log(err);
       notify('Error', 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,7 +87,7 @@ function SignIn() {
             required
           />
           <a
-            href="/sign-in/forgot-password"
+            href="/forgot-password"
             className="text-primary-300 font-semibold text-sm underline hover:text-primary-400 transition-colors text-end w-full "
           >
             Olvidé mi contraseña
@@ -91,8 +96,20 @@ function SignIn() {
             className=" text-white font-medium px-6 py-3 w-full"
             type="submit"
           >
-            Iniciar Sesión
+            {loading ? (
+              <div className="w-full flex justify-center items-center ">
+                <div className="loader-dots block relative w-20 h-3 mt-0 mb-3">
+                  <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                  <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                  <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                  <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                </div>
+              </div>
+            ) : (
+              'Iniciar Sesión'
+            )}
           </Button>
+
           <div className="flex text-white space-x-2 w-full justify-center">
             <p className="text-text-light text-sm">
               ¿Todavía no tienes cuenta?

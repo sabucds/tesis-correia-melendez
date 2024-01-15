@@ -27,7 +27,13 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     if (session.status === 'authenticated') {
       setUser(session.data.user as User);
     } else if (session.status === 'unauthenticated') {
-      if (router.pathname !== '/sign-in' && router.pathname !== '/sign-up') {
+      if (
+        router.pathname !== '/sign-in' &&
+        router.pathname !== '/sign-up' &&
+        router.pathname !== '/forgot-password' &&
+        router.pathname !== '/reset-password/[token]' &&
+        router.pathname !== '/reset-password/confirmation'
+      ) {
         router.push('/sign-in');
         setUser(null);
       }
