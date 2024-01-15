@@ -22,6 +22,7 @@ function ExcelToJsonConverter() {
   const [showModal, setShowModal] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [excelName, setExcelName] = React.useState('');
+  const [methodValue, setMethodValue] = React.useState('');
   const [jsonData, setJsonData] = React.useState(null);
 
   const handleCloseModal = () => {
@@ -91,6 +92,7 @@ function ExcelToJsonConverter() {
           data: {
             user: user._id,
             data: dataModel,
+            method: parseFloat(methodValue),
             name: excelName,
           },
         },
@@ -208,6 +210,8 @@ function ExcelToJsonConverter() {
           onClose={handleCloseModal}
           name={excelName}
           setName={setExcelName}
+          method={methodValue}
+          setMethod={setMethodValue}
           handleConfirm={handleConfirm}
         />
       </label>
