@@ -10,7 +10,7 @@ const DeleteModal = ({ isOpen, onClose, name, handleConfirm }) => {
   return (
     <div className={`modal fixed inset-0 ${isOpen ? '' : 'hidden'}`}>
       <div className="modal-overlay absolute inset-0 flex items-center bg-gray-500 bg-opacity-50">
-        <div className="modal-container bg-white w-1/3 mx-auto  rounded shadow-lg">
+        <div className="modal-container bg-white w-10/12 md:w-1/3 mx-auto  rounded shadow-lg">
           <div className="modal-content p-6">
             {/* Contenido del modal */}
             <div className="bg-white  rounded flex items-center space-x-5 ">

@@ -217,12 +217,12 @@ export default function ResultsPage() {
                     )}
 
                     {solutions && (
-                      <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
+                      <div className="w-full overflow-x-scroll  md:overflow-clip bg-white px-3 md:px-5 py-4 rounded md:items-center flex flex-col text-start md:justify-center overflow-hidden space-y-5  shadow-md">
                         <p className="text-lg text-text-light text-start w-full underline font-semibold">
                           Número de unidades del producto demandado P a enviar
                           desde la fábrica F al centro de distribución D:
                         </p>
-                        <table className="w-full bg-white rounded text-start overflow-auto overflow-x-scroll sm:overflow-x-auto">
+                        <table className="w-full bg-white rounded text-start overflow-auto overflow-x-scroll sm:overflow-x-auto ">
                           <thead>
                             <tr>
                               <th className="py-2 px-4 border-b text-start">
