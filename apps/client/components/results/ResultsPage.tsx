@@ -102,7 +102,7 @@ export default function ResultsPage() {
     window.scrollTo(0, 0);
     setShowSolutions(false);
   };
-  console.log('data', initialData);
+  // console.log('data', initialData);
   let message = '';
   if (showInitialValues) {
     message = 'Valores Iniciales';

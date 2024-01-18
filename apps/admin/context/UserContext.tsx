@@ -20,7 +20,7 @@ interface UserContextProviderProps {
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const session = useSession();
-  console.log('session', session);
+  // console.log('session', session);
   const [user, setUser] = React.useState<User>(null);
   const router = useRouter();
   React.useEffect(() => {
