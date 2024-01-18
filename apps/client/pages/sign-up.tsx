@@ -68,8 +68,8 @@ function SignUp() {
   };
 
   return (
-    <div className="bg-waves-pattern w-screen h-screen bg-cover flex justify-center items-center bg-no-repeat overflow-x-hidden">
-      <div className="bg-white space-y-4 flex flex-col items-center justify-center max-w-[400px] md:max-w-none py-8 px-7 md:py-12 md:px-14 rounded-xl">
+    <div className="bg-waves-pattern w-screen h-screen bg-cover flex justify-center items-center bg-no-repeat ">
+      <div className="bg-white h-4/5 md:h-auto overflow-y-scroll md:overflow-y-clip w-10/12 md:w-auto space-y-4 flex flex-col md:items-center md:justify-center py-8 px-7 md:py-12 md:px-14 rounded-xl">
         <Logo2 className="h-10 w-auto text-text" />
         <div className=" space-y-2">
           <p className="font-bold text-2xl text-text">Registrarse</p>
