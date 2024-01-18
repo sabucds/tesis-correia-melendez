@@ -79,7 +79,6 @@ function ExcelToJsonConverter() {
     };
 
     reader.readAsBinaryString(file);
-    setDisabled(false);
   };
 
   const createMathModelWithExcelJSON = async (dataModel) => {
@@ -115,6 +114,7 @@ function ExcelToJsonConverter() {
       return notify(err.message, 'error');
     } finally {
       setLoading(false);
+      setDisabled(false);
     }
   };
 

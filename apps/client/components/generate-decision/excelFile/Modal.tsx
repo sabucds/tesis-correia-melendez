@@ -38,8 +38,9 @@ const Modal = ({ isOpen, onClose, name, setName, handleConfirm }) => {
                 Cancelar
               </Button>
               <Button
-                className="px-4 py-2 bg-primary-400 font-semibold text-white rounded "
+                className="px-4 py-2 bg-primary-400 font-semibold text-white rounded disabled:cursor-not-allowed disabled:bg-gray-400"
                 onClick={handleConfirm}
+                disabled={name === ''}
               >
                 Confirmar
               </Button>

@@ -8,9 +8,9 @@ import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
 import InitialData from './InitialData';
-import DeleteModal from './DeleteModal';
 import { useNotify } from '../../hooks';
 import { UPDATE_MATH_MODEL } from '../../graphql/mutation';
+import DeleteModal from './DeleteModal';
 
 const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
@@ -22,7 +22,7 @@ export default function ResultsPage() {
   const [updateMathModel] = useMutation(UPDATE_MATH_MODEL);
   const [jsonData, setJsonData] = React.useState(null);
   const [modelId, setModelId] = React.useState(null);
-  const [deleteModal, setDeleteModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
   const handleConfirm = async () => {
     try {
@@ -41,7 +41,7 @@ export default function ResultsPage() {
           `Modelo ${jsonData?.mathModel?.name} eliminado con éxito`,
           'success'
         );
-        setDeleteModal(false);
+        setShowDeleteModal(false);
       } else {
         // La mutación falló
         return notify('Ocurrió un error al eliminar el modelo', 'error');
@@ -435,16 +435,16 @@ export default function ResultsPage() {
         </div>
         <Button
           type="button"
-          onClick={() => setDeleteModal(true)}
+          onClick={() => setShowDeleteModal(true)}
           className="shadow-md rounded-lg bg-red-600 hover:bg-red-700 text-white  text-sm font-normal px-6 py-3 "
         >
           Eliminar modelo
         </Button>
       </div>
       <DeleteModal
-        isOpen={deleteModal}
+        isOpen={showDeleteModal}
         name={jsonData?.mathModel?.name}
-        onClose={() => setDeleteModal(false)}
+        onClose={() => setShowDeleteModal(false)}
         handleConfirm={handleConfirm}
       />
     </main>

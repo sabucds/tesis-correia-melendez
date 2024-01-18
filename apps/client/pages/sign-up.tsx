@@ -21,16 +21,17 @@ function SignUp() {
   const methods = useForm<SignUpFields>();
   const notify = useNotify();
   const [register] = useMutation(SIGN_UP);
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmit = async (formData: SignUpFields) => {
     try {
       // Para verificar los datos que esta mandando el usuario
-      console.log({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
-      });
+      // console.log({
+      //   firstName: formData.firstName,
+      //   lastName: formData.lastName,
+      //   email: formData.email,
+      //   password: formData.password,
+      // });
       await createUser(formData);
     } catch (err) {
       console.log(err);
@@ -40,6 +41,7 @@ function SignUp() {
 
   const createUser = async (formData: SignUpFields) => {
     try {
+      setLoading(true);
       const { data } = await register({
         variables: {
           data: {
@@ -60,6 +62,8 @@ function SignUp() {
     } catch (err) {
       console.log(err);
       return notify(err.message, 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -83,10 +87,22 @@ function SignUp() {
               <SignUpContent />
 
               <Button
+                className=" text-white font-medium px-6 py-3 w-full disabled:cursor-not-allowed"
                 type="submit"
-                className=" text-white font-medium px-6 py-3 w-full"
+                disabled={loading}
               >
-                Registrarse
+                {loading ? (
+                  <div className="w-full flex justify-center items-center ">
+                    <div className="loader-dots block relative w-20 h-3 mt-0 mb-3">
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                    </div>
+                  </div>
+                ) : (
+                  'Registrarse'
+                )}
               </Button>
               <div className="flex space-x-2 w-full justify-center">
                 <p className="text-text-light text-sm">¿Ya tienes cuenta?</p>
