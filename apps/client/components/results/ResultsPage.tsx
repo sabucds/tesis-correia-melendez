@@ -294,6 +294,24 @@ export default function ResultsPage() {
                       {jsonData?.mathModel?.name}
                     </span>
                   </p>
+                  <p className="text-lg text-text-light">
+                    Método:{' '}
+                    <span className="font-semibold text-text">
+                      {jsonData?.mathModel?.method}
+                    </span>
+                  </p>
+                  <p className="text-lg text-text-light">
+                    Tiempo de ejecución:{' '}
+                    <span className="font-semibold text-text">
+                      {jsonData?.mathModel?.averageExecutionTime}
+                    </span>
+                  </p>
+                  <p className="text-lg text-text-light">
+                    Cantidad de soluciones:{' '}
+                    <span className="font-semibold text-text">
+                      {jsonData?.mathModel?.solutions.length}
+                    </span>
+                  </p>
                 </div>
                 <div className="flex flex-col md:w-1/2 space-y-1 text-start pt-4 md:pt-0 md:pl-4 items-start">
                   <p className="text-lg text-text-light text-start w-full underline font-semibold">
