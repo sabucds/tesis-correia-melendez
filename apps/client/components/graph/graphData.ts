@@ -1,4 +1,8 @@
-import { ModelResult, PrimaryModelVariable } from '../../models';
+import {
+  ModelResult,
+  PrimaryModelVariable,
+  TotalClientDemand,
+} from '../../models';
 
 export function getGraphNodes({
   clients,
@@ -42,7 +46,13 @@ export function getGraphNodes({
   });
   return nodes;
 }
-export function getGraphEdges({ results }: { results: ModelResult }) {
+export function getGraphEdges({
+  results,
+  totalClientDemand,
+}: {
+  results: ModelResult;
+  totalClientDemand: TotalClientDemand[];
+}) {
   const edges = [];
   Object.keys(results).forEach((result) => {
     if (result.includes('x')) {
@@ -52,17 +62,29 @@ export function getGraphEdges({ results }: { results: ModelResult }) {
           source: locationId,
           target: clientId,
           type: 'emptyEdge',
+          handleText:
+            totalClientDemand.find((d) => d.client === clientId)?.totalDemand ??
+            0,
         });
     }
     if (result.includes('z')) {
       const [, , factoryId, locationId] = result.split('_');
-      if (results[result] > 0)
-        edges.push({
-          source: factoryId,
-          target: locationId,
-          type: 'emptyEdge',
-          handleText: results[result],
-        });
+      if (results[result] > 0) {
+        const previousEdge = edges.find(
+          (edge) => edge.source === factoryId && edge.target === locationId
+        );
+        if (previousEdge)
+          previousEdge.handleText = `${
+            Number(previousEdge.handleText) + Number(results[result])
+          }`;
+        else
+          edges.push({
+            source: factoryId,
+            target: locationId,
+            type: 'emptyEdge',
+            handleText: results[result],
+          });
+      }
     }
   });
   return edges;

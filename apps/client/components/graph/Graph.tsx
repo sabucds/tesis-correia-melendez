@@ -104,13 +104,11 @@ export default class Graph extends React.Component<any> {
           nodeSubtypes={GraphConfig.NodeSubtypes}
           edgeTypes={GraphConfig.EdgeTypes}
           allowMultiselect={false}
-          onSelect={() => {}}
-          onCreateNode={() => {}}
-          onUpdateNode={() => {}}
-          onCreateEdge={() => {}}
-          onSwapEdge={() => {}}
           edgeArrowSize={5}
-          readOnly
+          readOnly={false}
+          canSwapEdge={() => false}
+          onDeleteSelected={() => {}}
+          canDeleteSelected={() => false}
         />
       </div>
     );
