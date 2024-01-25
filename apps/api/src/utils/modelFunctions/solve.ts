@@ -1,4 +1,3 @@
-import solver from 'javascript-lp-solver/src/solver';
 import { ModelInitialData, ModelMathEquations, ModelResult } from '../models';
 import { constructPModel } from './generatePModel';
 import generateMathModelString from './generateMathModelString';
@@ -20,11 +19,8 @@ export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 3) {
     modelMathEquations,
   });
 
-  let results: ModelResult = solver.Solve({
+  let results: ModelResult = await externalSolve({
     ...model,
-    options: {
-      timeout: 10000,
-    },
   });
 
   if (!results?.feasible)
