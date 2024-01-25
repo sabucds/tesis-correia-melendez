@@ -94,6 +94,17 @@ function getConstraints({
 
   // GENERATING MODEL CONSTRAINTS
 
+  // declare total budget constraint for the model
+  if (totalBudget && totalBudget > 0)
+    modelMathEquations.constraints = {
+      ...modelMathEquations.constraints,
+      budgetConstraint: {
+        leftSide: ' 0',
+        inequalitySign: '<=',
+        rightSide: `${totalBudget}`,
+      },
+    };
+
   clients.forEach(({ id: client }) => {
     clientAssignationConstraint[`client_assignation_x_${client}`] = {
       equal: 1,
@@ -538,6 +549,14 @@ function getVariables({
                 totalDemandLocationCapacityConstraintKey
               ],
               rightSide: `${modelMathEquations.constraints[totalDemandLocationCapacityConstraintKey].rightSide} + ${locationCapacityForConstraints}*${key}`,
+            },
+          }
+        : {}),
+      ...(budgetConstraint
+        ? {
+            budgetConstraint: {
+              ...modelMathEquations.constraints.budgetConstraint,
+              leftSide: `${modelMathEquations.constraints.budgetConstraint.leftSide} + ${locationCost}*${key}`,
             },
           }
         : {}),
