@@ -30,7 +30,7 @@ function ExcelToJsonConverter() {
 
   const handleConfirm = (inputValue) => {
     setExcelName(inputValue);
-    console.log(inputValue);
+    // console.log(inputValue);
     setShowModal(false);
     createMathModelWithExcelJSON(jsonData);
   };
@@ -60,7 +60,7 @@ function ExcelToJsonConverter() {
 
       const jsonResult = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       const dataModel = getModelDataWithExcelJSON(jsonResult);
-      console.log(dataModel);
+      // console.log(dataModel);
 
       if (
         dataModel?.clients?.length > 0 &&
@@ -79,7 +79,6 @@ function ExcelToJsonConverter() {
     };
 
     reader.readAsBinaryString(file);
-    setDisabled(false);
   };
 
   const createMathModelWithExcelJSON = async (dataModel) => {
@@ -99,8 +98,8 @@ function ExcelToJsonConverter() {
         // La mutación fue exitosa
         const createdModelId = data.createMathModel._id;
         notify('Creación del modelo exitosa', 'success');
-        console.log('modelo creado con excel');
-        console.log(dataModel);
+        // console.log('modelo creado con excel');
+        // console.log(dataModel);
         router.push({
           pathname: '/results',
           query: { id: createdModelId },
@@ -115,6 +114,7 @@ function ExcelToJsonConverter() {
       return notify(err.message, 'error');
     } finally {
       setLoading(false);
+      setDisabled(false);
     }
   };
 

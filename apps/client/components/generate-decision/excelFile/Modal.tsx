@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, name, setName, handleConfirm }) => {
   return (
     <div className={`modal fixed inset-0 ${isOpen ? '' : 'hidden'}`}>
       <div className="modal-overlay absolute inset-0 flex items-center bg-gray-500 bg-opacity-50">
-        <div className="modal-container bg-white w-1/2 mx-auto mt-20 p-4 rounded shadow-lg">
+        <div className="modal-container bg-white md:w-1/2 mx-auto mt-20 p-4 rounded shadow-lg">
           <div className="modal-content py-4 text-left px-6">
             {/* Contenido del modal */}
             <div className="bg-white px-3 md:px-8 py-4 rounded flex flex-col items-end ">
@@ -38,8 +38,9 @@ const Modal = ({ isOpen, onClose, name, setName, handleConfirm }) => {
                 Cancelar
               </Button>
               <Button
-                className="px-4 py-2 bg-primary-400 font-semibold text-white rounded "
+                className="px-4 py-2 bg-primary-400 font-semibold text-white rounded disabled:cursor-not-allowed disabled:bg-gray-400"
                 onClick={handleConfirm}
+                disabled={name === ''}
               >
                 Confirmar
               </Button>

@@ -11,17 +11,20 @@ import router, { withRouter } from 'next/router';
 import { SignOutResponse, signOut } from 'next-auth/react';
 import { useNotify, useUser } from '../../hooks';
 import { Icons } from '../icons';
+import LogOut from './LogOut';
 
 function Navbar() {
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = useUser();
   const notify = useNotify();
 
+  const [showLogOutModal, setShowLogOutModal] = React.useState(false);
   const handleLogout = async () => {
     try {
       const response: SignOutResponse | undefined = await signOut();
       if (response !== undefined) {
         setUser(null);
+        setShowLogOutModal(false);
         router.push('/sign-in');
         notify('Sesión cerrada', 'info');
       } else {
@@ -143,7 +146,10 @@ function Navbar() {
                   >
                     Historial de soluciones
                   </Link>
-                  <Button className="px-3 py-2 " onClick={handleLogout}>
+                  <Button
+                    className="px-3 py-2 "
+                    onClick={() => setShowLogOutModal(true)}
+                  >
                     <LogoutIcon className="w-4 h-4 text-white" />
                   </Button>
                 </div>
@@ -152,6 +158,11 @@ function Navbar() {
           </div>
         </nav>
       </header>
+      <LogOut
+        isOpen={showLogOutModal}
+        onClose={() => setShowLogOutModal(false)}
+        handleConfirm={handleLogout}
+      />
     </div>
   );
 }
