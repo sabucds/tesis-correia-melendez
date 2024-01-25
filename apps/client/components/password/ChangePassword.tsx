@@ -176,8 +176,9 @@ export default function ChangePassword() {
             </div>
 
             <Button
-              className=" text-white font-medium px-6 py-3 w-full"
+              className=" text-white font-medium px-6 py-3 w-full disabled:cursor-not-allowed"
               type="submit"
+              disabled={loading}
             >
               {loading ? (
                 <div className="w-full flex justify-center items-center ">

@@ -123,7 +123,7 @@ function UploadInfoForm() {
   const avanzar = () => {
     setSteps((prevSteps) => prevSteps + 1);
     window.scrollTo(0, 0);
-    console.log(methods.getValues());
+    // console.log(methods.getValues());
   };
 
   const retroceder = () => {
@@ -166,8 +166,8 @@ function UploadInfoForm() {
   };
 
   const createMathModelWithForm = async (processedData) => {
-    console.log('dataModel');
-    console.log(processedData);
+    // console.log('dataModel');
+    // console.log(processedData);
     try {
       setLoading(true);
       const { data } = await createMathModel({
@@ -184,7 +184,7 @@ function UploadInfoForm() {
         // La mutación fue exitosa
         const createdModelId = data.createMathModel._id;
         notify('Creación del modelo exitosa', 'success');
-        console.log(processedData);
+        // console.log(processedData);
         router.push({
           pathname: '/results',
           query: { id: createdModelId },

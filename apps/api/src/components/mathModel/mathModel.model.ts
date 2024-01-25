@@ -23,6 +23,7 @@ export interface IMathModel {
   name?: string;
   solutions: MathModelSolution[];
   finalSolution?: MathModelSolution;
+  laplaceSolution?: MathModelSolution;
   averageExecutionTime: number;
   method: 1 | 2 | 3;
   lingoModels: { modelNumber: number; model: string }[];
@@ -69,6 +70,24 @@ const mathModelSchema = new Schema<IMathModel>(
       },
     ],
     finalSolution: {
+      type: Schema.Types.Map,
+      of: {
+        type: Number,
+      },
+      feasible: {
+        type: Boolean,
+      },
+      bounded: {
+        type: Boolean,
+      },
+      result: {
+        type: Number,
+      },
+      isIntegral: {
+        type: Boolean,
+      },
+    },
+    laplaceSolution: {
       type: Schema.Types.Map,
       of: {
         type: Number,

@@ -338,7 +338,7 @@ export default function InitialData() {
       {/* Capacidad de cada localización	 */}
       <div className="w-full flex flex-col space-y-10">
         <div className=" flex flex-col md:justify-start space-y-5 py-5 border-b-2 border-gray-600">
-          <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded md:items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
+          <div className="w-full  md:overflow-clip bg-white px-3 md:px-5 py-4 rounded md:items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
             <p className="text-lg text-text-light text-start w-full underline font-semibold">
               Capacidad de cada localización:
             </p>
@@ -422,7 +422,7 @@ export default function InitialData() {
       {initialData?.totalBudget && (
         <div className="w-full flex flex-col space-y-10">
           <div className="flex justify-center space-y-5 py-5 ">
-            <div className="w-2/5 overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded md:items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
+            <div className="md:w-2/5  md:overflow-clip bg-white px-3 md:px-5 py-4 rounded md:items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
               <p className="text-lg text-text-light text-start w-full underline font-semibold">
                 Presupuesto total:
               </p>

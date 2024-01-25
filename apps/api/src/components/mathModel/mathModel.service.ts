@@ -3,6 +3,7 @@ import { IMathModel, MathModel } from './mathModel.model';
 import { solve } from '../../utils/modelFunctions/solve';
 import {
   getDecisionMatrix,
+  getSolutionByLaplaceCriteria,
   getSolutionByRobustnessCriteria,
 } from '../../utils/modelFunctions/decisionCriteria';
 
@@ -26,15 +27,24 @@ export async function create(mathModel: IMathModel) {
   const start = Date.now();
   return solve(mathModel?.data, mathModel?.method).then(
     ({ solutionsMap, modelsForLingo, dataConventions }) => {
-      const decisionMatrix = getDecisionMatrix(
-        mathModel?.data,
-        solutionsMap,
-        mathModel.intervals ?? 2
-      );
-      const finalSolution = getSolutionByRobustnessCriteria(
-        decisionMatrix,
-        solutionsMap
-      );
+      let finalSolution = solutionsMap[0];
+      let laplaceSolution = solutionsMap[0];
+
+      if (solutionsMap.length > 1) {
+        const decisionMatrix = getDecisionMatrix(
+          mathModel?.data,
+          solutionsMap,
+          mathModel.intervals ?? 2
+        );
+        finalSolution = getSolutionByRobustnessCriteria(
+          decisionMatrix,
+          solutionsMap
+        );
+        laplaceSolution = getSolutionByLaplaceCriteria(
+          decisionMatrix,
+          solutionsMap
+        );
+      }
 
       return MathModel.create({
         ...mathModel,
@@ -43,6 +53,7 @@ export async function create(mathModel: IMathModel) {
         lingoModels: modelsForLingo,
         finalSolution,
         dataConventions,
+        laplaceSolution,
       });
     }
   );

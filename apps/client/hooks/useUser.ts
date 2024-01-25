@@ -8,6 +8,6 @@ interface IUserContext {
 }
 
 export function useUser() {
-  const { user, setUser } = useContext(UserContext) as IUserContext;
+  const { user, setUser } = useContext(UserContext) as unknown as IUserContext;
   return [user, setUser] as const;
 }

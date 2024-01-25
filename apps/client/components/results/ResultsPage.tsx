@@ -8,9 +8,9 @@ import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 import { getGraphEdges, getGraphNodes } from '../graph/graphData';
 import InitialData from './InitialData';
-import DeleteModal from './DeleteModal';
 import { useNotify } from '../../hooks';
 import { UPDATE_MATH_MODEL } from '../../graphql/mutation';
+import DeleteModal from './DeleteModal';
 
 const Graph = dynamic<any>(() => import('../graph/Graph') as any, {
   ssr: false,
@@ -22,7 +22,7 @@ export default function ResultsPage() {
   const [updateMathModel] = useMutation(UPDATE_MATH_MODEL);
   const [jsonData, setJsonData] = React.useState(null);
   const [modelId, setModelId] = React.useState(null);
-  const [deleteModal, setDeleteModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
   const handleConfirm = async () => {
     try {
@@ -41,7 +41,7 @@ export default function ResultsPage() {
           `Modelo ${jsonData?.mathModel?.name} eliminado con éxito`,
           'success'
         );
-        setDeleteModal(false);
+        setShowDeleteModal(false);
       } else {
         // La mutación falló
         return notify('Ocurrió un error al eliminar el modelo', 'error');
@@ -102,7 +102,7 @@ export default function ResultsPage() {
     window.scrollTo(0, 0);
     setShowSolutions(false);
   };
-  console.log('data', initialData);
+  // console.log('data', initialData);
   let message = '';
   if (showInitialValues) {
     message = 'Valores Iniciales';
@@ -217,12 +217,12 @@ export default function ResultsPage() {
                     )}
 
                     {solutions && (
-                      <div className="w-full overflow-x-scroll md:overflow-clip bg-white px-3 md:px-5 py-4 rounded items-center flex flex-col text-start justify-center overflow-hidden space-y-5  shadow-md">
+                      <div className="w-full overflow-x-scroll  md:overflow-clip bg-white px-3 md:px-5 py-4 rounded md:items-center flex flex-col text-start md:justify-center overflow-hidden space-y-5  shadow-md">
                         <p className="text-lg text-text-light text-start w-full underline font-semibold">
                           Número de unidades del producto demandado P a enviar
                           desde la fábrica F al centro de distribución D:
                         </p>
-                        <table className="w-full bg-white rounded text-start overflow-auto overflow-x-scroll sm:overflow-x-auto">
+                        <table className="w-full bg-white rounded text-start overflow-auto overflow-x-scroll sm:overflow-x-auto ">
                           <thead>
                             <tr>
                               <th className="py-2 px-4 border-b text-start">
@@ -453,16 +453,16 @@ export default function ResultsPage() {
         </div>
         <Button
           type="button"
-          onClick={() => setDeleteModal(true)}
+          onClick={() => setShowDeleteModal(true)}
           className="shadow-md rounded-lg bg-red-600 hover:bg-red-700 text-white  text-sm font-normal px-6 py-3 "
         >
           Eliminar modelo
         </Button>
       </div>
       <DeleteModal
-        isOpen={deleteModal}
+        isOpen={showDeleteModal}
         name={jsonData?.mathModel?.name}
-        onClose={() => setDeleteModal(false)}
+        onClose={() => setShowDeleteModal(false)}
         handleConfirm={handleConfirm}
       />
     </main>

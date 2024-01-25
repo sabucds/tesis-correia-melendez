@@ -21,16 +21,17 @@ function SignUp() {
   const methods = useForm<SignUpFields>();
   const notify = useNotify();
   const [register] = useMutation(SIGN_UP);
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmit = async (formData: SignUpFields) => {
     try {
       // Para verificar los datos que esta mandando el usuario
-      console.log({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
-      });
+      // console.log({
+      //   firstName: formData.firstName,
+      //   lastName: formData.lastName,
+      //   email: formData.email,
+      //   password: formData.password,
+      // });
       await createUser(formData);
     } catch (err) {
       console.log(err);
@@ -40,6 +41,7 @@ function SignUp() {
 
   const createUser = async (formData: SignUpFields) => {
     try {
+      setLoading(true);
       const { data } = await register({
         variables: {
           data: {
@@ -60,12 +62,14 @@ function SignUp() {
     } catch (err) {
       console.log(err);
       return notify(err.message, 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-waves-pattern w-screen h-screen bg-cover flex justify-center items-center bg-no-repeat overflow-x-hidden">
-      <div className="bg-white space-y-4 flex flex-col items-center justify-center max-w-[400px] md:max-w-none py-8 px-7 md:py-12 md:px-14 rounded-xl">
+    <div className="bg-waves-pattern w-screen h-screen bg-cover flex justify-center items-center bg-no-repeat ">
+      <div className="bg-white h-4/5 md:h-auto overflow-y-scroll md:overflow-y-clip w-10/12 md:w-auto space-y-4 flex flex-col md:items-center md:justify-center py-8 px-7 md:py-12 md:px-14 rounded-xl">
         <Logo2 className="h-10 w-auto text-text" />
         <div className=" space-y-2">
           <p className="font-bold text-2xl text-text">Registrarse</p>
@@ -83,10 +87,22 @@ function SignUp() {
               <SignUpContent />
 
               <Button
+                className=" text-white font-medium px-6 py-3 w-full disabled:cursor-not-allowed"
                 type="submit"
-                className=" text-white font-medium px-6 py-3 w-full"
+                disabled={loading}
               >
-                Registrarse
+                {loading ? (
+                  <div className="w-full flex justify-center items-center ">
+                    <div className="loader-dots block relative w-20 h-3 mt-0 mb-3">
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                      <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-white" />
+                    </div>
+                  </div>
+                ) : (
+                  'Registrarse'
+                )}
               </Button>
               <div className="flex space-x-2 w-full justify-center">
                 <p className="text-text-light text-sm">¿Ya tienes cuenta?</p>
