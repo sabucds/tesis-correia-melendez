@@ -276,6 +276,8 @@ export default function ResultsPage() {
                           factories: data?.mathModel?.data?.factories,
                         })}
                         edges={getGraphEdges({
+                          totalClientDemand:
+                            data?.mathModel?.data?.totalClientDemand,
                           results: solution,
                         })}
                       />
@@ -426,6 +428,7 @@ export default function ResultsPage() {
                     factories: data?.mathModel?.data?.factories,
                   })}
                   edges={getGraphEdges({
+                    totalClientDemand: data?.mathModel?.data?.totalClientDemand,
                     results: finalSolution,
                   })}
                 />
