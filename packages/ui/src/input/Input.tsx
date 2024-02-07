@@ -38,7 +38,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId} // Asocia el campo de entrada con el ID
             className={`${
               label !== '' ? ' ' : ''
-            } w-full px-4 py-2 border border-primary-300 rounded-md text-text-light ${className} ${
+            } w-full px-3 py-1.5 text-base border border-primary-300 rounded-md text-text-light ${className} ${
               rightIcon && 'mr-4'
             }`}
             ref={ref}

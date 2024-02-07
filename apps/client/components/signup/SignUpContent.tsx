@@ -12,7 +12,10 @@ export default function SignUpContent() {
   const {
     register,
     formState: { errors },
+    watch,
   } = useFormContext();
+
+  const passwordValue = watch('password', '');
 
   const formValidations = {
     firstName: { required: 'required' },
@@ -23,6 +26,7 @@ export default function SignUpContent() {
     },
     password: {
       required: 'required',
+      validate: (value) => /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(value),
     },
     passwordConf: {
       required: 'required',
@@ -31,7 +35,7 @@ export default function SignUpContent() {
   };
 
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2 text-sm">
       <div className="">
         <Input
           label="Nombre"
@@ -41,9 +45,7 @@ export default function SignUpContent() {
           required
         />
         {errors.firstName && (
-          <span className="text-sm text-red-500 ">
-            El nombre es obligatorio
-          </span>
+          <span className="text-xs text-red-500">El nombre es obligatorio</span>
         )}
       </div>
       <div className="">
@@ -55,7 +57,7 @@ export default function SignUpContent() {
           required
         />
         {errors.lastName && (
-          <span className="text-sm text-red-500 ">
+          <span className="text-xs text-red-500">
             El apellido es obligatorio
           </span>
         )}
@@ -69,7 +71,7 @@ export default function SignUpContent() {
           required
         />
         {errors.email && (
-          <span className="text-sm text-red-500 ">
+          <span className="text-xs text-red-500">
             El correo electrónico es obligatorio
           </span>
         )}
@@ -105,9 +107,26 @@ export default function SignUpContent() {
           }
         />
         {errors.password && (
-          <span className="text-sm text-red-500 ">
-            La contraseña es obligatoria
-          </span>
+          <div>
+            <span className="text-xs text-red-500">
+              La contraseña es obligatoria y debe cumplir con:
+            </span>
+            <ul className="list-disc list-inside">
+              {passwordValue.length < 8 && (
+                <li className="text-xs text-red-500">
+                  Al menos 8 caracteres de longitud
+                </li>
+              )}
+              {!/(?=.*[A-Z])/.test(passwordValue) && (
+                <li className="text-xs text-red-500">
+                  Al menos una letra mayúscula
+                </li>
+              )}
+              {!/(?=.*\d)/.test(passwordValue) && (
+                <li className="text-xs text-red-500">Al menos un número</li>
+              )}
+            </ul>
+          </div>
         )}
       </div>
       <div className="">
@@ -142,11 +161,11 @@ export default function SignUpContent() {
         />
         {errors.passwordConfirmation &&
           (errors.passwordConfirmation.type === 'required' ? (
-            <span className="text-sm text-red-500">
+            <span className="text-xs text-red-500">
               Por favor, confirmar la contraseña
             </span>
           ) : (
-            <span className="text-sm text-red-500">
+            <span className="text-xs text-red-500">
               Las contraseñas no coinciden
             </span>
           ))}

@@ -23,18 +23,22 @@ export default function ChangePassword() {
   const [emailSent, setEmailSent] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPasswordConf, setShowPasswordConf] = React.useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showPasswordConf, setShowPasswordConf] = React.useState(false);
+  const passwordValue = watch('password', '');
 
   const formValidations = {
     password: {
       required: 'required',
+      validate: (value) => /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(value),
     },
     passwordConf: {
       required: 'required',
@@ -124,9 +128,28 @@ export default function ChangePassword() {
                   }
                 />
                 {errors.password && (
-                  <span className="text-sm text-red-500 ">
-                    La contraseña es obligatoria
-                  </span>
+                  <div>
+                    <span className="text-xs text-red-500">
+                      La contraseña es obligatoria y debe cumplir con:
+                    </span>
+                    <ul className="list-disc list-inside">
+                      {passwordValue.length < 8 && (
+                        <li className="text-xs text-red-500">
+                          Al menos 8 caracteres de longitud
+                        </li>
+                      )}
+                      {!/(?=.*[A-Z])/.test(passwordValue) && (
+                        <li className="text-xs text-red-500">
+                          Al menos una letra mayúscula
+                        </li>
+                      )}
+                      {!/(?=.*\d)/.test(passwordValue) && (
+                        <li className="text-xs text-red-500">
+                          Al menos un número
+                        </li>
+                      )}
+                    </ul>
+                  </div>
                 )}
               </div>
               <div className="">
@@ -164,11 +187,11 @@ export default function ChangePassword() {
                 />
                 {errors.passwordConfirmation &&
                   (errors.passwordConfirmation.type === 'required' ? (
-                    <span className="text-sm text-red-500">
+                    <span className="text-xs text-red-500">
                       Por favor, confirmar la contraseña
                     </span>
                   ) : (
-                    <span className="text-sm text-red-500">
+                    <span className="text-xs text-red-500">
                       Las contraseñas no coinciden
                     </span>
                   ))}
