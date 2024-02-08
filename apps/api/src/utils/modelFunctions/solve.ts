@@ -29,7 +29,14 @@ export async function solve(data: ModelInitialData, method: 1 | 2 | 3 = 3) {
   const modelsForLingo = [
     { modelNumber: 0, model: generateMathModelString(modelMathEquations) },
   ];
-
+  
+  if (Object.keys(xVariablesWithUncertainty).length === 0) {
+    return {
+      solutionsMap: [results],
+      modelsForLingo,
+      dataConventions,
+    };
+  }
   // method1 and 2 only execute once so we don't need to loop over them
   if (method === 1 || method === 2)
     model = (method === 1 ? method1 : method2)({
