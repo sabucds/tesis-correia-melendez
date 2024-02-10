@@ -172,7 +172,7 @@ export function getSolutionByRobustnessCriteria(
     robustnessBinaryMatrix.push(robustnessValues);
   });
   console.log(
-    'cantidad de 1 por cada alternativa: ',
+    'Cantidad de 1 por cada alternativa en la matriz binaria de robustez: ',
     robustnessBinaryMatrix.map((row) => row.length),
     solutionWithBetterRobustness
   );
@@ -215,6 +215,7 @@ export function getSolutionBySavageCriteria(
   });
   // get the maximum regret of each solution
   const solutionWithBetterRegret = { solutionIndex: 0, regret: 0 };
+  const regretsMatrix = [];
   decisionMatrix.forEach((row, index) => {
     const regretsValues = [];
     row.forEach((value, i) => {
@@ -233,8 +234,9 @@ export function getSolutionBySavageCriteria(
       solutionWithBetterRegret.solutionIndex = index;
       solutionWithBetterRegret.regret = maxRegret;
     }
+    regretsMatrix.push([maxRegret]);
   });
-  console.log('Criterio de Savage:', solutionWithBetterRegret);
+  console.log('Criterio de Savage:', regretsMatrix, solutionWithBetterRegret);
 
   return solutions[solutionWithBetterRegret.solutionIndex];
 }
