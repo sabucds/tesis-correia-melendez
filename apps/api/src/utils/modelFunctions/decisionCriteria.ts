@@ -27,13 +27,6 @@ function evaluateSolutionInObjectiveFunction(
   );
 
   uncertaintyVariables.forEach((variable, index) => {
-    console.log(
-      'var: ',
-      variable,
-      'Valor: ',
-      natureState[index],
-      (solution[variable] ?? 0) === 0 ? 'No se escogió' : 'Se escogió'
-    );
 
     objectiveFunctionSolutionValue +=
       (solution[variable] ?? 0) * natureState[index];
@@ -119,9 +112,7 @@ export function getDecisionMatrix(
   // generate decision matrix where each row is a solution and each column is a nature state
   solutions.forEach((solution, i) => {
     const solutionRow = [];
-    console.log('SOLUCIÓN: ', i);
     natureStates.forEach((natureState, ii) => {
-      console.log('EDO DE LA NATURALEZA: ', ii);
       const solutionValue = evaluateSolutionInObjectiveFunction(
         changedModelData,
         solution,
@@ -132,7 +123,6 @@ export function getDecisionMatrix(
     });
     decisionMatrix.push(solutionRow);
   });
-  console.log('MATRIZ DE DECISION', decisionMatrix);
 
   return decisionMatrix;
 }
@@ -171,11 +161,6 @@ export function getSolutionByRobustnessCriteria(
     }
     robustnessBinaryMatrix.push(robustnessValues);
   });
-  console.log(
-    'cantidad de 1 por cada alternativa: ',
-    robustnessBinaryMatrix.map((row) => row.length),
-    solutionWithBetterRobustness
-  );
 
   return solutions[solutionWithBetterRobustness.solutionIndex];
 }
@@ -195,7 +180,6 @@ export function getSolutionByLaplaceCriteria(
     }
     averagesMatrix.push([averageValue]);
   });
-  console.log('Criterio de Laplace:', averagesMatrix, bestAverage);
 
   return solutions[bestAverage.solutionIndex];
 }
@@ -234,7 +218,6 @@ export function getSolutionBySavageCriteria(
       solutionWithBetterRegret.regret = maxRegret;
     }
   });
-  console.log('Criterio de Savage:', solutionWithBetterRegret);
 
   return solutions[solutionWithBetterRegret.solutionIndex];
 }
