@@ -199,3 +199,42 @@ export function getSolutionByLaplaceCriteria(
 
   return solutions[bestAverage.solutionIndex];
 }
+
+export function getSolutionBySavageCriteria(
+  decisionMatrix: Array<Array<number>>,
+  solutions: MathModelSolution[]
+) {
+  // get the lower bounds of each column
+  const lowerBounds = [];
+  decisionMatrix.forEach((row) => {
+    row.forEach((value, index) => {
+      if (lowerBounds[index] === undefined || value < lowerBounds[index]) {
+        lowerBounds[index] = value;
+      }
+    });
+  });
+  // get the maximum regret of each solution
+  const solutionWithBetterRegret = { solutionIndex: 0, regret: 0 };
+  decisionMatrix.forEach((row, index) => {
+    const regretsValues = [];
+    row.forEach((value, i) => {
+      const regretValue = value - lowerBounds[i];
+      regretsValues.push(regretValue);
+    });
+    // get the maximum number in the regretsValues array
+    const maxRegret = Math.max(...regretsValues);
+
+    // if the maximum regret is 0, then the solution is the best
+    // if the maximum regret is lower than the current maximum regret, then the solution is the best
+    if (
+      solutionWithBetterRegret.regret === 0 ||
+      maxRegret < solutionWithBetterRegret.regret
+    ) {
+      solutionWithBetterRegret.solutionIndex = index;
+      solutionWithBetterRegret.regret = maxRegret;
+    }
+  });
+  console.log('Criterio de Savage:', solutionWithBetterRegret);
+
+  return solutions[solutionWithBetterRegret.solutionIndex];
+}
