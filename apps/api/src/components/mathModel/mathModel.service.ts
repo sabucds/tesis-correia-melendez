@@ -5,6 +5,7 @@ import {
   getDecisionMatrix,
   getSolutionByLaplaceCriteria,
   getSolutionByRobustnessCriteria,
+  getSolutionBySavageCriteria,
 } from '../../utils/modelFunctions/decisionCriteria';
 
 export async function findOne(
@@ -29,6 +30,7 @@ export async function create(mathModel: IMathModel) {
     ({ solutionsMap, modelsForLingo, dataConventions }) => {
       let finalSolution = solutionsMap[0];
       let laplaceSolution = solutionsMap[0];
+      let savageSolution = solutionsMap[0];
 
       if (solutionsMap.length > 1) {
         const decisionMatrix = getDecisionMatrix(
@@ -44,6 +46,10 @@ export async function create(mathModel: IMathModel) {
           decisionMatrix,
           solutionsMap
         );
+        savageSolution = getSolutionBySavageCriteria(
+          decisionMatrix,
+          solutionsMap
+        );
       }
 
       return MathModel.create({
@@ -54,6 +60,7 @@ export async function create(mathModel: IMathModel) {
         finalSolution,
         dataConventions,
         laplaceSolution,
+        savageSolution,
       });
     }
   );
