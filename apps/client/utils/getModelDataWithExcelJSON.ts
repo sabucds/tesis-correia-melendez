@@ -52,12 +52,12 @@ export function getModelDataWithExcelJSON(excelJSON: Array<any>) {
             (client) =>
               client.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_5.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           location: data.locations.find(
             (location) =>
               location.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_6.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           cost: [row.__EMPTY_7, row?.__EMPTY_8 ?? 0],
           uncertainty: !!row?.__EMPTY_8,
         });
@@ -68,7 +68,7 @@ export function getModelDataWithExcelJSON(excelJSON: Array<any>) {
             (location) =>
               location.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_10.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           cost: row?.__EMPTY_11,
         });
       }
@@ -78,17 +78,17 @@ export function getModelDataWithExcelJSON(excelJSON: Array<any>) {
             (factory) =>
               factory.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_14.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           location: data.locations.find(
             (location) =>
               location.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_15.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           product: data.products.find(
             (product) =>
               product.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_13.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           cost: row.__EMPTY_16,
         });
       }
@@ -97,13 +97,13 @@ export function getModelDataWithExcelJSON(excelJSON: Array<any>) {
           (client) =>
             client.name.toLowerCase().replaceAll(' ', '') ===
             row.__EMPTY_19.toLowerCase().replaceAll(' ', '')
-        ).id;
+        )?.id;
         data.productClientDemand.push({
           product: data.products.find(
             (product) =>
               product.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_18.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           client: clientId,
           demand: row.__EMPTY_20,
         });
@@ -126,7 +126,7 @@ export function getModelDataWithExcelJSON(excelJSON: Array<any>) {
             (location) =>
               location.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_22.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           capacity: row.__EMPTY_23,
         });
       }
@@ -136,12 +136,12 @@ export function getModelDataWithExcelJSON(excelJSON: Array<any>) {
             (factory) =>
               factory.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_25.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           product: data.products.find(
             (product) =>
               product.name.toLowerCase().replaceAll(' ', '') ===
               row.__EMPTY_26.toLowerCase().replaceAll(' ', '')
-          ).id,
+          )?.id,
           capacity: row.__EMPTY_27,
         });
       }

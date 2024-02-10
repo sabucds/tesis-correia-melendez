@@ -24,9 +24,14 @@ function ExcelToJsonConverter() {
   const [excelName, setExcelName] = React.useState('');
   const [methodValue, setMethodValue] = React.useState('');
   const [jsonData, setJsonData] = React.useState(null);
+  // const [excelFile, setExcelFile] = React.useState(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setJsonData(null);
+    setSelectedFileName(null);
+    setExcelName('');
+    setDisabled(false);
   };
 
   const handleConfirm = (inputValue) => {
@@ -38,7 +43,6 @@ function ExcelToJsonConverter() {
 
   const processFile = (file) => {
     setSelectedFileName(file.name); // Mostrar el nombre del archivo seleccionado
-
     const reader = new FileReader();
 
     reader.onload = (e_) => {
@@ -72,6 +76,11 @@ function ExcelToJsonConverter() {
         setShowModal(true);
         setJsonData({ ...dataModel });
       } else {
+        setJsonData(null);
+        setExcelName('');
+        setDisabled(false);
+        setSelectedFileName(null);
+
         notify(
           'El archivo que esta subiendo esta vacío / No es la plantilla',
           'error'
@@ -108,11 +117,17 @@ function ExcelToJsonConverter() {
         });
       } else {
         // La mutación falló
+        setJsonData(null);
+        setExcelName('');
+        setSelectedFileName(null);
         return notify('Ocurrió un error al crear el modelo', 'error');
       }
     } catch (err) {
       // Manejo de errores
       console.error(err);
+      setJsonData(null);
+      setExcelName('');
+      setSelectedFileName(null);
       return notify(err.message, 'error');
     } finally {
       setLoading(false);
@@ -124,7 +139,6 @@ function ExcelToJsonConverter() {
     if (disabled) return;
     const file = e.target.files[0];
     setDisabled(true);
-
     if (file) {
       processFile(file);
     }
@@ -133,7 +147,6 @@ function ExcelToJsonConverter() {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDraggingOver(false);
-
     if (e.dataTransfer.files.length > 0) {
       handleFileUpload({ target: { files: [e.dataTransfer.files[0]] } });
     }
@@ -201,7 +214,10 @@ function ExcelToJsonConverter() {
             name="file_upload"
             className="hidden"
             accept=".xlsx"
-            onChange={handleFileUpload}
+            onChange={(e) => {
+              e.preventDefault();
+              handleFileUpload(e);
+            }}
             disabled={disabled}
           />
         </div>
