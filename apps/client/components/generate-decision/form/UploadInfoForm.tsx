@@ -926,7 +926,13 @@ function UploadInfoForm() {
         {steps === 1 && (
           <Button
             onClick={() => avanzar()}
-            className="w-1/2 shadow-md  bg-gray-200 hover:bg-gray-300 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
+            className="w-1/2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 hover:bg-gray-300 text-black font-medium px-6 py-3 flex items-center justify-center space-x-2"
+            disabled={
+              methods.getValues().factories?.length === 0 ||
+              methods.getValues().clients?.length === 0 ||
+              methods.getValues().locations?.length === 0 ||
+              methods.getValues().products?.length === 0
+            }
             type="button"
           >
             Siguiente
