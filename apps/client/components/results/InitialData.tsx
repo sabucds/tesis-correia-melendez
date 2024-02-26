@@ -6,10 +6,9 @@ import { DataConventions, ModelInitialData, ModelResult } from '../../models';
 
 export default function InitialData() {
   const [jsonData, setJsonData] = React.useState(null);
-  const [modelId, setModelId] = React.useState(null);
 
   // Query
-  const { data, loading } = useQuery<{
+  const { data, refetch, loading } = useQuery<{
     mathModel: {
       data: ModelInitialData;
       dataConventions: DataConventions;
@@ -19,24 +18,34 @@ export default function InitialData() {
   }>(GET_MATH_MODEL, {
     variables: {
       filter: {
-        _id: modelId,
+        _id: router.query.id || null,
       },
     },
+    skip: !router.query.id, // Saltar la consulta si no hay ID en la URL
   });
+
+  // Actualizar los datos JSON cuando cambie la data de la consulta
   React.useEffect(() => {
-    const idParam = router.query.id;
-    // revisar la data que se muestra al usuario
-    setJsonData(data);
-    if (idParam) {
-      setModelId(idParam);
-    } else {
-      console.error(
-        'No se proporcionó un valor para el parámetro "id" en la URL'
-      );
+    if (data) {
+      setJsonData(data);
     }
   }, [data]);
 
+  // Manejar los cambios en la ID de la ruta
+  React.useEffect(() => {
+    if (router.query.id) {
+      // Realizar la consulta nuevamente si cambia la ID en la URL
+      refetch(); // Necesitarás definir refetch en tu hook de useQuery
+    }
+  }, [router.query.id]);
+
+  // Obtener los datos iniciales
   const initialData = jsonData?.mathModel?.data;
+
+  if (loading) {
+    return <p className="h-screen font-semibold">Cargando...</p>;
+  }
+
   return (
     <div className="w-10/12 ">
       <div className="w-full flex flex-col justify-start text-left ">

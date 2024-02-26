@@ -1,4 +1,4 @@
-max: -2 x_c1_d1 -10 x_c2_d1 -7 x_c1_d2 -5 x_c2_d2 -3 x_c1_d3 -6 x_c2_d3 -6 x_c1_d4 -3 x_c2_d4 -87 y_d1 -76 y_d2 -95 y_d3 -78 y_d4 -5 z_p1_f1_d1 -7 z_p2_f1_d1 -4 z_p3_f1_d1 -3 z_p4_f1_d1 -6 z_p5_f1_d1 -8 z_p1_f2_d3 -7 z_p2_f2_d3 -10 z_p3_f2_d3 -9 z_p4_f2_d3 -8 z_p5_f2_d3 -3 z_p1_f2_d4 -5 z_p2_f2_d4 -7 z_p3_f2_d4 -2 z_p4_f2_d4 -3 z_p5_f2_d4 -4 z_p1_f3_d2 -5 z_p2_f3_d2 -4 z_p3_f3_d2 -2 z_p4_f3_d2 -8 z_p5_f3_d2 1 w;
+max: -2 x_c1_d1 -10 x_c2_d1 -7 x_c1_d2 -5 x_c2_d2 -3 x_c1_d3 -6 x_c2_d3 -6 x_c1_d4 -3 x_c2_d4 -87 y_d1 -76 y_d2 -95 y_d3 -78 y_d4 -6 z_p1_f1_d1 -6 z_p2_f1_d1 -6 z_p3_f1_d1 -6 z_p4_f1_d1 -6 z_p5_f1_d1 -8 z_p1_f2_d3 -8 z_p2_f2_d3 -8 z_p3_f2_d3 -8 z_p4_f2_d3 -8 z_p5_f2_d3 -3 z_p1_f2_d4 -3 z_p2_f2_d4 -3 z_p3_f2_d4 -3 z_p4_f2_d4 -3 z_p5_f2_d4 -4 z_p1_f3_d2 -4 z_p2_f3_d2 -4 z_p3_f3_d2 -4 z_p4_f3_d2 -4 z_p5_f3_d2 1 w;
 
  1 x_c1_d1 1 x_c1_d2 1 x_c1_d3 1 x_c1_d4 = 1;
  1 x_c2_d1 1 x_c2_d2 1 x_c2_d3 1 x_c2_d4 = 1;
@@ -73,15 +73,7 @@ max: -2 x_c1_d1 -10 x_c2_d1 -7 x_c1_d2 -5 x_c2_d2 -3 x_c1_d3 -6 x_c2_d3 -6 x_c1_
  1 z_p3_f3_d2 >= 0;
  1 z_p4_f3_d2 >= 0;
  1 z_p5_f3_d2 >= 0;
- 0 x_c1_d1 0 x_c2_d1 563 x_c1_d2 0 x_c2_d2 0 x_c2_d3 0 x_c1_d4 527 x_c2_d4 1 w <= 1433;
- 0 x_c1_d1 720 x_c2_d1 0 x_c1_d2 0 x_c2_d2 0 x_c2_d3 826 x_c1_d4 0 x_c2_d4 1 w <= 1923;
- 958 x_c1_d1 0 x_c2_d1 0 x_c1_d2 0 x_c2_d2 999 x_c2_d3 0 x_c1_d4 0 x_c2_d4 1 w <= 2454;
- 0 x_c1_d1 720 x_c2_d1 0 x_c1_d2 0 x_c2_d2 0 x_c2_d3 0 x_c1_d4 0 x_c2_d4 1 w <= 1194;
- 0 x_c1_d1 0 x_c2_d1 0 x_c1_d2 0 x_c2_d2 999 x_c2_d3 826 x_c1_d4 0 x_c2_d4 1 w <= 2296;
- 958 x_c1_d1 0 x_c2_d1 0 x_c1_d2 0 x_c2_d2 0 x_c2_d3 0 x_c1_d4 527 x_c2_d4 1 w <= 1840;
- 0 x_c1_d1 0 x_c2_d1 0 x_c1_d2 0 x_c2_d2 0 x_c2_d3 0 x_c1_d4 527 x_c2_d4 1 w <= 953;
- 0 x_c1_d1 0 x_c2_d1 563 x_c1_d2 0 x_c2_d2 999 x_c2_d3 0 x_c1_d4 0 x_c2_d4 1 w <= 2047;
- 0 x_c1_d1 720 x_c2_d1 563 x_c1_d2 0 x_c2_d2 0 x_c2_d3 0 x_c1_d4 0 x_c2_d4 1 w <= 1674;
+ 0 x_c1_d1 8 x_c1_d2 0 x_c2_d2 0 x_c1_d3 0 x_c1_d4 5 x_c2_d4 1 w <= 327;
 
 
 int z_p1_f1_d1;

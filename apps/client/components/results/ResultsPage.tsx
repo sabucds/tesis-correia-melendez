@@ -83,7 +83,7 @@ export default function ResultsPage() {
     }
   }, [router.query.id, data]);
 
-  const initialData = jsonData?.mathModel?.data;
+  // const initialData = jsonData?.mathModel?.data;
   const dataConventions_ = data?.mathModel?.dataConventions as DataConventions;
   const finalSolution = jsonData?.mathModel?.finalSolution;
   const solutions = jsonData?.mathModel?.solutions;
