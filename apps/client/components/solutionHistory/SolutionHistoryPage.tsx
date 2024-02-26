@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter, withRouter } from 'next/router';
 import { SpinnerIcon } from '@avila-tek/ui/src/icons';
+import { Button } from '@avila-tek/ui/src';
 import { GET_MATH_MODELS } from '../../graphql/queries';
 import { useUser } from '../../hooks';
 
@@ -34,6 +35,10 @@ function SolutionHistoryPage() {
     });
   };
 
+  const handleButtonClick = () => {
+    router.push('/generate-decision');
+  };
+
   return (
     <main className="pt-16 px-8 md:px-0 bg-white md:min-h-screen relative flex flex-col space-y-3 md:space-y-6 items-center text-center text-text bg-[url('/img/background-design.jpg')] bg-contain md:bg-auto bg-no-repeat bg-left-bottom">
       <h1 className="w-10/12 pb-4 border-b border-primary-300 text-3xl md:text-4xl font-bold ">
@@ -43,6 +48,17 @@ function SolutionHistoryPage() {
         <div className="w-full h-[70vh] flex  opacity-70 z-30">
           <SpinnerIcon className="m-auto w-24 h-24 text-gray-200 animate-spin  fill-primary-300" />
           <span className="sr-only">Loading...</span>
+        </div>
+      ) : null}
+      {models.length === 0 && !loading ? (
+        <div className="w-full h-[70vh] flex flex-col justify-center items-center space-y-5">
+          <h2 className="text-2xl font-semibold">No hay modelos guardados</h2>
+          <Button
+            className="font-semibold  text-white px-6 py-3"
+            onClick={handleButtonClick}
+          >
+            Generar nueva decisión
+          </Button>
         </div>
       ) : (
         <>
