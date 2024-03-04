@@ -132,19 +132,19 @@ function Navbar() {
             <div className="hidden lg:ml-[80px] lg:block lg:self-stretch flex-1  ">
               <div className="flex h-full w-full justify-end items-center ">
                 <div className="relative flex space-x-10 ">
-                  <Link
+                  <a
                     href="/generate-decision"
                     className="relative z-10 flex items-center  font-bold transition-colors duration-200 ease-out border-transparent text-text-dark hover:text-primary-400 "
                   >
                     Generar decisión
-                  </Link>
-                  <Link
+                  </a>
+                  <a
                     href="/solution-history"
                     className="relative z-10  flex items-center font-bold transition-colors duration-200 ease-out border-transparent text-text-dark hover:text-primary-400"
                     rel="noopener noreferrer"
                   >
                     Historial de soluciones
-                  </Link>
+                  </a>
                   <Button
                     className="px-3 py-2 "
                     onClick={() => setShowLogOutModal(true)}
