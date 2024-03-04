@@ -19,25 +19,24 @@ function Navbar() {
   const notify = useNotify();
 
   const [showLogOutModal, setShowLogOutModal] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
   const handleLogout = async () => {
     try {
-      const response: SignOutResponse | undefined = await signOut();
-      if (response !== undefined) {
-        setUser(null);
-        setShowLogOutModal(false);
-        router.push('/sign-in');
-        notify('Sesión cerrada', 'info');
-      } else {
-        // La respuesta no es válida, maneja el error como corresponda.
-        // notify('Error al cerrar la sesión', 'info');
-      }
-    } catch (error) {
-      console.error(error);
-      notify('Hubo un error cerrando la sesión', 'error');
-    } finally {
+      setLoading(true);
+      await signOut();
+      setUser(null);
+      setShowLogOutModal(false);
       router.push('/sign-in');
+      notify('Sesión cerrada', 'success');
+    } catch (error) {
+      console.error(error); // Log any errors during the process
+      notify('Hubo un error cerrando la sesión', 'error'); // Show an error notification
+    } finally {
+      setLoading(false); // Reset loading state regardless of success or failure
     }
   };
+
   return (
     <div className={`bg-white sticky top-0 z-30 shadow `}>
       {/* Mobile menu */}
@@ -162,6 +161,7 @@ function Navbar() {
         isOpen={showLogOutModal}
         onClose={() => setShowLogOutModal(false)}
         handleConfirm={handleLogout}
+        loading={loading}
       />
     </div>
   );
