@@ -1,7 +1,11 @@
 // LoadingModal.js
 import React from 'react';
 
-function LoadingModal() {
+interface LoadingModalProps {
+  solutions?: boolean;
+}
+
+function LoadingModal({ solutions }: LoadingModalProps) {
   return (
     <div
       className="fixed top-0 left-0 z-50 w-screen h-screen flex items-center justify-center"
@@ -14,9 +18,11 @@ function LoadingModal() {
           <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-primary-300" />
           <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-primary-300" />
         </div>
-        <div className="text-gray-500 text-xs font-medium mt-2 text-center">
-          Generando soluciones...
-        </div>
+        {solutions && (
+          <div className="text-gray-500 text-xs font-medium mt-2 text-center">
+            Generando soluciones...
+          </div>
+        )}
       </div>
     </div>
   );

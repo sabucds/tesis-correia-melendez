@@ -159,7 +159,7 @@ function ExcelToJsonConverter() {
     setIsDraggingOver(false);
   };
 
-  if (loading) return <LoadingModal />;
+  if (loading) return <LoadingModal solutions />;
 
   return (
     <div className="flex-col">
