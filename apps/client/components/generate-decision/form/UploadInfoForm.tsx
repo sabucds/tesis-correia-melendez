@@ -202,7 +202,7 @@ function UploadInfoForm() {
     }
   };
 
-  if (loading) return <LoadingModal />;
+  if (loading) return <LoadingModal solutions />;
 
   return (
     <FormProvider {...methods}>
