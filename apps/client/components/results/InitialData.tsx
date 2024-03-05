@@ -1,9 +1,9 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import router from 'next/router';
+import { useQuery } from '@apollo/client';
+import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 import { GET_MATH_MODEL } from '../../graphql/queries';
 import { DataConventions, ModelInitialData, ModelResult } from '../../models';
-import { SpinnerIcon } from '@avila-tek/ui/src/icons';
 
 export default function InitialData() {
   const [jsonData, setJsonData] = React.useState(null);
