@@ -166,8 +166,6 @@ function UploadInfoForm() {
   };
 
   const createMathModelWithForm = async (processedData) => {
-    // console.log('dataModel');
-    // console.log(processedData);
     try {
       setLoading(true);
       const { data } = await createMathModel({
@@ -184,7 +182,6 @@ function UploadInfoForm() {
         // La mutación fue exitosa
         const createdModelId = data.createMathModel._id;
         notify('Creación del modelo exitosa', 'success');
-        // console.log(processedData);
         router.push({
           pathname: '/results',
           query: { id: createdModelId },
@@ -244,6 +241,7 @@ function UploadInfoForm() {
                           <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
                         </button>
                       }
+                      defaultValue={' '}
                     />
                   </div>
                 ))}
@@ -290,6 +288,7 @@ function UploadInfoForm() {
                           <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
                         </button>
                       }
+                      defaultValue={' '}
                     />
                   </div>
                 ))}
@@ -336,6 +335,7 @@ function UploadInfoForm() {
                           <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
                         </button>
                       }
+                      defaultValue={' '}
                     />
                   </div>
                 ))}
@@ -382,6 +382,7 @@ function UploadInfoForm() {
                           <DelateIcon className="w-6 h-6 text-red-500 hover:text-red-600" />
                         </button>
                       }
+                      defaultValue={' '}
                     />
                   </div>
                 ))}
@@ -455,6 +456,7 @@ function UploadInfoForm() {
                           )}
                           min="0"
                           type="number"
+                          defaultValue={0}
                           required
                         />
                         <Input
@@ -568,6 +570,7 @@ function UploadInfoForm() {
                       {...register(`selectionLocationCost.${index}.cost`, {
                         valueAsNumber: true,
                       })}
+                      defaultValue={0}
                       required
                       className="w-full"
                     />
@@ -668,6 +671,7 @@ function UploadInfoForm() {
                         )}
                         min="0"
                         type="number"
+                        defaultValue={0}
                         required
                       />
                       {/* <input
@@ -741,6 +745,7 @@ function UploadInfoForm() {
                       placeholder={`Demanda ${index + 1}`}
                       min="0"
                       type="number"
+                      defaultValue={0}
                       required
                       className="w-full md:w-auto"
                     />
@@ -797,6 +802,7 @@ function UploadInfoForm() {
                       {...register(`locationCapacity.${index}.capacity`, {
                         valueAsNumber: true,
                       })}
+                      defaultValue={0}
                       required
                       className="w-full"
                     />
@@ -873,6 +879,7 @@ function UploadInfoForm() {
                             valueAsNumber: true,
                           }
                         )}
+                        defaultValue={0}
                         required
                         className="w-full"
                       />

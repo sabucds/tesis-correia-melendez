@@ -31,7 +31,7 @@ function SignIn() {
     try {
       setLoading(true);
       const { ok, error } = await signIn('credentials', {
-        email: formData.get('email').toString(),
+        email: formData.get('email').toString().toLowerCase(),
         password: formData.get('password').toString(),
         callbackUrl: '/',
         redirect: false,
