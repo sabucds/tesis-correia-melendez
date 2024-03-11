@@ -14,7 +14,9 @@ import * as userService from '../user/user.service';
 export async function createUser(body: TCreateUserInput) {
   const _user = await userService.findOne({ email: body.email });
   if (_user) {
-    throw new NoSentryError('');
+    throw new NoSentryError(
+      `El correo ${body.email} ya se encuentra registrado`
+    );
   }
 
   const user = await userService.create({
@@ -27,7 +29,9 @@ export async function createUser(body: TCreateUserInput) {
 export async function signUp(body: TSignUpInput) {
   const _user = await userService.findOne({ email: body.email });
   if (_user) {
-    throw new NoSentryError(`El correo ${body.email} ya se encuentra registrado`);
+    throw new NoSentryError(
+      `El correo ${body.email} ya se encuentra registrado`
+    );
   }
   const user = await userService.create({
     ...body,
@@ -49,7 +53,9 @@ export async function signUp(body: TSignUpInput) {
 export async function signUpWithoutToken(body: TSignUpInput) {
   const _user = await userService.findOne({ email: body.email });
   if (_user) {
-    throw new NoSentryError('');
+    throw new NoSentryError(
+      `El correo ${body.email} ya se encuentra registrado`
+    );
   }
   const user = await userService.create({
     ...body,
