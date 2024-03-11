@@ -27,7 +27,7 @@ export async function createUser(body: TCreateUserInput) {
 export async function signUp(body: TSignUpInput) {
   const _user = await userService.findOne({ email: body.email });
   if (_user) {
-    throw new NoSentryError('');
+    throw new NoSentryError(`El correo ${body.email} ya se encuentra registrado`);
   }
   const user = await userService.create({
     ...body,
