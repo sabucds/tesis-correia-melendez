@@ -39,7 +39,7 @@ export default function ForgotPassword() {
       const { data } = await resetPassword({
         variables: {
           data: {
-            email: userEmail,
+            email: userEmail.toLowerCase(),
           },
         },
       });
