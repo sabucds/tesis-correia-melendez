@@ -47,7 +47,7 @@ function SignUp() {
           data: {
             firstName: formData.firstName,
             lastName: formData.lastName,
-            email: formData.email,
+            email: formData.email?.toLowerCase(),
             password: formData.password,
           },
         },

@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
             mutation: SIGN_IN,
             variables: {
               data: {
-                email: credentials.email,
+                email: credentials.email?.toLowerCase(),
                 password: credentials.password,
               },
             },
